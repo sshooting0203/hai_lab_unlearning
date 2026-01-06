@@ -1,5 +1,4 @@
-import argparse
-import torch
+import argparse, torch, os, json, wandb, warnings, pickle, math 
 from tqdm import tqdm
 import numpy as np
 from torch.utils.data import DataLoader
@@ -11,23 +10,20 @@ from sklearn import svm
 from sklearn.mixture import GaussianMixture as GMM
 from sklearn.cluster import DBSCAN, KMeans
 from sklearn.metrics import silhouette_score
-import os
 from src.ood_model_selector import RobertaForSelector
-import json
-import wandb
-import warnings
 from src.ood_data import load
-import pickle
-import math
-
 from scipy.stats import norm
 from scipy.optimize import minimize
+from utils.excel import ExcelLogger
 
 warnings.filterwarnings("ignore")
 torch.set_num_threads(10)
 
-
 def train(args, model, train_dataset, test_dataset, benchmarks, save_name):
+    log_dir = "./ood_logs"
+    xlsx_path = os.path.join(log_dir, f"ood_log_{save_name}_{args.unlearn_dataset}_seed{args.seed}.xlsx")
+    excel_logger = ExcelLogger(xlsx_path=xlsx_path, sheet_name="log")
+    # @ 수정 
     # train_dataloader_mlm = DataLoader(train_dataset, batch_size=args.batch_size, collate_fn=collate_fn_mlm, shuffle=True, drop_last=True)
     train_dataloader_ran = DataLoader(train_dataset, batch_size=args.batch_size, collate_fn=collate_fn_mlm,
                                       shuffle=False, drop_last=True)
@@ -55,7 +51,6 @@ def train(args, model, train_dataset, test_dataset, benchmarks, save_name):
         mean_list, precision_list, fea_list = model.sample_X_estimator(train_dataloader)
 
         test_dataloader = DataLoader(test_dataset, batch_size=args.batch_size, collate_fn=collate_fn)
-
         test_mah_vanlia = model.get_unsup_Mah_score(test_dataloader, mean_list, precision_list, fea_list)[:, 1:]
         train_mah_vanlia = model.get_unsup_Mah_score(train_dataloader, mean_list, precision_list, fea_list)[:, 1:]
         # index = int(len(train_mah_vanlia) * ratio)
@@ -84,6 +79,7 @@ def train(args, model, train_dataset, test_dataset, benchmarks, save_name):
                 test_scores = c_lr.score_samples(test_mah_scores)
                 ood_scores = c_lr.score_samples(ood_mah_scores)
                 train_scores = c_lr.score_samples(train_mah_scores)
+                
                 X_scores = np.concatenate((ood_scores, test_scores))
                 Y_test = np.concatenate((ood_labels, test_labels))
 
@@ -111,16 +107,25 @@ def train(args, model, train_dataset, test_dataset, benchmarks, save_name):
                 acc = (Y_predict == Y_test).mean()
                 print('Test set accuracy: {:.3f}'.format(acc))
 
+                excel_logger.log_row({ # @ 수정 
+                    "seed": int(seed),
+                    "unlearn_dataset": args.unlearn_dataset,
+                    "auroc": float(best_ours_AUROC),
+                    "w_mean_train": w_res_in_train,
+                    "w_mean_test": w_res_in_test,
+                    "w_mean_ood": w_res_ood,
+                    "threshold": float(threshold),
+                    "x0": float(x0),
+                    "acc": float(acc),
+                    "best_acc_global": float(acc_global),
+                })
                 if acc > acc_global:
                     ood_path = f"./ood_checkpoints_{save_name}_{seed}"
-
                     if not os.path.exists(ood_path):
                         os.mkdir(ood_path)
-
                     torch.save(mean_list, f"{ood_path}/{args.unlearn_dataset}_{args.ood_dataset}_mean_list_ocsvm.pt")
                     torch.save(precision_list, f"{ood_path}/{args.unlearn_dataset}_{args.ood_dataset}_precision_list_ocsvm.pt")
                     torch.save(fea_list, f"{ood_path}/{args.unlearn_dataset}_{args.ood_dataset}_fea_list_ocsvm.pt")
-
                     with open(f"{ood_path}/{args.unlearn_dataset}_{args.ood_dataset}_gmm_w_ocsvm.pkl", "wb") as output_file:
                         pickle.dump(gmm_w, output_file)
                     with open(f"{ood_path}/{args.unlearn_dataset}_{args.ood_dataset}_ocsvm.pkl", "wb") as output_file:
@@ -130,10 +135,7 @@ def train(args, model, train_dataset, test_dataset, benchmarks, save_name):
                     print("SAVE", "CURRENT BEST ACC: ", acc)
                     acc_global = acc
                     model.roberta.save_pretrained(f"{ood_path}/{args.unlearn_dataset}_{args.ood_dataset}_roberta_ocsvm")
-
                 return acc_global
-
-
 
     num_steps = 0
     acc_g = detect_ood(acc_g, args.seed)
@@ -221,7 +223,6 @@ def main():
     parser.add_argument("--alpha", type=float, default=2.0)
     parser.add_argument("--loss", type=str, default="margin")
     parser.add_argument("--ood", type=str, default="ocsvm") # gmm ocsvm
-
     parser.add_argument("--unlearn_dataset", default="biology", type=str)
     parser.add_argument("--ood_dataset", type=str, default="ood_scienceqa")
     parser.add_argument("--base_unlearn_path", type=str, default="./data/scienceqa/")
@@ -229,9 +230,12 @@ def main():
     parser.add_argument("--save_name", type=str, default="scienceqa")
     args = parser.parse_args()
 
+    print('unlearn_dataset', args.unlearn_dataset)
+    print('ood_dataset', args.ood_dataset)
+    print('base_unlearn_path', args.base_unlearn_path)
+    print('base_ood_path', args.base_ood_path)
     # wandb.init(project=args.project_name, name=args.task_name + '-' + str(args.alpha) + "_" + args.loss)
     # wandb.init(mode="disabled")
-
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     args.n_gpu = torch.cuda.device_count()
     args.device = device
@@ -244,7 +248,6 @@ def main():
     # datasets = ['rte', 'sst2', 'mnli', '20ng', 'trec', 'imdb', 'wmt16', 'multi30k']
     datasets = [args.unlearn_dataset, args.ood_dataset]
     benchmarks = ()
-
     for dataset in datasets:
         if dataset == args.unlearn_dataset:
             train_dataset, test_dataset = load(dataset, tokenizer, max_seq_length=args.max_seq_length, is_id=True, base_unlearn_path=args.base_unlearn_path, base_ood_path=args.base_ood_path)  # biology
@@ -252,7 +255,6 @@ def main():
             _, original_val_dataset = load(dataset, tokenizer, max_seq_length=args.max_seq_length, is_id=True, base_unlearn_path=args.base_unlearn_path, base_ood_path=args.base_ood_path)  # non biology
             benchmarks = ((dataset, original_val_dataset),) + benchmarks
     train(args, model, train_dataset, test_dataset, benchmarks, save_name=args.save_name)
-
 
 if __name__ == "__main__":
     main()

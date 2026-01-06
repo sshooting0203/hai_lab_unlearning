@@ -220,9 +220,6 @@ def obtain_weights(input_x, gmm, gmm_retain, x0):
 
     return w_res
 
-
-
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_name_or_path", default="roberta-large", type=str)
@@ -237,7 +234,6 @@ def main():
     parser.add_argument("--alpha", type=float, default=2.0)
     parser.add_argument("--loss", type=str, default="margin")
     parser.add_argument("--ood", type=str, default="ocsvm")
-
     parser.add_argument("--unlearn_dataset", default="clinc_id", type=str)
     parser.add_argument("--ood_dataset", type=str, default="clinc_ood")
     args = parser.parse_args()

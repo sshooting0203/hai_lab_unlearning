@@ -1,20 +1,8 @@
-import os
-import sys
+import os, sys, fire, torch, transformers, random 
 from typing import List
-
-import fire
-import torch
-import transformers
 # from peft import PeftModel
 from datasets import load_dataset
 from datasets import load_from_disk
-
-"""
-Unused imports:
-import torch.nn as nn
-import bitsandbytes as bnb
-"""
-
 from peft import (
     LoraConfig,
     # get_peft_model,
@@ -23,7 +11,6 @@ from peft import (
 )
 from transformers import LlamaTokenizer, LlamaForCausalLM, AutoConfig
 from transformers import Trainer
-
 from src.mapping_hacked_o import get_peft_model
 from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
 from src.peft_model_hacked_o import PeftModel
@@ -31,13 +18,9 @@ from safetensors.torch import load_file as safe_load_file
 import numpy as np
 # from src.modeling_llama_hacked import LlamaForCausalLM
 # from src.peft_model_hacked import set_peft_model_state_dict
-
-
 from utils.prompter import Prompter
 
 os.environ["WANDB_DISABLED"] = "true"
-
-import random
 
 def set_seed(seed: int):
     """Fix PRNG seed for reproducable experiments.
@@ -52,11 +35,10 @@ def set_seed(seed: int):
         torch.backends.cudnn.benchmark = False
     os.environ["PYTHONHASHSEED"] = str(seed)
 
-
 def train(
         # model/data params
         base_model: str = "./llama2_clsall", # "./llama2_base",  # the only required argument
-        data_path: str =  "./data/clinc_text_12_intent_force/clinc_s0_train_random_force.json", #"./data/scienceqa_random_force_5/scienceqa_biology_train_random_force.json", # "./data/clinc_text_12_intent_force/clinc_s0_train_random_force.json", #"./data/scienceqa_random_k_l/scienceqa_biology_train_random_nk_l.json", # "./data/randomlabel/scienceqa/scienceqa_biology_train_random.json",# "/tank/local/cgo5577/MoLA_f/datasets/CL_biology_train_scienceq_all.json",
+        data_path: str =  "./data/clinc_text_12_intent_force/clinc_s0_train_random_force.json", 
         output_dir: str = "./lora_bio_random_test_force_clinc",
         seed: int = 0,
         # training hyperparams
@@ -189,7 +171,6 @@ def train(
         olora_weights.append(adapters_weights)
         print("LOAD", i, "for Onthogonal Loss" )
 
-
     config = AutoConfig.from_pretrained(base_model)
     config.lora_target_modules = lora_target_modules
     # config.ood_weight = ood_weight
@@ -264,7 +245,6 @@ def train(
         return tokenized_full_prompt
 
     # model = prepare_model_for_int8_training(model)
-
     config = LoraConfig(
         r=lora_r,
         lora_alpha=lora_alpha,
@@ -273,33 +253,12 @@ def train(
         bias="none",
         task_type="CAUSAL_LM",
     )
-
     if data_path.endswith(".json") or data_path.endswith(".jsonl"):
         data = load_dataset("json", data_files=data_path)
     else:
         data = load_from_disk(data_path)
-    # else:
-    #     data = load_dataset(data_path)
 
     if resume_from_checkpoint:
-        # Check the available weights and load them
-        # checkpoint_name = os.path.join(
-        #     resume_from_checkpoint, "pytorch_model.bin"
-        # )  # Full checkpoint
-        # if not os.path.exists(checkpoint_name):
-        #     checkpoint_name = os.path.join(
-        #         resume_from_checkpoint, "adapter_model.bin"
-        #     )  # only LoRA model - LoRA config above has to fit
-        #     resume_from_checkpoint = (
-        #         False  # So the trainer won't try loading its state
-        #     )
-        # The two files above have a different name depending on how they were saved, but are actually the same.
-        # if os.path.exists(checkpoint_name):
-        #     print(f"Restarting from {checkpoint_name}")
-        #     adapters_weights = torch.load(checkpoint_name)
-        #     set_peft_model_state_dict(model, adapters_weights)
-        # else:
-        #     print(f"Checkpoint {checkpoint_name} not found")
         model = PeftModel.from_pretrained(
                 model,
                 resume_from_checkpoint,
@@ -361,26 +320,13 @@ def train(
         ),
     )
     model.config.use_cache = False
-
-    # old_state_dict = model.state_dict
-    # model.state_dict = (
-    #     lambda self, *_, **__: get_peft_model_state_dict(
-    #         self, old_state_dict()
-    #     )
-    # ).__get__(model, type(model))
-
     if torch.__version__ >= "2" and sys.platform != "win32":
         model = torch.compile(model)
-
-    # trainer.train(resume_from_checkpoint=resume_from_checkpoint)
     trainer.train()
-
     model.save_pretrained(output_dir)
-
     print(
         "\n If there's a warning about missing keys above, please disregard :)"
     )
-
 
 if __name__ == "__main__":
     fire.Fire(train)

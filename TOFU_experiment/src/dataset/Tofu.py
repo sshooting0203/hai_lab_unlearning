@@ -1,13 +1,7 @@
-import csv
-import random
+import csv, random, torch 
 from collections import defaultdict
-
-import torch
 from datasets import load_dataset
-
-
 from .Base import BaseDataset
-
 
 class ToFU(BaseDataset):
     def __init__(self, dataset_name, subset="forget01", if_llama=False):

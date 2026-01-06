@@ -1,33 +1,13 @@
-# Copyright 2023-present the HuggingFace Inc. team.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 from __future__ import annotations
-
-import math
-import warnings
+import math, warnings, torch 
 from typing import Any, Optional, Union
-
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from transformers.pytorch_utils import Conv1D
-
 from peft.tuners.tuners_utils import BaseTunerLayer, check_adapters_to_merge
 from peft.utils.integrations import dequantize_bnb_weight, gather_params_ctx
 from peft.utils.other import transpose
-
 from peft.tuners.lora.config import LoraConfig
-
 
 class LoraLayer(BaseTunerLayer):
     # All names of layers that may contain (trainable) adapter weights
@@ -481,7 +461,10 @@ class Linear(nn.Module, LoraLayer):
 
         return output_tensor
 
-    def forward(self, x: torch.Tensor, active_adapters_d, ood_weight, o_lora_layer, *args: Any, **kwargs: Any) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, 
+                active_adapters_d, 
+                ood_weight, 
+                o_lora_layer, *args: Any, **kwargs: Any) -> torch.Tensor:
         self._check_forward_args(x, *args, **kwargs)
         adapter_names = kwargs.pop("adapter_names", None)
 
@@ -499,15 +482,30 @@ class Linear(nn.Module, LoraLayer):
 
             o_loss = 0
             #modified
+            # for active_adapter in active_adapters_d: # self.active_adapters: ['default'] # @ 코드 수정 
+            #     if active_adapter not in self.lora_A.keys():
+            #         continue
+            #     for i in range(len(o_lora_layer)):
+            #         o_a = torch.matmul(o_lora_layer[i], torch.transpose(self.lora_A[active_adapter].weight, 0, 1))
+
             for active_adapter in active_adapters_d: # self.active_adapters: ['default']
                 if active_adapter not in self.lora_A.keys():
                     continue
+                A = self.lora_A[active_adapter].weight # @ 수정10
+                dev = A.device
+                dtype = A.dtype
                 for i in range(len(o_lora_layer)):
-                    o_a = torch.matmul(o_lora_layer[i], torch.transpose(self.lora_A[active_adapter].weight, 0, 1))
+                    ol = o_lora_layer[i]
+                    if isinstance(ol, torch.Tensor):
+                        if ol.device != dev or ol.dtype != dtype:
+                            ol = ol.to(device=dev, dtype=dtype)
+                    else:
+                        ol = torch.as_tensor(ol, device=dev, dtype=dtype)
+                    o_a = torch.matmul(ol, A.transpose(0, 1))
+
                     o_a = torch.square(o_a)
                     o_a = torch.sum(o_a)
                     o_loss = o_loss + o_a
-
                 lora_A = self.lora_A[active_adapter]
                 lora_B = self.lora_B[active_adapter]
                 dropout = self.lora_dropout[active_adapter]
@@ -520,9 +518,7 @@ class Linear(nn.Module, LoraLayer):
                 else:
                     x = dropout(x)
                     result = result + self._apply_dora(x, lora_A, lora_B, scaling, active_adapter)
-
             result = result.to(torch_result_dtype)
-
         return result, o_loss
 
     def __repr__(self) -> str:

@@ -1,43 +1,17 @@
-# coding=utf-8
-# Copyright 2022 EleutherAI and the HuggingFace Inc. team. All rights reserved.
-#
-# This code is based on EleutherAI's GPT-NeoX library and the GPT-NeoX
-# and OPT implementations in this library. It has been modified from its
-# original forms to accommodate minor architectural differences compared
-# to GPT-NeoX and OPT used by the Meta AI team that trained the model.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-""" PyTorch LLaMA model."""
-import math
+import math, torch
 from typing import List, Optional, Tuple, Union
-
-import torch
 import torch.nn.functional as F
 import torch.utils.checkpoint
 from torch import nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
-
 from transformers.activations import ACT2FN
 from transformers.modeling_outputs import BaseModelOutputWithPast, CausalLMOutputWithPast, SequenceClassifierOutputWithPast
 from transformers.modeling_utils import PreTrainedModel
 from transformers.utils import add_start_docstrings, add_start_docstrings_to_model_forward, logging, replace_return_docstrings
 from transformers.models.llama.configuration_llama import LlamaConfig
 from sklearn.mixture import GaussianMixture as GMM
-
 logger = logging.get_logger(__name__)
-
 _CONFIG_FOR_DOC = "LlamaConfig"
-
 
 # Copied from transformers.models.bart.modeling_bart._make_causal_mask
 def _make_causal_mask(
@@ -1183,7 +1157,7 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
                     if int(layer) not in self.olora_weights:
                         self.olora_weights[int(layer)] = {}
                     if type not in self.olora_weights[int(layer)]:
-                        self.olora_weights[int(layer)][type] = [olora_weights[i][j]]
+                        self.olora_weights[int(layer)][type] = [olora_weights[i][j]] # self.olora_weights[0]["q_proj"] = [A0_q, A1_q]
                     else:
                         self.olora_weights[int(layer)][type].append(olora_weights[i][j])
         print("Orthogonal: ", self.orthogonal_loss, "Selector initialized")
@@ -1264,6 +1238,21 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
         # decoder outputs consists of (dec_features, layer_state, dec_hidden, dec_attn)
         # print("ood_weight: ", self.ood_weight)
         # print("active_adapters: ", self.active_adapters_d)
+
+        print(f"self.orthogonal_loss = ", self.orthogonal_loss)
+        # print(f"active_adapters_d={self.active_adapters_d}") # active_adapters_d=['default']
+        print(f"len(o_lora_layer) = {len(self.olora_weights) if self.olora_weights is not None else None}")
+        layers = sorted(self.olora_weights.keys())
+        print("num_layers_in_olora =", len(layers))
+        if layers:
+            L0 = layers[0]
+            types = sorted(self.olora_weights[L0].keys())
+            print(f"layer {L0} types = {types}")
+            print(f"num_types(layer {L0}) =", len(types))
+            for T in types: # {layer 개수,  layer 종류, ref되는 어댑터 개수}
+                refs = self.olora_weights[L0][T]  # 리스트
+                print(f"layer {L0} type {T}: num_refs={len(refs)}, ref0_shape={tuple(refs[0].shape)}")
+
         outputs, o_loss = self.model(
             input_ids=input_ids,
             attention_mask=attention_mask,

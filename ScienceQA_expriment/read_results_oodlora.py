@@ -1,5 +1,4 @@
-import json
-import pandas
+import json, pandas 
 
 SCALE=str(0.1)
 writer = pandas.ExcelWriter("all_results_scale_new_ood_01.xlsx", engine='xlsxwriter')

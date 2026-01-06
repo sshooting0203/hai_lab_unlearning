@@ -1,24 +1,15 @@
-import os
-import re
-import json
-import argparse
-import torch
-import random
+import os, re, json, argparse, torch, random, pickle, math, sys 
 from tqdm import tqdm
-
 from src.ood_model_selector import RobertaForSelector, RobertaForSelector_inference
-
 from transformers import RobertaConfig, RobertaTokenizer, BertConfig, BertTokenizer
-
 from src.peft_model_hacked_o import PeftModel
-import pickle
 from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
-import math
-import sys
 from transformers import GenerationConfig, LlamaTokenizer, AutoConfig, AutoTokenizer
 from scipy.stats import norm
 from scipy.optimize import minimize
 import numpy as np
+import os.path as osp
+from typing import Union
 from sklearn.mixture import GaussianMixture as GMM
 
 if torch.cuda.is_available():
@@ -26,16 +17,11 @@ if torch.cuda.is_available():
 else:
     device = "cpu"
 
-
 try:
     if torch.backends.mps.is_available():
         device = "mps"
 except:  # noqa: E722
     pass
-
-import json
-import os.path as osp
-from typing import Union
 
 def set_seed(seed: int):
     """Fix PRNG seed for reproducable experiments.
@@ -58,7 +44,6 @@ def knowledge_weights(gmm_scores, threshold_train):
     for i in range(gmm_scores.shape[0]):
         weight_t = math.exp(gmm_scores[i]) / (1 + math.exp(gmm_scores[i]))
         weight_res.append(weight_t)
-
     return weight_res
 
 def weighting_func_gmm(train_in_score, test_in_score):
@@ -77,7 +62,6 @@ def weighting_func_gmm(train_in_score, test_in_score):
     # center: x0
     # x0 = minimize(lambda x: (gmm_cdf(x, gmm) - 0.5)**2, x0=0).x[0]
     x0 = (mean1 + mean2) / 2
-
     return gmm, x0
 
 # cumulative prob func
@@ -107,7 +91,6 @@ def obtain_weights(input_x, gmm, x0):
     scaling_factor = 10
     cp_sum *= scaling_factor
     range_th = 2 # 2 0.5
-
     w_res = math.exp(cp_sum - range_th) / (1 + math.exp(cp_sum - range_th))
 
     # if w_res > 0.4:
@@ -123,12 +106,11 @@ def obtain_weights(input_x, gmm, x0):
         w_res = w_res # 2
     else:
         w_res=0
-
     return w_res
+
 # print(np.mean(all_w_res), min(all_w_res), max(all_w_res))
 class Prompter(object):
     __slots__ = ("template", "_verbose")
-
     def __init__(self, template_name: str = "", verbose: bool = False):
         self._verbose = verbose
         self.template = {
@@ -137,20 +119,10 @@ class Prompter(object):
             "prompt_no_input": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n",
             "response_split": "### Response:"
         }
-
         if self._verbose:
-            print(
-                f"Using prompt template {template_name}: {self.template['description']}"
-            )
+            print(f"Using prompt template {template_name}: {self.template['description']}")
 
-    def generate_prompt(
-            self,
-            instruction: str,
-            input: Union[None, str] = None,
-            label: Union[None, str] = None,
-    ) -> str:
-        # returns the full prompt from instruction and optional input
-        # if a label (=response, =output) is provided, it's also appended.
+    def generate_prompt(self, instruction: str, input: Union[None, str] = None, label: Union[None, str] = None) -> str:
         if input:
             res = self.template["prompt_input"].format(
                 instruction=instruction, input=input
@@ -168,15 +140,8 @@ class Prompter(object):
     def get_response(self, output: str) -> str:
         return output.split(self.template["response_split"])[1].strip()
 
-
 def main():
     parser = argparse.ArgumentParser(description='Evaluation')
-    # Defining arguments
-    # ./data/scienceqa_SD_5/scienceqa_biology_test_SD.json
-    # ./data/scienceqa_RD_5/scienceqa_not_biology_test_RD.json",
-    # ./data/scienceqa_standard_5/scienceqa_biology_train_std.json
-    # ./data/scienceqa_SD_5/scienceqa_biology_physics_test_SD.json
-
     parser.add_argument('--test_dataset', type=str, default="./data/scienceqa_SD_5/scienceqa_biology_test_SD.json",
                         help='test_dataset')
     parser.add_argument('--base_model', type=str, default="gcyzsl/O3_LLAMA2_ScienceQA", help='base_model')
@@ -193,13 +158,16 @@ def main():
     parser.add_argument('--ood_setting_name', type=str, default="scienceqa",
                         help='ood setting name')
     parser.add_argument('--seed', type=int, default=1, help='base_model')
+    parser.add_argument('--unlearn_topic', type=str, help='file_name') # @ 수정 
+
     # Parsing arguments
     args = parser.parse_args()
     set_seed(args.seed)
     data_a = json.load(open(args.test_dataset))
     base_model = args.base_model
-    max_batch_size = 1
     lora_weight = args.lora_weights
+    max_batch_size = 1
+    
     types = args.ood_type.split("_")
     ood_types = []
     for i in types:
@@ -207,9 +175,12 @@ def main():
             ood_types.append(i)
     ood_setting = args.ood_setting
     ood_setting_names = args.ood_setting_name
+
     print(args.test_dataset)
     print(args.base_model)
     print(args.lora_weights)
+    load_8bit = False
+
     print(args.ood_weights)
     print(ood_types)
     print(ood_setting)
@@ -224,12 +195,10 @@ def main():
     path = "/".join(lora_weight.split("/")[:-1])
     if not os.path.exists(path):
         os.mkdir(path)
-    result_file = path + "/test_noretain_{}_seed{}_oodlora_{}_{}".format(ood_setting,str(args.seed), lora_weight.split("/")[-1],
-                                                args.test_dataset.split("/")[-1])
+    result_file = os.path.join(path, f"test_seed{args.seed}_{args.unlearn_topic}.json")
+    # result_file = path + "/test_noretain_{}_seed{}_oodlora_{}_{}".format(ood_setting,str(args.seed), lora_weight.split("/")[-1], args.test_dataset.split("/")[-1])
     print(result_file)
 
-
-    load_8bit = False
     tokenizer = AutoTokenizer.from_pretrained(base_model, padding_side='left')
     lora_target_modules = [
         "q_proj",
@@ -247,6 +216,7 @@ def main():
     olora_weights = {}
     config.orthogonal_loss = orthogonal_loss
     config.orthogonal_loss_weight = 0.1
+
     model = LlamaForCausalLM_ood.from_pretrained(
         base_model,
         config=config,
@@ -259,6 +229,7 @@ def main():
         lora_weight,
         torch_dtype=torch.bfloat16,
     )
+
     model.init_olora(orthogonal_loss=orthogonal_loss, olora_weights=olora_weights)
     model.init_active_adapters_d(active_adapters_d=['default'])
 
@@ -277,7 +248,7 @@ def main():
     if torch.__version__ >= "2" and sys.platform != "win32":
         model = torch.compile(model)
 
-
+    ##############################################
     ood_base_model = args.ood_base_model
     ood_tokenizer = RobertaTokenizer.from_pretrained(ood_base_model)
     ood_models = []
@@ -298,7 +269,6 @@ def main():
         fea_list_path = i + f"_fea_list_{ood_type}.pt"
         gmm_w_path = i + f"_gmm_w_{ood_type}.pkl"
 
-
         ood_models.append(RobertaForSelector_inference(ood_base_model, lora_path=roberta_path, projection_dim=100).to(device))
         with open(ocsvm_path, "rb") as input_file:
             c_lr = pickle.load(input_file)
@@ -314,6 +284,7 @@ def main():
         ood_mean_lists.append(torch.load(mean_list_path, map_location=torch.device(device)))
         ood_precision_lists.append(torch.load(precision_list_path, map_location=torch.device(device)))
         ood_fea_lists.append(torch.load(fea_list_path, map_location=torch.device(device)))
+    ##############################################
 
     prompter = Prompter(template_name="alpaca")
     max_new_tokens = 128
@@ -334,11 +305,13 @@ def main():
         prompts = [prompter.generate_prompt(example['instruction'], example['input']) for example in batch]
         # print(prompts)
 
+        ##############################################
         ood_input = ood_tokenizer(prompts, padding='max_length', truncation=True, max_length=512, return_tensors="pt") # 256
         max_ood = 0
 
         for i in range((len(ood_weights))):
-            mah_score = ood_models[i].get_unsup_Mah_score_s(ood_input, ood_mean_lists[i], ood_precision_lists[i], ood_fea_lists[i])[:, 1:]
+            mah_score = ood_models[i].get_unsup_Mah_score_s(ood_input, 
+                    ood_mean_lists[i], ood_precision_lists[i], ood_fea_lists[i])[:, 1:]
             test_score = ood_clrs[i].score_samples(mah_score)
             w_ood = obtain_weights(test_score, ood_gmm_w_cls[i], ood_x0[i])
             if w_ood > max_ood:
@@ -353,9 +326,8 @@ def main():
 
         print("ood_weight: ", [1, max_ood])
         model.init_oodweight(ood_weight=[1, max_ood])
+        ##############################################
 
-
-        # generate prediction
         inputs = tokenizer(prompts, padding=True, return_tensors="pt")
         input_ids = inputs["input_ids"].to(device)
 
@@ -388,7 +360,6 @@ def main():
             results.append(res[r_i])
             outputs.append(output[r_i])
             gt.append(answers[r_i])
-
             if str(answer) == str(answers[r_i]):
                 correct += 1
                 print('correct:', str(answer), str(answers[r_i]))
@@ -396,7 +367,6 @@ def main():
                 print('gt-ans:', str(answer), str(answers[r_i]))
 
         acc = correct / len(results) * 100
-
         if end_idx % save_every == 0 or end_idx == len(data_a):
             print(f"{len(results)}/{len(data_a)}, correct: {correct}, acc: {round(acc, 2)}%, saving to {result_file}")
             data = {}
@@ -408,8 +378,6 @@ def main():
             with open(result_file, 'w') as f:
                 json.dump(data, f, indent=2, separators=(',', ': '))
     print(np.mean(all_w_res), min(all_w_res), max(all_w_res))
-
-
 
 if __name__ == "__main__":
     main()

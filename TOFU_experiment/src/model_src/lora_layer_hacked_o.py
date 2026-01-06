@@ -1,33 +1,13 @@
-# Copyright 2023-present the HuggingFace Inc. team.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 from __future__ import annotations
-
-import math
-import warnings
+import math, warnings, torch, logging, sys, os 
 from typing import Any, Optional, Union
-
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from transformers.pytorch_utils import Conv1D
-
 from peft.tuners.tuners_utils import BaseTunerLayer, check_adapters_to_merge
 from peft.utils.integrations import dequantize_bnb_weight, gather_params_ctx
 from peft.utils.other import transpose
-
 from peft.tuners.lora.config import LoraConfig
-
 
 class LoraLayer(BaseTunerLayer):
     # All names of layers that may contain (trainable) adapter weights
@@ -321,17 +301,6 @@ class LoraLayer(BaseTunerLayer):
 
         return result
 
-
-# Below code is based on https://github.com/microsoft/LoRA/blob/main/loralib/layers.py
-# and modified to work with PyTorch FSDP
-
-
-#  ------------------------------------------------------------------------------------------
-#  Copyright (c) Microsoft Corporation. All rights reserved.
-#  Licensed under the MIT License (MIT). See LICENSE in the repo root for license information.
-#  ------------------------------------------------------------------------------------------
-
-
 class Linear(nn.Module, LoraLayer):
     # Lora implemented in a dense layer
     def __init__(
@@ -502,6 +471,7 @@ class Linear(nn.Module, LoraLayer):
             for active_adapter in active_adapters_d: # self.active_adapters: ['default']
                 if active_adapter not in self.lora_A.keys():
                     continue
+                
                 for i in range(len(o_lora_layer)):
                     o_a = torch.matmul(o_lora_layer[i], torch.transpose(self.lora_A[active_adapter].weight, 0, 1))
                     o_a = torch.square(o_a)
@@ -522,7 +492,6 @@ class Linear(nn.Module, LoraLayer):
                     result = result + self._apply_dora(x, lora_A, lora_B, scaling, active_adapter)
 
             result = result.to(torch_result_dtype)
-
         return result, o_loss
 
     def __repr__(self) -> str:

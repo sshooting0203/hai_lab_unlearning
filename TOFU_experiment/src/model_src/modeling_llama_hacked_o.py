@@ -1263,7 +1263,7 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
         ###modified
         # decoder outputs consists of (dec_features, layer_state, dec_hidden, dec_attn)
         # print("ood_weight: ", self.ood_weight)
-        # print("active_adapters: ", self.active_adapters_d)
+        print("active_adapters: ", self.active_adapters_d)
         outputs, o_loss = self.model(
             input_ids=input_ids,
             attention_mask=attention_mask,
