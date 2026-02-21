@@ -1,4 +1,4 @@
-### base
+# ## base
 # for SEED in 0 1 2
 # do
 #   TYPE=""
@@ -15,16 +15,16 @@
 #   done
 # done
 
-### 11개의 ocsvm 생성하기(separate)
+## proj + ocsvm 
 for SEED in 0 1 2
 do
   TYPE=""
-  for UNLEAN_D in "biology" "writing-strategies" "figurative-language" "units-and-measurement" "physics" "reference-skills" "chemistry" "punctuation" "economics" "grammar" "earth-science"
+  for UNLEAN_D in "biology" "physics" "chemistry"
   do
       TYPE+="_${UNLEAN_D}"
       SDPATH_1="./data/scienceqa_SD_only_10/scienceqa_${UNLEAN_D}"
       OODPATH_1="./data/scienceqa_RD_only_10/scienceqa_not_${UNLEAN_D}"
-      python train_ood.py \
+      python detecting_lora_proj.py \
            --unlearn_dataset "scienceqa_${UNLEAN_D}" \
            --ood_dataset "ood_scienceqa" \
            --base_unlearn_path ${SDPATH_1} \
@@ -32,6 +32,24 @@ do
            --seed ${SEED}
   done
 done
+
+### 11개의 ocsvm 생성하기(separate)
+# for SEED in 0 1 2
+# do
+#   TYPE=""
+#   for UNLEAN_D in "biology" "writing-strategies" "figurative-language" "units-and-measurement" "physics" "reference-skills" "chemistry" "punctuation" "economics" "grammar" "earth-science"
+#   do
+#       TYPE+="_${UNLEAN_D}"
+#       SDPATH_1="./data/scienceqa_SD_only_10/scienceqa_${UNLEAN_D}"
+#       OODPATH_1="./data/scienceqa_RD_only_10/scienceqa_not_${UNLEAN_D}"
+#       python train_ood.py \
+#            --unlearn_dataset "scienceqa_${UNLEAN_D}" \
+#            --ood_dataset "ood_scienceqa" \
+#            --base_unlearn_path ${SDPATH_1} \
+#            --base_ood_path ${OODPATH_1} \
+#            --seed ${SEED}
+#   done
+# done
 
 ### 1개의 ocsvm 생성하기(cumulative)
 # for SEED in 0 1 2

@@ -1,0 +1,50 @@
+(29): LlamaDecoderLayer(
+	(self_attn): LlamaAttention(
+              (q_proj): Linear(in_features=4096, out_features=4096, bias=False)
+              (k_proj): Linear(in_features=4096, out_features=1024, bias=False)
+              (v_proj): Linear(in_features=4096, out_features=1024, bias=False)
+              (o_proj): Linear(in_features=4096, out_features=4096, bias=False)
+            )
+            (mlp): LlamaMLP(
+              	(gate_proj): ElderGraceLinear(in_features=4096, out_features=14336, bias=True)
+              	(up_proj): ElderLinear(in_features=4096, out_features=14336, bias=True
+                  (gate): Gate(
+                         (gate): Linear(in_features=4096, out_features=6, bias=True)
+                   )
+                  (experts): ModuleList(
+                     (0-5): 6 x ElderLoraLayer(
+                     (lora_dropout): ModuleDict(
+                         (default): Identity()
+                      )
+                     (lora_A): ParameterDict(  (default): Parameter containing: [torch.cuda.FloatTensor of size 4096x8 (cuda:0)])
+                     (lora_B): ParameterDict(  (default): Parameter containing: [torch.cuda.FloatTensor of size 8x14336 (cuda:0)])
+                  )
+                )
+               )
+
+              (down_proj): Linear(in_features=14336, out_features=4096, bias=False)
+              (act_fn): SiLUActivation()
+            )
+            (input_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+            (post_attention_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+          )
+
+
+(30-31): 2 x LlamaDecoderLayer(
+            (self_attn): LlamaAttention(
+              (q_proj): Linear(in_features=4096, out_features=4096, bias=False)
+              (k_proj): Linear(in_features=4096, out_features=1024, bias=False)
+              (v_proj): Linear(in_features=4096, out_features=1024, bias=False)
+              (o_proj): Linear(in_features=4096, out_features=4096, bias=False)
+            )
+            (mlp): LlamaMLP(
+              (gate_proj): Linear(in_features=4096, out_features=14336, bias=False)
+              (up_proj): Linear(in_features=4096, out_features=14336, bias=False)
+
+              (down_proj): Linear(in_features=14336, out_features=4096, bias=False)
+              (act_fn): SiLUActivation()
+            )
+            (input_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+            (post_attention_layernorm): LlamaRMSNorm((4096,), eps=1e-05)
+          )
+        )

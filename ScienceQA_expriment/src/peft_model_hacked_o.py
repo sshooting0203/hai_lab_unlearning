@@ -11,20 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 from __future__ import annotations
-
-import collections
-import inspect
-import os
-import warnings
+import collections, inspect, os, warnings, torch, transformers
 from contextlib import contextmanager
 from copy import deepcopy
 from typing import Any, Optional, Union
-
 import packaging.version
-import torch
-import transformers
 from accelerate import dispatch_model, infer_auto_device_map
 from accelerate.hooks import AlignDevicesHook, add_hook_to_module, remove_hook_from_submodules
 from accelerate.utils import get_balanced_memory
@@ -34,7 +26,6 @@ from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 from transformers import PreTrainedModel
 from transformers.modeling_outputs import QuestionAnsweringModelOutput, SequenceClassifierOutput, TokenClassifierOutput
 from transformers.utils import PushToHubMixin
-
 from peft import __version__
 from peft.config import PeftConfig
 from peft.tuners import (
@@ -43,7 +34,6 @@ from peft.tuners import (
     IA3Model,
     LoHaModel,
     LoKrModel,
-    # LoraModel,
     MultitaskPromptEmbedding,
     OFTModel,
     PolyModel,
@@ -70,7 +60,6 @@ from peft.utils import (
     shift_tokens_right,
 )
 
-
 PEFT_TYPE_TO_MODEL_MAPPING = {
     PeftType.LORA: LoraModel,
     PeftType.LOHA: LoHaModel,
@@ -84,7 +73,6 @@ PEFT_TYPE_TO_MODEL_MAPPING = {
     PeftType.OFT: OFTModel,
     PeftType.POLY: PolyModel,
 }
-
 
 class PeftModel(PushToHubMixin, torch.nn.Module):
     """
@@ -115,8 +103,7 @@ class PeftModel(PushToHubMixin, torch.nn.Module):
         self.modules_to_save = None
         self.active_adapter = adapter_name
         self.peft_type = peft_config.peft_type
-        # These args are special PEFT arguments that users can pass. They need to be removed before passing them to
-        # forward.
+        # These args are special PEFT arguments that users can pass. They need to be removed before passing them to forward.
         self.special_peft_forward_args = {"adapter_names"}
 
         self._is_prompt_learning = peft_config.is_prompt_learning
@@ -1062,14 +1049,11 @@ class PeftModelForCausalLM(PeftModel):
     Args:
         model ([`~transformers.PreTrainedModel`]): Base transformer model.
         peft_config ([`PeftConfig`]): Peft config.
-
-
     Example:
 
         ```py
         >>> from transformers import AutoModelForCausalLM
         >>> from peft import PeftModelForCausalLM, get_peft_config
-
         >>> config = {
         ...     "peft_type": "PREFIX_TUNING",
         ...     "task_type": "CAUSAL_LM",
@@ -1083,7 +1067,6 @@ class PeftModelForCausalLM(PeftModel):
         ...     "prefix_projection": False,
         ...     "postprocess_past_key_value_function": None,
         ... }
-
         >>> peft_config = get_peft_config(config)
         >>> model = AutoModelForCausalLM.from_pretrained("gpt2-large")
         >>> peft_model = PeftModelForCausalLM(model, peft_config)
@@ -1256,9 +1239,7 @@ class PeftModelForCausalLM(PeftModel):
         # pop that from `model_kwargs` as `cache_position` is properly created by the model, using the passed
         # `inputs_embeds`: https://github.com/huggingface/transformers/blob/593230f0a1150ea9c0477b9d859f25daf73c8c33/src/transformers/models/llama/modeling_llama.py#L956
         _ = model_kwargs.pop("cache_position", None)
-
         return model_kwargs
-
 
 class PeftModelForSeq2SeqLM(PeftModel):
     """

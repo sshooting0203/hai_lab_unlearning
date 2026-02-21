@@ -12,74 +12,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from __future__ import annotations
-
-import math
-import operator
-import re
-import warnings
+import math, operator, re, warnings, torch 
 from contextlib import contextmanager
 from dataclasses import asdict, replace
 from enum import Enum
 from functools import partial, reduce
 from itertools import chain
 from typing import Literal, Optional
-
-import torch
 from torch import nn
 from tqdm import tqdm
-
 from peft.import_utils import is_bnb_4bit_available, is_bnb_available
-from peft.tuners.tuners_utils import (
-    BaseTuner,
-    BaseTunerLayer,
-    check_target_module_exists,
-    onload_layer,
-    replicate_layers,
-)
-from peft.utils import (
-    TRANSFORMERS_MODELS_TO_LORA_TARGET_MODULES_MAPPING,
-    ModulesToSaveWrapper,
-    _freeze_adapter,
-    _get_submodules,
-    get_quantization_config,
-)
+from peft.tuners.tuners_utils import (BaseTuner, BaseTunerLayer, check_target_module_exists, onload_layer, replicate_layers)
+from peft.utils import (TRANSFORMERS_MODELS_TO_LORA_TARGET_MODULES_MAPPING,ModulesToSaveWrapper, _freeze_adapter, _get_submodules, get_quantization_config)
 from peft.utils.merge_utils import dare_linear, dare_ties, magnitude_prune, task_arithmetic, ties
-
 from peft.tuners.lora.aqlm import dispatch_aqlm
 from peft.tuners.lora.awq import dispatch_awq
 from peft.tuners.lora.config import LoraConfig
 from peft.tuners.lora.gptq import dispatch_gptq
-# from peft.tuners.lora.layer import Conv2d, LoraLayer, dispatch_default
 from src.lora_layer_hacked_o import Conv2d, LoraLayer, dispatch_default
 from peft.tuners.lora.tp_layer import dispatch_megatron
-
 
 def _adapter_names_pre_forward_hook(target, args, kwargs, adapter_names):
     # pre-forward hook to inject the adapter_names argument when using mixed adapter batches inference
     kwargs["adapter_names"] = adapter_names
     return args, kwargs
 
-
 class LoraModel(BaseTuner):
     """
-    Creates Low Rank Adapter (LoRA) model from a pretrained transformers model.
-
-    The method is described in detail in https://arxiv.org/abs/2106.09685.
-
+    Creates Low Rank Adapter (LoRA) model from a pretrained transformers model(The method is described in detail in https://arxiv.org/abs/2106.09685)
     Args:
         model ([`torch.nn.Module`]): The model to be adapted.
         config ([`LoraConfig`]): The configuration of the Lora model.
         adapter_name (`str`): The name of the adapter, defaults to `"default"`.
-
     Returns:
         `torch.nn.Module`: The Lora model.
-
     Example:
-
         ```py
         >>> from transformers import AutoModelForSeq2SeqLM
         >>> from peft import LoraModel, LoraConfig
-
         >>> config = LoraConfig(
         ...     task_type="SEQ_2_SEQ_LM",
         ...     r=8,
@@ -87,23 +57,22 @@ class LoraModel(BaseTuner):
         ...     target_modules=["q", "v"],
         ...     lora_dropout=0.01,
         ... )
-
         >>> model = AutoModelForSeq2SeqLM.from_pretrained("t5-base")
         >>> lora_model = LoraModel(model, config, "default")
         ```
-
         ```py
-        >>> import torch
-        >>> import transformers
+        >>> import torch, transformers
         >>> from peft import LoraConfig, PeftModel, get_peft_model, prepare_model_for_kbit_training
-
         >>> rank = ...
         >>> target_modules = ["q_proj", "k_proj", "v_proj", "out_proj", "fc_in", "fc_out", "wte"]
         >>> config = LoraConfig(
-        ...     r=4, lora_alpha=16, target_modules=target_modules, lora_dropout=0.1, bias="none", task_type="CAUSAL_LM"
+        ...     task_type="CAUSAL_LM"
+        ...     r=4, 
+        ...     lora_alpha=16, 
+        ...     target_modules=target_modules, 
+        ...     lora_dropout=0.1, bias="none", 
         ... )
         >>> quantization_config = transformers.BitsAndBytesConfig(load_in_8bit=True)
-
         >>> tokenizer = transformers.AutoTokenizer.from_pretrained(
         ...     "kakaobrain/kogpt",
         ...     revision="KoGPT6B-ryan1.5b-float16",  # or float32 version: revision=KoGPT6B-ryan1.5b
@@ -125,23 +94,19 @@ class LoraModel(BaseTuner):
         >>> model = prepare_model_for_kbit_training(model)
         >>> lora_model = get_peft_model(model, config)
         ```
-
     **Attributes**:
         - **model** ([`~transformers.PreTrainedModel`]) -- The model to be adapted.
         - **peft_config** ([`LoraConfig`]): The configuration of the Lora model.
     """
 
     prefix: str = "lora_"
-
     def __init__(self, model, config, adapter_name) -> None:
         super().__init__(model, config, adapter_name)
 
     def _check_new_adapter_config(self, config: LoraConfig) -> None:
         """
         A helper method to check the config when a new adapter is being added.
-
         Raise a ValueError if there is something wrong with the config or if it conflicts with existing adapters.
-
         """
         # TODO: there should be a check if any of the existing adapters actually has bias != "none", or else the check
         # does not fully correspond to the error message.
@@ -158,7 +123,6 @@ class LoraModel(BaseTuner):
     def _prepare_model(self, peft_config: LoraConfig, model: nn.Module):
         r"""
         A private method to modify the model structure before adapter is applied.
-
         Args:
             peft_config (`PeftConfig`):
                 The prepared adapter config.
@@ -173,12 +137,22 @@ class LoraModel(BaseTuner):
         lora_config,
         adapter_name,
         target,
-        target_name,
+        target_name, # q_proj
         parent,
-        current_key,
+        current_key, # model.layers.0.self_attn.q_proj
     ):
         if current_key is None:
             raise ValueError("Current Key shouldn't be `None`")
+        
+        # @ 수정=========================================================
+        lora_start_layer = getattr(lora_config, "lora_start_layer", -1)
+        if lora_start_layer is not None and int(lora_start_layer) >= 0:
+            m = re.search(r"(?:^|\.)(?:model\.)?layers\.(\d+)(?:\.|$)", current_key)
+            if m is not None:
+                layer_idx = int(m.group(1))
+                if layer_idx < int(lora_start_layer):
+                    return  # skip LoRA injection for early layers
+        # ===============================================================
 
         # Regexp matching - Find key which matches current target_name in patterns provided
         pattern_keys = list(chain(lora_config.rank_pattern.keys(), lora_config.alpha_pattern.keys()))
@@ -206,7 +180,6 @@ class LoraModel(BaseTuner):
 
         # note: AdaLoraLayer is a subclass of LoraLayer, we need to exclude it
         from peft.tuners.adalora import AdaLoraLayer
-
         if isinstance(target, LoraLayer) and not isinstance(target, AdaLoraLayer):
             target.update_layer(
                 adapter_name,
@@ -225,7 +198,7 @@ class LoraModel(BaseTuner):
             self._replace_module(parent, target_name, new_module, target)
 
     def _replace_module(self, parent, child_name, new_module, child):
-        setattr(parent, child_name, new_module)
+        setattr(parent, child_name, new_module) # 새 모듈(LoRA 포함)로 교체
         # It's not necessary to set requires_grad here, as that is handled by
         # _mark_only_adapters_as_trainable
 
@@ -277,33 +250,27 @@ class LoraModel(BaseTuner):
         # Collect dispatcher functions to decide what backend to use for the replaced LoRA layer. The order matters,
         # because the first match is always used. Therefore, the default layers should be checked last.
         dispatchers = []
-
         # avoid eager bnb import
         if is_bnb_available():
             from .bnb import dispatch_bnb_8bit
-
             dispatchers.append(dispatch_bnb_8bit)
 
         if is_bnb_4bit_available():
             from .bnb import dispatch_bnb_4bit
-
             dispatchers.append(dispatch_bnb_4bit)
 
         dispatchers.extend([dispatch_aqlm, dispatch_awq, dispatch_gptq, dispatch_megatron, dispatch_default])
-
         new_module = None
         for dispatcher in dispatchers:
             new_module = dispatcher(target, adapter_name, lora_config=lora_config, **kwargs)
             if new_module is not None:  # first match wins
                 break
-
         if new_module is None:
             # no module could be matched
             raise ValueError(
                 f"Target module {target} is not supported. Currently, only the following modules are supported: "
                 "`torch.nn.Linear`, `torch.nn.Embedding`, `torch.nn.Conv2d`, `transformers.pytorch_utils.Conv1D`."
             )
-
         return new_module
 
     def __getattr__(self, name: str):
@@ -328,17 +295,11 @@ class LoraModel(BaseTuner):
                 module.enable_adapters(enabled)
 
     def enable_adapter_layers(self) -> None:
-        """Enable all adapters.
-
-        Call this if you have previously disabled all adapters and want to re-enable them.
-        """
+        # Enable all adapters. Call this if you have previously disabled all adapters and want to re-enable them.
         self._set_adapter_layers(enabled=True)
 
     def disable_adapter_layers(self) -> None:
-        """Disable all adapters.
-
-        When disabling all adapters, the model output corresponds to the output of the base model.
-        """
+        # Disable all adapters. When disabling all adapters, the model output corresponds to the output of the base model.
         for active_adapter in self.active_adapters:
             val = self.peft_config[active_adapter].bias
             if val != "none":
@@ -351,16 +312,13 @@ class LoraModel(BaseTuner):
 
     def set_adapter(self, adapter_name: str | list[str]) -> None:
         """Set the active adapter(s).
-
         Additionally, this function will set the specified adapters to trainable (i.e., requires_grad=True). If this is
         not desired, use the following code.
-
         ```py
         >>> for name, param in model_peft.named_parameters():
         ...     if ...:  # some check on name (ex. if 'lora' in name)
         ...         param.requires_grad = False
         ```
-
         Args:
             adapter_name (`str` or `list[str]`): Name of the adapter(s) to be activated.
         """
@@ -377,30 +335,22 @@ class LoraModel(BaseTuner):
         # If adapter_names is passed as an argument, we inject it into the forward arguments.
         adapter_names = kwargs.pop("adapter_names", None)
         if adapter_names is None:
-            # nothing to do
             yield
             return
-
         if self.training:
             raise ValueError("Cannot pass `adapter_names` when the model is in training mode.")
-
         hook_handles = []
         for module in self.modules():
             if isinstance(module, LoraLayer):
                 pre_forward = partial(_adapter_names_pre_forward_hook, adapter_names=adapter_names)
                 handle = module.register_forward_pre_hook(pre_forward, with_kwargs=True)
                 hook_handles.append(handle)
-
         yield
-
         for handle in hook_handles:
             handle.remove()
 
     def _check_merge_allowed(self):
-        """Verify that the configuration supports merging.
-
-        Currently gptq quantization and replicated layers do not support merging.
-        """
+        # Verify that the configuration supports merging. Currently gptq quantization and replicated layers do not support merging.
         if getattr(self.model, "quantization_method", None) == "gptq":
             raise ValueError("Cannot merge LORA layers when the model is gptq quantized")
         if self.peft_config.get("layer_replication"):
@@ -465,7 +415,6 @@ class LoraModel(BaseTuner):
     ) -> None:
         """
         This method adds a new adapter by merging the given adapters with the given weights.
-
         When using the `cat` combination_type you should be aware that rank of the resulting adapter will be equal to
         the sum of all adapters ranks. So it's possible that the mixed adapter may become too big and result in OOM
         errors.
@@ -735,7 +684,6 @@ class LoraModel(BaseTuner):
     def delete_adapter(self, adapter_name: str) -> None:
         """
         Deletes an existing adapter.
-
         Args:
             adapter_name (str): Name of the adapter to be deleted.
         """
@@ -775,7 +723,6 @@ class LoraModel(BaseTuner):
         ```py
         >>> from transformers import AutoModelForCausalLM
         >>> from peft import PeftModel
-
         >>> base_model = AutoModelForCausalLM.from_pretrained("tiiuae/falcon-40b")
         >>> peft_model_id = "smangrul/falcon-40B-int4-peft-lora-sfttrainer-sample"
         >>> model = PeftModel.from_pretrained(base_model, peft_model_id)
@@ -787,8 +734,5 @@ class LoraModel(BaseTuner):
         )
 
     def unload(self) -> torch.nn.Module:
-        """
-        Gets back the base model by removing all the lora modules without merging. This gives back the original base
-        model.
-        """
+        # Gets back the base model by removing all the lora modules without merging. This gives back the original base model.
         return self._unload_and_optionally_merge(merge=False)

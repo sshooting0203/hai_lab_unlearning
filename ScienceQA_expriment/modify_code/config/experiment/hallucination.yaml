@@ -1,0 +1,14 @@
+# @package _global_
+task: hallucination
+lora_task_type: CAUSAL_LM
+
+grace:
+  _name: grace
+  num_iter: 50 # @@
+  init_radius: 0.5
+  expand_mode: moving_avg # coverage, moving_avg, decay
+  key_id: -1 # 입력 시퀀스 x에서 query vector로 쓸 토큰 위치(index)
+  num_edit_per_block: 4
+  metric_period: 50
+  edit_lr: 1e-4
+  threshold: 12

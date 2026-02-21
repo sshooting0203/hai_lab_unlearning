@@ -4,7 +4,6 @@ from transformers import DataCollatorForLanguageModeling
 datasets.logging.set_verbosity(datasets.logging.ERROR)
 
 def load(task_name, tokenizer, max_seq_length=512, is_id=False, base_unlearn_path=None, base_ood_path=None): # 256
-
     sentence1_key, sentence2_key = ("text_input", None)
     if "scienceqa" in task_name and "ood" not in task_name:
         datasets = load_scienceqa_topic(task_name.split("_")[-1],  base_unlearn_path)
@@ -63,6 +62,7 @@ def load_scicombine_topic(topic, path):
 
     datasets = {'train': train_dataset,  'test': test_dataset}
     return datasets
+
 def load_scicombine_notopic(path):
     # topic = "not_biology_physics_chemistry_economics_earth-science"
     with open(path + f"_train_RD.json") as fp:
@@ -88,6 +88,7 @@ def load_wmdp_topic(topic, path):
 
     datasets = {'train': train_dataset,  'test': test_dataset}
     return datasets
+
 def load_wmdp_notopic(path):
     # topic = "not_biology_physics_chemistry_economics_earth-science"
     with open(path + f"_train_RD.json") as fp:
@@ -137,8 +138,8 @@ def load_scienceqa_topic(topic, path):
     train_dataset = [train_data[i] for i in forget_index_list]
     test_dataset = [train_data[i] for i in retain_index_list]
     datasets = {'train': train_dataset,  'test': test_dataset}
-
     return datasets
+
 def load_scienceqa_notopic(path):
     with open(path + f"_train_RD.json") as fp:
         train_dataset = json.load(fp)

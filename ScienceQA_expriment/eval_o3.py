@@ -1,16 +1,17 @@
 import os, re, json, argparse, torch, random, pickle, math, sys 
 from tqdm import tqdm
+from collections import defaultdict
 from src.ood_model_selector import RobertaForSelector, RobertaForSelector_inference
 from transformers import RobertaConfig, RobertaTokenizer, BertConfig, BertTokenizer
-from src.peft_model_hacked_o import PeftModel
-from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
 from transformers import GenerationConfig, LlamaTokenizer, AutoConfig, AutoTokenizer
 from scipy.stats import norm
 from scipy.optimize import minimize
 import numpy as np
-import os.path as osp
 from typing import Union
 from sklearn.mixture import GaussianMixture as GMM
+##########################################
+from src.peft_model_hacked_o import PeftModel
+from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -99,7 +100,6 @@ def obtain_weights(input_x, gmm, x0):
     #     w_res = w_res * 1.2 # 2
     # else:
     #     w_res=0
-
     if w_res > 0.9: # not_test_RD 0.997 0.995 0.98 # test_SD 0.999 0.990 0.9845
         w_res = 1.2
     elif w_res <= 0.4 and w_res > 0.3:
@@ -285,25 +285,25 @@ def main():
         ood_precision_lists.append(torch.load(precision_list_path, map_location=torch.device(device)))
         ood_fea_lists.append(torch.load(fea_list_path, map_location=torch.device(device)))
     ##############################################
-
     prompter = Prompter(template_name="alpaca")
     max_new_tokens = 128
     save_every = 200
-
     correct = 0
-    results = []
-    outputs = []
-    gt = []
-    options = ["A", "B", "C", "D", "E"]
+    results, outputs, gt = [], [], []
+    topic_total = defaultdict(int) # @ 수정
+    topic_correct = defaultdict(int) # @ 수정
+    topics_list = [] # @ 수정
 
     for start_idx in tqdm(range(0, len(data_a), max_batch_size)):
         end_idx = min(start_idx + max_batch_size, len(data_a))
         batch = data_a[start_idx:end_idx]
+
         answers = [str(example["answer"]) for example in batch]
-        # print(answers)
-        # generate prompt
+        # print('answer is : ', answers)
+        topics  = [str(ex.get("topic", "unknown")) for ex in batch] # @ 수정 
+
         prompts = [prompter.generate_prompt(example['instruction'], example['input']) for example in batch]
-        # print(prompts)
+        # print('prompt is : ', prompts)
 
         ##############################################
         ood_input = ood_tokenizer(prompts, padding='max_length', truncation=True, max_length=512, return_tensors="pt") # 256
@@ -327,14 +327,12 @@ def main():
         print("ood_weight: ", [1, max_ood])
         model.init_oodweight(ood_weight=[1, max_ood])
         ##############################################
-
         inputs = tokenizer(prompts, padding=True, return_tensors="pt")
         input_ids = inputs["input_ids"].to(device)
 
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
-                # generation_config=generation_config,
                 return_dict_in_generate=True,
                 output_scores=True,
                 max_new_tokens=max_new_tokens,
@@ -344,30 +342,48 @@ def main():
         output = [prompter.get_response(otp) for otp in output]
 
         # extract the answer
-        # print(output)
+        # print('output is : ', output)
         # pattern = re.compile(r'The anwser to the question is (\d+):*')
         pattern = re.compile(r'The answer is ([A-Z]).')
         res = [pattern.findall(otp) for otp in output]
-        # print(res)
+        # print('res is', res)
         pred = []
+
         for r_i in range(len(res)):
+            t = topics[r_i] # @ 수정
+            topic_total[t] += 1 # @ 수정
+
             if len(res[r_i]) == 1:
                 answer = res[r_i][0]  # 'A', 'B', ...
             else:
                 answer = "FAILED"
-            #     print("*******************************************", res[r_i])
+
             pred.append(answer)
             results.append(res[r_i])
             outputs.append(output[r_i])
             gt.append(answers[r_i])
+            topics_list.append(t) # @ 수정
+
             if str(answer) == str(answers[r_i]):
                 correct += 1
+                topic_correct[t] += 1 # @ 수정
                 print('correct:', str(answer), str(answers[r_i]))
             else:
                 print('gt-ans:', str(answer), str(answers[r_i]))
 
         acc = correct / len(results) * 100
         if end_idx % save_every == 0 or end_idx == len(data_a):
+            per_topic = {}
+            for t in topic_total:
+                tot = int(topic_total[t])
+                cor = int(topic_correct[t])
+                per_topic[t] = {
+                    "total": tot,
+                    "correct": cor,
+                    "acc": (cor / tot * 100) if tot > 0 else 0.0
+                } # @ 수정 
+            per_topic_sorted = dict(sorted(per_topic.items(), key=lambda kv: kv[1]["total"], reverse=True))
+
             print(f"{len(results)}/{len(data_a)}, correct: {correct}, acc: {round(acc, 2)}%, saving to {result_file}")
             data = {}
             data['acc'] = acc
@@ -375,6 +391,7 @@ def main():
             data['len'] = len(results)
             data['results'] = results
             data['outputs'] = outputs
+            data['per_topic'] = per_topic_sorted # @ 수정
             with open(result_file, 'w') as f:
                 json.dump(data, f, indent=2, separators=(',', ': '))
     print(np.mean(all_w_res), min(all_w_res), max(all_w_res))

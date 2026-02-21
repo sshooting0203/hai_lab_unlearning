@@ -1,14 +1,8 @@
 import os, sys, fire, torch, transformers, random 
 from typing import List
-# from peft import PeftModel
 from datasets import load_dataset
 from datasets import load_from_disk
-from peft import (
-    LoraConfig,
-    # get_peft_model,
-    # get_peft_model_state_dict,
-    set_peft_model_state_dict,
-)
+from peft import LoraConfig
 from transformers import LlamaTokenizer, LlamaForCausalLM, AutoConfig
 from transformers import Trainer
 from src.mapping_hacked_o import get_peft_model
@@ -16,8 +10,6 @@ from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
 from src.peft_model_hacked_o import PeftModel
 from safetensors.torch import load_file as safe_load_file
 import numpy as np
-# from src.modeling_llama_hacked import LlamaForCausalLM
-# from src.peft_model_hacked import set_peft_model_state_dict
 from utils.prompter import Prompter
 
 os.environ["WANDB_DISABLED"] = "true"
@@ -37,8 +29,8 @@ def set_seed(seed: int):
 
 def train(
         # model/data params
-        base_model: str = "./llama2_clsall", # "./llama2_base",  # the only required argument
-        data_path: str =  "./data/clinc_text_12_intent_force/clinc_s0_train_random_force.json", 
+        base_model: str = "gcyzsl/O3_LLAMA2_ScienceQA", # "./llama2_base",  # the only required argument
+        data_path: str =  "./data/scienceqa_random_force_5/scienceqa_biology_train_random_force.json", 
         output_dir: str = "./lora_bio_random_test_force_clinc",
         seed: int = 0,
         # training hyperparams
@@ -67,10 +59,9 @@ def train(
         orthogonal_loss_weight: float = 0.1,
         # llm hyperparams
         train_on_inputs: bool = True,  # if False, masks out inputs in loss
-        add_eos_token: bool = True,
         group_by_length: bool = True,  # faster, but produces an odd training loss curve
         load_in_8bit: bool = False,
-
+        add_eos_token: bool = True,
         # wandb params
         wandb_project: str = "",
         wandb_run_name: str = "",
@@ -78,6 +69,8 @@ def train(
         wandb_log_model: str = "",  # options: false | true
         resume_from_checkpoint: str = "", # None,  # either training checkpoint or final adapter
         prompt_template_name: str = "alpaca",  # The prompt template to use, will default to alpaca.
+        # @ 수정 
+        lora_start_layer: int = 0, # 3개 건너뛰기 
 ):
     set_seed(seed)
     if isinstance(lora_weights, str):
@@ -103,9 +96,9 @@ def train(
     if isinstance(resume_from_checkpoint, bool):
         resume_from_checkpoint = False
 
-    unlearn_lora_path = "./unlearn_lora_checkpoints"
-    if not os.path.exists(unlearn_lora_path):
-        os.mkdir(unlearn_lora_path)
+    # unlearn_lora_path = "./unlearn_lora_checkpoints"
+    # if not os.path.exists(unlearn_lora_path):
+    #     os.mkdir(unlearn_lora_path)
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
         print(
             f"Training Alpaca-LoRA model with params:\n"
@@ -142,7 +135,6 @@ def train(
     gradient_accumulation_steps = batch_size // micro_batch_size
 
     prompter = Prompter(prompt_template_name)
-
     device_map = "auto"
     world_size = int(os.environ.get("WORLD_SIZE", 1))
     ddp = world_size != 1
@@ -164,7 +156,7 @@ def train(
 
     print("load aloras")
     olora_weights = []
-    for i in lora_weights:
+    for i in lora_weights: # t시점에 따라 로딩하는 lora tensor가 늘어남(참조하는 폴더가 늘어남)
         if len(i) == 0:
             continue
         adapters_weights = safe_load_file(os.path.join(i, "adapter_model.safetensors"))
@@ -173,11 +165,11 @@ def train(
 
     config = AutoConfig.from_pretrained(base_model)
     config.lora_target_modules = lora_target_modules
-    # config.ood_weight = ood_weight
     if len(olora_weights) == 0:
         orthogonal_loss = False
     config.orthogonal_loss = orthogonal_loss
     config.orthogonal_loss_weight = orthogonal_loss_weight
+
     model = LlamaForCausalLM_ood.from_pretrained(
         base_model,
         config=config,
@@ -188,17 +180,14 @@ def train(
     model.init_olora(orthogonal_loss=orthogonal_loss, olora_weights=olora_weights)
     model.init_oodweight(ood_weight=ood_weight)
     model.init_active_adapters_d(active_adapters_d=['default'])
+    model.init_lora_start_layer(lora_start_layer=lora_start_layer)
 
     tokenizer = LlamaTokenizer.from_pretrained(base_model)
-
-    tokenizer.pad_token_id = (
-        0  # unk. we want this to be different from the eos token
-    )
+    tokenizer.pad_token_id = ( 0 ) # unk. we want this to be different from the eos token
     tokenizer.padding_side = "left"  # Allow batched inference
 
     def tokenize(prompt, add_eos_token=True):
-        # there's probably a way to do this with the tokenizer settings
-        # but again, gotta move fast
+        # there's probably a way to do this with the tokenizer settings, but again, gotta move fast
         result = tokenizer(
             prompt,
             truncation=True,
@@ -213,9 +202,7 @@ def train(
         ):
             result["input_ids"].append(tokenizer.eos_token_id)
             result["attention_mask"].append(1)
-
         result["labels"] = result["input_ids"].copy()
-
         return result
 
     def generate_and_tokenize_prompt(data_point):
@@ -233,15 +220,9 @@ def train(
                 user_prompt, add_eos_token=add_eos_token
             )
             user_prompt_len = len(tokenized_user_prompt["input_ids"])
-
             if add_eos_token:
                 user_prompt_len -= 1
-
-            tokenized_full_prompt["labels"] = [
-                                                  -100
-                                              ] * user_prompt_len + tokenized_full_prompt["labels"][
-                                                                    user_prompt_len:
-                                                                    ]  # could be sped up, probably
+            tokenized_full_prompt["labels"] = [-100] * user_prompt_len + tokenized_full_prompt["labels"][user_prompt_len:]  # could be sped up, probably
         return tokenized_full_prompt
 
     # model = prepare_model_for_int8_training(model)
@@ -266,7 +247,7 @@ def train(
             )
         print(f"Restarting from {resume_from_checkpoint}")
     else:
-        model = get_peft_model(model, config)
+        model = get_peft_model(model, config, lora_start_layer=lora_start_layer)
 
     model.print_trainable_parameters()  # Be more transparent about the % of trainable params.
 

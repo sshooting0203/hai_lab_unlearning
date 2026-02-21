@@ -1,3 +1,4 @@
+# RTE test label 없음 issue
 The experiment on ScienceQA dataset.
 
 ## 1) Installation
@@ -73,6 +74,12 @@ We have provided the model checkpoint at Huggingface: [gcyzsl/O3_LLAMA2_ScienceQ
 To train the OOD module, you can use the following command:
 ```
 bash ./train_ood.sh
+CUDA_VISIBLE_DEVICES=0 nohup python detecting_lora_base.py > detecting_lora2.log 2>&1 &
+
+CUDA_VISIBLE_DEVICES=3 nohup bash train_ood.sh > detecting_lora_proj.log  2>&1 &
+
+CUDA_VISIBLE_DEVICES=0 nohup python detecting_lora_proj.py > detecting_lora_proj.log 2>&1 &
+
 CUDA_VISIBLE_DEVICES=3 nohup bash train_ood_clinc.sh > ood_base_clinc.log 2>&1 &
 CUDA_VISIBLE_DEVICES=3 nohup bash train_ood.sh > ood_11_all.log 2>&1 &
 ```
@@ -81,18 +88,22 @@ CUDA_VISIBLE_DEVICES=3 nohup bash train_ood.sh > ood_11_all.log 2>&1 &
 To unlearn with orthogonal-regularized LoRA, you can use the following command:
 ```
 bash ./train_unlearn_lora.sh
-CUDA_VISIBLE_DEVICES=3 nohup bash ./train_unlearn_lora.sh > unlearn_lora10.log 2>&1 &
-CUDA_VISIBLE_DEVICES=2 nohup bash ./train_unlearn_lora2.sh > unlearn_lora10_r32.log 2>&1 &
+CUDA_VISIBLE_DEVICES=0 nohup bash ./train_unlearn_lora_clinc.sh > unlearn_clinc.log 2>&1 &
+CUDA_VISIBLE_DEVICES=1 nohup bash ./train_unlearn_lora.sh > unlearn_10_wo_front6.log 2>&1 &
 ```
 
 ## 6) Soft-weighted inference
 To run the experiments, you can use the following command:
 ```
 bash eval_soft_infer.sh
-CUDA_VISIBLE_DEVICES=3 nohup bash ./eval_soft_infer.sh > eval_soft_infer10.log 2>&1 &
+CUDA_VISIBLE_DEVICES=1 nohup bash ./eval_soft_infer.sh > eval_soft_infer10.log 2>&1 &
+CUDA_VISIBLE_DEVICES=0 nohup bash ./eval_soft_infer_clinc.sh > eval_soft_infer_clinc.log 2>&1 &
 ```
 To gather the final results:
 ```
 python read_results_oodlora.py
 ```
+
+*mrpc는 허깅페이스
+*rte는 라벨이 없어가지고 캐글(https://www.kaggle.com/code/stpeteishii/rte-question-answering-roberta)
 

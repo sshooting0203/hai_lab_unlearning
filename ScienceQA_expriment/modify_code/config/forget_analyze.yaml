@@ -1,0 +1,74 @@
+# Model
+model_family: llama3.1-8b-instruct
+base_model_path: meta-llama/Meta-Llama-3.1-8B-Instruct
+model_path: ${base_model_path}
+
+# Seed
+seed: 0
+
+# ================================
+# Dataset (forget / retain)
+# - split_raw_dataset_for_forget
+# - eval loaders
+# ================================
+data_name: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/scienceqa_SD_10/scienceqa_biology_..._train_SD.json
+r_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/scienceqa_RD_10/scienceqa_not_biology_writing-strategies_figurative-language_units-and-measurement_physics_reference-skills_chemistry_punctuation_economics_grammar_earth-science_train_RD.json
+
+dist_forget_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/scienceqa_SD_10/scienceqa_biology_..._test_SD.json
+dist_retain_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/scienceqa_RD_10/scienceqa_not_biology_..._test_RD.json
+
+# ================================
+# Distribution / Similarity Analysis
+# ================================
+middle_distribution_layer:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  - 13
+  - 14
+  - 15
+  - 16
+  - 17
+  - 18
+  - 19
+  - 20
+  - 21
+  - 22
+  - 23
+  - 24
+  - 25
+  - 26
+  - 27
+  - 28
+  - 29
+  - 30
+
+# mu split
+dist_holdout_ratio: 0.3
+
+# batch / workers
+dist_batch_size: 8
+num_workers: 0
+
+# token pooling defaults (grid에서 overwrite됨)
+dist_cal_type: mean
+dist_last_k: 16
+whole_reduce: mean
+whole_topk: 8
+
+# threshold analysis (현재 스크립트에선 저장만 대비)
+tau_quantile: 0.99
+
+svdd_save_dir: ./svdd_artifacts
+
+eval_batch_size: 16
+eval_limit_n: 200  

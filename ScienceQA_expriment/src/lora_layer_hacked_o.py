@@ -464,7 +464,8 @@ class Linear(nn.Module, LoraLayer):
     def forward(self, x: torch.Tensor, 
                 active_adapters_d, 
                 ood_weight, 
-                o_lora_layer, *args: Any, **kwargs: Any) -> torch.Tensor:
+                o_lora_layer, 
+                *args: Any, **kwargs: Any) -> torch.Tensor:
         self._check_forward_args(x, *args, **kwargs)
         adapter_names = kwargs.pop("adapter_names", None)
 
@@ -502,7 +503,6 @@ class Linear(nn.Module, LoraLayer):
                     else:
                         ol = torch.as_tensor(ol, device=dev, dtype=dtype)
                     o_a = torch.matmul(ol, A.transpose(0, 1))
-
                     o_a = torch.square(o_a)
                     o_a = torch.sum(o_a)
                     o_loss = o_loss + o_a

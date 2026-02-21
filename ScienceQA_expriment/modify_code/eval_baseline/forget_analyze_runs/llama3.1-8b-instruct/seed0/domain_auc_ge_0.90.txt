@@ -1,0 +1,1378 @@
+[ROOT] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0
+[FILTER] auroc_forget_vs_retain >= 0.90
+
+==================== DOMAIN: biology ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/biology/forget_analyze_20260131_194553
+[COUNT] kept=53/1260
+
+[000] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=23 d=+2.857 auc=0.967 ks=0.855 gap=+0.025 tau@0.99=0.565 fpr~0.000 | reduce=topk_mean topk=8
+[001] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=23 d=+2.768 auc=0.966 ks=0.835 gap=+0.027 tau@0.99=0.548 fpr~0.000 | reduce=topk_mean topk=16
+[002] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=23 d=+3.098 auc=0.964 ks=0.860 gap=+0.027 tau@0.99=0.578 fpr~0.000 | reduce=topk_mean topk=4
+[003] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=21 d=+2.252 auc=0.958 ks=0.780 gap=+0.031 tau@0.99=0.416 fpr~0.000 | reduce=mean topk=4
+[004] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=21 d=+2.252 auc=0.958 ks=0.780 gap=+0.031 tau@0.99=0.416 fpr~0.000 | reduce=mean topk=8
+[005] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=21 d=+2.252 auc=0.958 ks=0.780 gap=+0.031 tau@0.99=0.416 fpr~0.000 | reduce=mean topk=16
+[006] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=17 d=+2.560 auc=0.954 ks=0.820 gap=+0.010 tau@0.99=0.376 fpr~0.000 | reduce=topk_mean topk=16
+[007] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=19 d=+2.202 auc=0.951 ks=0.735 gap=+0.025 tau@0.99=0.355 fpr~0.000 | reduce=mean topk=4
+[008] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=19 d=+2.202 auc=0.951 ks=0.735 gap=+0.025 tau@0.99=0.355 fpr~0.000 | reduce=mean topk=8
+[009] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=19 d=+2.202 auc=0.951 ks=0.735 gap=+0.025 tau@0.99=0.355 fpr~0.000 | reduce=mean topk=16
+[010] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=21 d=+2.526 auc=0.951 ks=0.790 gap=+0.029 tau@0.99=0.570 fpr~0.000 | reduce=topk_mean topk=8
+[011] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=19 d=+2.382 auc=0.946 ks=0.790 gap=+0.018 tau@0.99=0.469 fpr~0.000 | reduce=topk_mean topk=16
+[012] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=21 d=+2.333 auc=0.944 ks=0.730 gap=+0.031 tau@0.99=0.552 fpr~0.000 | reduce=topk_mean topk=16
+[013] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=17 d=+1.872 auc=0.940 ks=0.795 gap=+0.031 tau@0.99=0.276 fpr~0.000 | reduce=mean topk=4
+[014] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=17 d=+1.872 auc=0.940 ks=0.795 gap=+0.031 tau@0.99=0.276 fpr~0.000 | reduce=mean topk=8
+[015] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=17 d=+1.872 auc=0.940 ks=0.795 gap=+0.031 tau@0.99=0.276 fpr~0.000 | reduce=mean topk=16
+[016] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=23 d=+2.027 auc=0.940 ks=0.750 gap=+0.028 tau@0.99=0.414 fpr~0.000 | reduce=mean topk=4
+[017] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=23 d=+2.027 auc=0.940 ks=0.750 gap=+0.028 tau@0.99=0.414 fpr~0.000 | reduce=mean topk=8
+[018] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=23 d=+2.027 auc=0.940 ks=0.750 gap=+0.028 tau@0.99=0.414 fpr~0.000 | reduce=mean topk=16
+[019] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=22 d=+2.305 auc=0.933 ks=0.755 gap=+0.007 tau@0.99=0.855 fpr~0.000 | reduce=topk_mean topk=4
+[020] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=21 d=+2.323 auc=0.933 ks=0.770 gap=+0.006 tau@0.99=0.868 fpr~0.000 | reduce=topk_mean topk=4
+[021] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=18 d=+2.178 auc=0.933 ks=0.775 gap=+0.004 tau@0.99=0.853 fpr~0.000 | reduce=topk_mean topk=16
+[022] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=21 d=+2.215 auc=0.933 ks=0.765 gap=+0.005 tau@0.99=0.874 fpr~0.000 | reduce=topk_mean topk=4
+[023] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=22 d=+2.082 auc=0.932 ks=0.810 gap=+0.006 tau@0.99=0.866 fpr~0.000 | reduce=topk_mean topk=4
+[024] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=22 d=+2.157 auc=0.931 ks=0.755 gap=+0.007 tau@0.99=0.849 fpr~0.000 | reduce=topk_mean topk=8
+[025] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=22 d=+2.120 auc=0.929 ks=0.780 gap=+0.006 tau@0.99=0.859 fpr~0.000 | reduce=topk_mean topk=8
+[026] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=18 d=+2.116 auc=0.929 ks=0.765 gap=+0.004 tau@0.99=0.846 fpr~0.000 | reduce=topk_mean topk=16
+[027] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=18 d=+1.988 auc=0.928 ks=0.780 gap=+0.004 tau@0.99=0.858 fpr~0.005 | reduce=topk_mean topk=8
+[028] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=22 d=+2.074 auc=0.925 ks=0.735 gap=+0.023 tau@0.99=0.667 fpr~0.000 | reduce=topk_mean topk=4
+[029] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=22 d=+2.325 auc=0.925 ks=0.785 gap=+0.028 tau@0.99=0.627 fpr~0.000 | reduce=topk_mean topk=16
+[030] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=21 d=+2.137 auc=0.924 ks=0.740 gap=+0.006 tau@0.99=0.863 fpr~0.000 | reduce=topk_mean topk=8
+[031] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=28 d=+2.152 auc=0.923 ks=0.770 gap=+0.019 tau@0.99=0.589 fpr~0.000 | reduce=topk_mean topk=8
+[032] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+1.929 auc=0.920 ks=0.745 gap=+0.007 tau@0.99=0.724 fpr~0.000 | reduce=topk_mean topk=16
+[033] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=21 d=+2.115 auc=0.919 ks=0.720 gap=+0.005 tau@0.99=0.870 fpr~0.000 | reduce=topk_mean topk=8
+[034] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=22 d=+2.239 auc=0.919 ks=0.765 gap=+0.025 tau@0.99=0.652 fpr~0.000 | reduce=topk_mean topk=8
+[035] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+1.903 auc=0.918 ks=0.735 gap=+0.007 tau@0.99=0.731 fpr~0.000 | reduce=topk_mean topk=16
+[036] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 5 d=+2.080 auc=0.917 ks=0.670 gap=+0.006 tau@0.99=0.735 fpr~0.000 | reduce=topk_mean topk=16
+[037] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=21 d=+2.002 auc=0.917 ks=0.685 gap=+0.021 tau@0.99=0.593 fpr~0.000 | reduce=topk_mean topk=4
+[038] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 5 d=+2.078 auc=0.917 ks=0.670 gap=+0.006 tau@0.99=0.738 fpr~0.000 | reduce=topk_mean topk=16
+[039] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 5 d=+2.045 auc=0.915 ks=0.725 gap=+0.007 tau@0.99=0.742 fpr~0.000 | reduce=topk_mean topk=8
+[040] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 5 d=+2.029 auc=0.915 ks=0.725 gap=+0.009 tau@0.99=0.749 fpr~0.000 | reduce=topk_mean topk=4
+[041] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 5 d=+2.030 auc=0.914 ks=0.725 gap=+0.007 tau@0.99=0.746 fpr~0.000 | reduce=topk_mean topk=8
+[042] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=18 d=+1.902 auc=0.914 ks=0.745 gap=+0.004 tau@0.99=0.851 fpr~0.005 | reduce=topk_mean topk=8
+[043] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 5 d=+2.018 auc=0.913 ks=0.725 gap=+0.009 tau@0.99=0.753 fpr~0.000 | reduce=topk_mean topk=4
+[044] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=20 d=+1.808 auc=0.911 ks=0.695 gap=+0.022 tau@0.99=0.544 fpr~0.000 | reduce=topk_mean topk=16
+[045] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=26 d=+1.982 auc=0.911 ks=0.745 gap=+0.027 tau@0.99=0.571 fpr~0.000 | reduce=topk_mean topk=8
+[046] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=19 d=+2.087 auc=0.911 ks=0.745 gap=+0.014 tau@0.99=0.492 fpr~0.000 | reduce=topk_mean topk=8
+[047] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=22 d=+1.974 auc=0.908 ks=0.680 gap=+0.008 tau@0.99=0.843 fpr~0.000 | reduce=topk_mean topk=16
+[048] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer=22 d=+2.065 auc=0.906 ks=0.770 gap=+0.010 tau@0.99=0.871 fpr~0.000 | reduce=max topk=4
+[049] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer=22 d=+2.065 auc=0.906 ks=0.770 gap=+0.010 tau@0.99=0.871 fpr~0.000 | reduce=max topk=8
+[050] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer=22 d=+2.065 auc=0.906 ks=0.770 gap=+0.010 tau@0.99=0.871 fpr~0.000 | reduce=max topk=16
+[051] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=20 d=+1.829 auc=0.904 ks=0.710 gap=+0.021 tau@0.99=0.568 fpr~0.000 | reduce=topk_mean topk=8
+[052] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=22 d=+1.911 auc=0.902 ks=0.685 gap=+0.006 tau@0.99=0.853 fpr~0.000 | reduce=topk_mean topk=16
+
+==================== DOMAIN: writing-strategies ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/writing-strategies/forget_analyze_20260131_200245
+[COUNT] kept=15/1260
+
+[000] pool=last|mod=v|k=16 | layer=14 d=+2.245 auc=0.949 ks=0.765 gap=+0.048 tau@0.99=0.369 fpr~0.000 
+[001] pool=last|mod=v|k=16 | layer=22 d=+2.115 auc=0.938 ks=0.750 gap=+0.061 tau@0.99=0.641 fpr~0.005 
+[002] pool=last|mod=qv|k=16 | layer=14 d=+2.144 auc=0.935 ks=0.725 gap=+0.030 tau@0.99=0.836 fpr~0.000 
+[003] pool=last|mod=q|k=16 | layer=14 d=+2.128 auc=0.934 ks=0.725 gap=+0.030 tau@0.99=0.844 fpr~0.000 
+[004] pool=last|mod=v|k=16 | layer=30 d=+2.085 auc=0.925 ks=0.705 gap=+0.076 tau@0.99=0.463 fpr~0.005 
+[005] pool=last|mod=qv|k=16 | layer=21 d=+1.938 auc=0.915 ks=0.700 gap=+0.017 tau@0.99=0.869 fpr~0.005 
+[006] pool=last|mod=v|k=16 | layer=13 d=+1.906 auc=0.914 ks=0.690 gap=+0.041 tau@0.99=0.304 fpr~0.000 
+[007] pool=last|mod=q|k=16 | layer=21 d=+1.934 auc=0.914 ks=0.705 gap=+0.017 tau@0.99=0.875 fpr~0.005 
+[008] pool=last_k|mod=qv|k=4 | layer=11 d=+1.728 auc=0.908 ks=0.715 gap=+0.018 tau@0.99=0.843 fpr~0.000 
+[009] pool=last|mod=qv|k=16 | layer=22 d=+1.811 auc=0.906 ks=0.695 gap=+0.023 tau@0.99=0.850 fpr~0.010 
+[010] pool=last_k|mod=q|k=4 | layer=11 d=+1.706 auc=0.905 ks=0.705 gap=+0.017 tau@0.99=0.850 fpr~0.000 
+[011] pool=last|mod=v|k=16 | layer=19 d=+1.918 auc=0.904 ks=0.655 gap=+0.048 tau@0.99=0.365 fpr~0.010 
+[012] pool=last|mod=q|k=16 | layer=22 d=+1.785 auc=0.902 ks=0.690 gap=+0.022 tau@0.99=0.855 fpr~0.010 
+[013] pool=last_k|mod=qv|k=4 | layer=15 d=+1.680 auc=0.902 ks=0.655 gap=+0.012 tau@0.99=0.898 fpr~0.000 
+[014] pool=last_k|mod=v|k=8 | layer= 7 d=+1.877 auc=0.902 ks=0.685 gap=+0.024 tau@0.99=0.573 fpr~0.000 
+
+==================== DOMAIN: figurative-language ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/figurative-language/forget_analyze_20260131_201650
+[COUNT] kept=206/1260
+
+[000] pool=last_k|mod=v|k=16 | layer=21 d=+3.589 auc=0.998 ks=0.980 gap=+0.039 tau@0.99=0.851 fpr~0.000 
+[001] pool=last_k|mod=v|k=16 | layer=30 d=+3.321 auc=0.996 ks=0.945 gap=+0.043 tau@0.99=0.837 fpr~0.000 
+[002] pool=last_k|mod=v|k=16 | layer=23 d=+3.484 auc=0.996 ks=0.945 gap=+0.044 tau@0.99=0.853 fpr~0.000 
+[003] pool=last_k|mod=v|k=16 | layer= 9 d=+3.617 auc=0.996 ks=0.945 gap=+0.051 tau@0.99=0.765 fpr~0.000 
+[004] pool=last_k|mod=v|k=16 | layer=29 d=+3.104 auc=0.994 ks=0.935 gap=+0.042 tau@0.99=0.871 fpr~0.000 
+[005] pool=last_k|mod=v|k=16 | layer=28 d=+3.393 auc=0.994 ks=0.925 gap=+0.048 tau@0.99=0.881 fpr~0.000 
+[006] pool=last_k|mod=v|k=16 | layer=26 d=+3.157 auc=0.993 ks=0.930 gap=+0.041 tau@0.99=0.853 fpr~0.000 
+[007] pool=last_k|mod=v|k=16 | layer=17 d=+3.408 auc=0.993 ks=0.910 gap=+0.051 tau@0.99=0.795 fpr~0.000 
+[008] pool=last_k|mod=v|k=16 | layer=18 d=+3.256 auc=0.992 ks=0.950 gap=+0.043 tau@0.99=0.833 fpr~0.000 
+[009] pool=last_k|mod=v|k=16 | layer=25 d=+3.377 auc=0.990 ks=0.905 gap=+0.045 tau@0.99=0.831 fpr~0.000 
+[010] pool=last_k|mod=v|k=16 | layer=10 d=+2.862 auc=0.983 ks=0.890 gap=+0.040 tau@0.99=0.776 fpr~0.000 
+[011] pool=last_k|mod=v|k=16 | layer=22 d=+2.915 auc=0.982 ks=0.860 gap=+0.036 tau@0.99=0.853 fpr~0.000 
+[012] pool=last_k|mod=v|k=16 | layer=15 d=+2.892 auc=0.981 ks=0.860 gap=+0.047 tau@0.99=0.782 fpr~0.000 
+[013] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer= 4 d=+3.445 auc=0.981 ks=0.895 gap=+0.009 tau@0.99=0.241 fpr~0.005 | reduce=topk_mean topk=16
+[014] pool=last_k|mod=v|k=16 | layer=14 d=+3.116 auc=0.979 ks=0.880 gap=+0.059 tau@0.99=0.763 fpr~0.000 
+[015] pool=last_k|mod=v|k=16 | layer= 8 d=+3.019 auc=0.978 ks=0.855 gap=+0.041 tau@0.99=0.744 fpr~0.000 
+[016] pool=last_k|mod=qv|k=16 | layer=28 d=+2.572 auc=0.977 ks=0.845 gap=+0.006 tau@0.99=0.982 fpr~0.000 
+[017] pool=last_k|mod=q|k=16 | layer=28 d=+2.546 auc=0.973 ks=0.825 gap=+0.005 tau@0.99=0.984 fpr~0.000 
+[018] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=16 d=+2.565 auc=0.969 ks=0.850 gap=+0.006 tau@0.99=0.787 fpr~0.000 | reduce=topk_mean topk=16
+[019] pool=last_k|mod=qv|k=16 | layer=29 d=+2.631 auc=0.969 ks=0.825 gap=+0.005 tau@0.99=0.983 fpr~0.000 
+[020] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=16 d=+2.397 auc=0.968 ks=0.830 gap=+0.007 tau@0.99=0.793 fpr~0.000 | reduce=topk_mean topk=8
+[021] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=16 d=+2.534 auc=0.968 ks=0.840 gap=+0.006 tau@0.99=0.794 fpr~0.000 | reduce=topk_mean topk=16
+[022] pool=last_k|mod=v|k=8 | layer=23 d=+2.603 auc=0.967 ks=0.780 gap=+0.035 tau@0.99=0.688 fpr~0.000 
+[023] pool=last_k|mod=v|k=16 | layer=24 d=+2.378 auc=0.966 ks=0.850 gap=+0.037 tau@0.99=0.814 fpr~0.000 
+[024] pool=last_k|mod=v|k=8 | layer=21 d=+2.447 auc=0.964 ks=0.785 gap=+0.033 tau@0.99=0.691 fpr~0.000 
+[025] pool=last_k|mod=v|k=16 | layer=27 d=+2.164 auc=0.964 ks=0.810 gap=+0.028 tau@0.99=0.904 fpr~0.000 
+[026] pool=mean|mod=v|k=16 | layer=25 d=+1.995 auc=0.962 ks=0.825 gap=+0.056 tau@0.99=0.967 fpr~0.000 
+[027] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=16 d=+2.308 auc=0.961 ks=0.820 gap=+0.006 tau@0.99=0.799 fpr~0.000 | reduce=topk_mean topk=8
+[028] pool=last_k|mod=q|k=16 | layer=29 d=+2.539 auc=0.961 ks=0.800 gap=+0.004 tau@0.99=0.985 fpr~0.000 
+[029] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=28 d=+2.423 auc=0.960 ks=0.900 gap=+0.004 tau@0.99=0.883 fpr~0.000 | reduce=topk_mean topk=8
+[030] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=24 d=+2.113 auc=0.960 ks=0.925 gap=+0.004 tau@0.99=0.871 fpr~0.000 | reduce=topk_mean topk=8
+[031] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=30 d=+2.284 auc=0.959 ks=0.865 gap=+0.010 tau@0.99=0.534 fpr~0.000 | reduce=topk_mean topk=16
+[032] pool=last_k|mod=v|k=16 | layer= 4 d=+2.474 auc=0.958 ks=0.815 gap=+0.019 tau@0.99=0.856 fpr~0.000 
+[033] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+2.408 auc=0.958 ks=0.805 gap=+0.006 tau@0.99=0.699 fpr~0.000 | reduce=topk_mean topk=16
+[034] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+2.393 auc=0.957 ks=0.785 gap=+0.006 tau@0.99=0.707 fpr~0.000 | reduce=topk_mean topk=16
+[035] pool=last_k|mod=v|k=16 | layer=16 d=+2.453 auc=0.956 ks=0.770 gap=+0.030 tau@0.99=0.800 fpr~0.000 
+[036] pool=last_k|mod=v|k=16 | layer= 5 d=+2.377 auc=0.956 ks=0.785 gap=+0.018 tau@0.99=0.820 fpr~0.000 
+[037] pool=last_k|mod=v|k=16 | layer=13 d=+2.453 auc=0.955 ks=0.815 gap=+0.053 tau@0.99=0.760 fpr~0.000 
+[038] pool=mean|mod=v|k=16 | layer=22 d=+1.797 auc=0.955 ks=0.765 gap=+0.053 tau@0.99=0.969 fpr~0.000 
+[039] pool=mean|mod=qv|k=16 | layer=29 d=+1.545 auc=0.954 ks=0.795 gap=+0.005 tau@0.99=0.998 fpr~0.000 
+[040] pool=mean|mod=q|k=16 | layer=29 d=+1.544 auc=0.952 ks=0.795 gap=+0.005 tau@0.99=0.999 fpr~0.000 
+[041] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 8 d=+2.306 auc=0.952 ks=0.775 gap=+0.007 tau@0.99=0.709 fpr~0.000 | reduce=topk_mean topk=8
+[042] pool=last_k|mod=qv|k=16 | layer=30 d=+2.466 auc=0.952 ks=0.760 gap=+0.004 tau@0.99=0.984 fpr~0.000 
+[043] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=16 d=+2.360 auc=0.951 ks=0.805 gap=+0.006 tau@0.99=0.797 fpr~0.000 | reduce=topk_mean topk=4
+[044] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=19 d=+2.529 auc=0.950 ks=0.795 gap=+0.010 tau@0.99=0.454 fpr~0.000 | reduce=topk_mean topk=16
+[045] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=28 d=+2.279 auc=0.950 ks=0.905 gap=+0.004 tau@0.99=0.893 fpr~0.000 | reduce=topk_mean topk=8
+[046] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 8 d=+2.280 auc=0.950 ks=0.760 gap=+0.007 tau@0.99=0.717 fpr~0.000 | reduce=topk_mean topk=8
+[047] pool=last_k|mod=qv|k=8 | layer=18 d=+2.209 auc=0.949 ks=0.745 gap=+0.013 tau@0.99=0.940 fpr~0.000 
+[048] pool=mean|mod=qv|k=16 | layer= 1 d=+1.538 auc=0.949 ks=0.755 gap=+0.001 tau@0.99=1.000 fpr~0.000 
+[049] pool=last_k|mod=v|k=8 | layer=28 d=+2.239 auc=0.949 ks=0.725 gap=+0.035 tau@0.99=0.710 fpr~0.000 
+[050] pool=mean|mod=v|k=16 | layer=30 d=+1.743 auc=0.949 ks=0.775 gap=+0.046 tau@0.99=0.975 fpr~0.000 
+[051] pool=mean|mod=q|k=16 | layer= 1 d=+1.535 auc=0.949 ks=0.755 gap=+0.001 tau@0.99=1.000 fpr~0.000 
+[052] pool=mean|mod=v|k=16 | layer=19 d=+1.876 auc=0.948 ks=0.780 gap=+0.054 tau@0.99=0.968 fpr~0.000 
+[053] pool=last_k|mod=q|k=8 | layer=18 d=+2.181 auc=0.948 ks=0.750 gap=+0.013 tau@0.99=0.942 fpr~0.000 
+[054] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=30 d=+2.423 auc=0.946 ks=0.910 gap=+0.003 tau@0.99=0.903 fpr~0.000 | reduce=topk_mean topk=8
+[055] pool=last_k|mod=qv|k=8 | layer=23 d=+2.219 auc=0.944 ks=0.765 gap=+0.011 tau@0.99=0.937 fpr~0.000 
+[056] pool=last_k|mod=v|k=8 | layer=26 d=+2.221 auc=0.943 ks=0.765 gap=+0.030 tau@0.99=0.660 fpr~0.000 
+[057] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=11 d=+2.040 auc=0.943 ks=0.765 gap=+0.003 tau@0.99=0.731 fpr~0.000 | reduce=topk_mean topk=16
+[058] pool=mean|mod=qv|k=16 | layer=27 d=+1.458 auc=0.943 ks=0.790 gap=+0.006 tau@0.99=0.998 fpr~0.000 
+[059] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=11 d=+1.987 auc=0.942 ks=0.765 gap=+0.003 tau@0.99=0.718 fpr~0.000 | reduce=topk_mean topk=16
+[060] pool=last_k|mod=qv|k=16 | layer=27 d=+2.099 auc=0.942 ks=0.745 gap=+0.005 tau@0.99=0.978 fpr~0.000 
+[061] pool=mean|mod=v|k=16 | layer=27 d=+1.627 auc=0.942 ks=0.810 gap=+0.030 tau@0.99=0.981 fpr~0.000 
+[062] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=20 d=+2.548 auc=0.941 ks=0.855 gap=+0.010 tau@0.99=0.819 fpr~0.000 | reduce=topk_mean topk=4
+[063] pool=last_k|mod=q|k=8 | layer=23 d=+2.161 auc=0.941 ks=0.745 gap=+0.010 tau@0.99=0.940 fpr~0.000 
+[064] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=17 d=+2.308 auc=0.941 ks=0.810 gap=+0.005 tau@0.99=0.374 fpr~0.000 | reduce=topk_mean topk=16
+[065] pool=mean|mod=q|k=16 | layer=27 d=+1.431 auc=0.941 ks=0.775 gap=+0.006 tau@0.99=0.998 fpr~0.000 
+[066] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=16 d=+2.184 auc=0.940 ks=0.815 gap=+0.006 tau@0.99=0.804 fpr~0.000 | reduce=topk_mean topk=4
+[067] pool=mean|mod=qv|k=16 | layer=23 d=+1.490 auc=0.940 ks=0.760 gap=+0.007 tau@0.99=0.998 fpr~0.000 
+[068] pool=last_k|mod=qv|k=16 | layer=25 d=+2.104 auc=0.940 ks=0.730 gap=+0.005 tau@0.99=0.979 fpr~0.000 
+[069] pool=mean|mod=qv|k=16 | layer=30 d=+1.414 auc=0.940 ks=0.790 gap=+0.005 tau@0.99=0.999 fpr~0.000 
+[070] pool=last_k|mod=v|k=16 | layer=11 d=+2.313 auc=0.940 ks=0.775 gap=+0.044 tau@0.99=0.735 fpr~0.000 
+[071] pool=last_k|mod=v|k=16 | layer=12 d=+2.309 auc=0.939 ks=0.725 gap=+0.044 tau@0.99=0.728 fpr~0.000 
+[072] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=28 d=+2.120 auc=0.939 ks=0.840 gap=+0.004 tau@0.99=0.875 fpr~0.000 | reduce=topk_mean topk=16
+[073] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=28 d=+2.125 auc=0.939 ks=0.875 gap=+0.003 tau@0.99=0.886 fpr~0.000 | reduce=topk_mean topk=16
+[074] pool=mean|mod=qv|k=16 | layer=28 d=+1.442 auc=0.939 ks=0.750 gap=+0.006 tau@0.99=0.998 fpr~0.000 
+[075] pool=mean|mod=q|k=16 | layer=23 d=+1.475 auc=0.938 ks=0.750 gap=+0.007 tau@0.99=0.998 fpr~0.000 
+[076] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=30 d=+2.291 auc=0.938 ks=0.865 gap=+0.003 tau@0.99=0.907 fpr~0.000 | reduce=topk_mean topk=4
+[077] pool=mean|mod=v|k=16 | layer=26 d=+1.602 auc=0.938 ks=0.780 gap=+0.054 tau@0.99=0.967 fpr~0.000 
+[078] pool=mean|mod=v|k=16 | layer=24 d=+1.723 auc=0.938 ks=0.760 gap=+0.044 tau@0.99=0.971 fpr~0.000 
+[079] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=24 d=+2.131 auc=0.937 ks=0.870 gap=+0.004 tau@0.99=0.879 fpr~0.000 | reduce=topk_mean topk=8
+[080] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=20 d=+2.536 auc=0.936 ks=0.870 gap=+0.010 tau@0.99=0.812 fpr~0.000 | reduce=topk_mean topk=4
+[081] pool=last_k|mod=qv|k=16 | layer=23 d=+1.979 auc=0.936 ks=0.715 gap=+0.006 tau@0.99=0.974 fpr~0.000 
+[082] pool=mean|mod=qv|k=16 | layer=25 d=+1.435 auc=0.936 ks=0.765 gap=+0.006 tau@0.99=0.998 fpr~0.000 
+[083] pool=mean|mod=v|k=16 | layer=29 d=+1.541 auc=0.936 ks=0.730 gap=+0.052 tau@0.99=0.977 fpr~0.000 
+[084] pool=mean|mod=q|k=16 | layer=28 d=+1.402 auc=0.936 ks=0.745 gap=+0.006 tau@0.99=0.998 fpr~0.000 
+[085] pool=last_k|mod=q|k=16 | layer=30 d=+2.266 auc=0.935 ks=0.720 gap=+0.004 tau@0.99=0.986 fpr~0.000 
+[086] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=10 d=+2.104 auc=0.935 ks=0.695 gap=+0.006 tau@0.99=0.682 fpr~0.000 | reduce=topk_mean topk=16
+[087] pool=mean|mod=q|k=16 | layer=30 d=+1.367 auc=0.934 ks=0.770 gap=+0.004 tau@0.99=0.999 fpr~0.000 
+[088] pool=mean|mod=q|k=16 | layer=13 d=+1.231 auc=0.934 ks=0.765 gap=+0.013 tau@0.99=0.998 fpr~0.000 
+[089] pool=last_k|mod=q|k=16 | layer=27 d=+2.023 auc=0.934 ks=0.715 gap=+0.005 tau@0.99=0.980 fpr~0.000 
+[090] pool=mean|mod=qv|k=16 | layer=13 d=+1.227 auc=0.934 ks=0.760 gap=+0.014 tau@0.99=0.998 fpr~0.000 
+[091] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=20 d=+2.373 auc=0.933 ks=0.850 gap=+0.007 tau@0.99=0.809 fpr~0.000 | reduce=topk_mean topk=8
+[092] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=19 d=+2.265 auc=0.933 ks=0.785 gap=+0.013 tau@0.99=0.491 fpr~0.000 | reduce=topk_mean topk=8
+[093] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=10 d=+2.065 auc=0.932 ks=0.680 gap=+0.006 tau@0.99=0.690 fpr~0.000 | reduce=topk_mean topk=16
+[094] pool=mean|mod=q|k=16 | layer=25 d=+1.400 auc=0.932 ks=0.760 gap=+0.005 tau@0.99=0.998 fpr~0.000 
+[095] pool=mean|mod=qv|k=16 | layer=24 d=+1.368 auc=0.930 ks=0.745 gap=+0.007 tau@0.99=0.998 fpr~0.000 
+[096] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=16 d=+2.104 auc=0.930 ks=0.795 gap=+0.007 tau@0.99=0.272 fpr~0.000 | reduce=topk_mean topk=16
+[097] pool=mean|mod=v|k=16 | layer=28 d=+1.691 auc=0.929 ks=0.690 gap=+0.058 tau@0.99=0.970 fpr~0.000 
+[098] pool=last_k|mod=q|k=16 | layer=23 d=+1.928 auc=0.929 ks=0.690 gap=+0.006 tau@0.99=0.975 fpr~0.000 
+[099] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=15 d=+2.317 auc=0.928 ks=0.820 gap=+0.005 tau@0.99=0.783 fpr~0.000 | reduce=topk_mean topk=16
+[100] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=20 d=+2.321 auc=0.928 ks=0.850 gap=+0.007 tau@0.99=0.802 fpr~0.000 | reduce=topk_mean topk=8
+[101] pool=mean|mod=q|k=16 | layer=24 d=+1.346 auc=0.928 ks=0.745 gap=+0.007 tau@0.99=0.998 fpr~0.000 
+[102] pool=last_k|mod=v|k=16 | layer= 6 d=+2.007 auc=0.928 ks=0.705 gap=+0.017 tau@0.99=0.806 fpr~0.000 
+[103] pool=mean|mod=v|k=16 | layer=20 d=+1.642 auc=0.926 ks=0.750 gap=+0.034 tau@0.99=0.975 fpr~0.000 
+[104] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=15 d=+2.227 auc=0.926 ks=0.820 gap=+0.004 tau@0.99=0.789 fpr~0.000 | reduce=topk_mean topk=16
+[105] pool=last_k|mod=v|k=8 | layer=25 d=+2.125 auc=0.926 ks=0.680 gap=+0.032 tau@0.99=0.626 fpr~0.000 
+[106] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=21 d=+2.208 auc=0.926 ks=0.845 gap=+0.014 tau@0.99=0.538 fpr~0.000 | reduce=topk_mean topk=16
+[107] pool=mean|mod=qv|k=16 | layer=22 d=+1.321 auc=0.926 ks=0.740 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[108] pool=last_k|mod=qv|k=8 | layer=29 d=+1.941 auc=0.925 ks=0.710 gap=+0.006 tau@0.99=0.939 fpr~0.000 
+[109] pool=mean|mod=v|k=16 | layer=23 d=+1.547 auc=0.924 ks=0.685 gap=+0.049 tau@0.99=0.972 fpr~0.000 
+[110] pool=mean|mod=qv|k=16 | layer=26 d=+1.291 auc=0.923 ks=0.740 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[111] pool=mean|mod=v|k=16 | layer=21 d=+1.587 auc=0.923 ks=0.725 gap=+0.058 tau@0.99=0.968 fpr~0.000 
+[112] pool=last_k|mod=qv|k=8 | layer=28 d=+1.878 auc=0.923 ks=0.705 gap=+0.007 tau@0.99=0.943 fpr~0.000 
+[113] pool=last_k|mod=q|k=16 | layer=25 d=+1.959 auc=0.923 ks=0.655 gap=+0.004 tau@0.99=0.980 fpr~0.000 
+[114] pool=mean|mod=q|k=16 | layer=14 d=+1.206 auc=0.923 ks=0.745 gap=+0.011 tau@0.99=0.998 fpr~0.000 
+[115] pool=mean|mod=qv|k=16 | layer=14 d=+1.204 auc=0.923 ks=0.745 gap=+0.011 tau@0.99=0.998 fpr~0.000 
+[116] pool=last_k|mod=qv|k=16 | layer=24 d=+1.876 auc=0.922 ks=0.685 gap=+0.006 tau@0.99=0.975 fpr~0.000 
+[117] pool=last_k|mod=v|k=16 | layer= 7 d=+1.967 auc=0.922 ks=0.660 gap=+0.023 tau@0.99=0.757 fpr~0.000 
+[118] pool=mean|mod=q|k=16 | layer=22 d=+1.290 auc=0.922 ks=0.735 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[119] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 6 d=+1.931 auc=0.922 ks=0.770 gap=+0.003 tau@0.99=0.741 fpr~0.000 | reduce=topk_mean topk=8
+[120] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=10 d=+1.897 auc=0.922 ks=0.725 gap=+0.006 tau@0.99=0.694 fpr~0.000 | reduce=topk_mean topk=8
+[121] pool=last_k|mod=qv|k=8 | layer=24 d=+1.975 auc=0.921 ks=0.705 gap=+0.009 tau@0.99=0.931 fpr~0.000 
+[122] pool=mean|mod=qv|k=16 | layer=21 d=+1.262 auc=0.921 ks=0.715 gap=+0.007 tau@0.99=0.998 fpr~0.000 
+[123] pool=mean|mod=q|k=16 | layer=26 d=+1.272 auc=0.920 ks=0.730 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[124] pool=last_k|mod=v|k=16 | layer=19 d=+1.904 auc=0.919 ks=0.675 gap=+0.029 tau@0.99=0.804 fpr~0.000 
+[125] pool=mean|mod=q|k=16 | layer=21 d=+1.248 auc=0.918 ks=0.710 gap=+0.007 tau@0.99=0.998 fpr~0.000 
+[126] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=10 d=+1.865 auc=0.918 ks=0.700 gap=+0.006 tau@0.99=0.702 fpr~0.000 | reduce=topk_mean topk=8
+[127] pool=mean|mod=v|k=16 | layer=18 d=+1.493 auc=0.918 ks=0.700 gap=+0.064 tau@0.99=0.966 fpr~0.000 
+[128] pool=last_k|mod=q|k=16 | layer=24 d=+1.853 auc=0.918 ks=0.660 gap=+0.006 tau@0.99=0.977 fpr~0.000 
+[129] pool=last_k|mod=qv|k=16 | layer=26 d=+1.880 auc=0.917 ks=0.665 gap=+0.006 tau@0.99=0.972 fpr~0.000 
+[130] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 6 d=+1.900 auc=0.917 ks=0.760 gap=+0.004 tau@0.99=0.736 fpr~0.000 | reduce=topk_mean topk=8
+[131] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer= 8 d=+2.042 auc=0.917 ks=0.790 gap=+0.012 tau@0.99=0.731 fpr~0.000 | reduce=max topk=4
+[132] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer= 8 d=+2.042 auc=0.917 ks=0.790 gap=+0.012 tau@0.99=0.731 fpr~0.000 | reduce=max topk=8
+[133] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer= 8 d=+2.042 auc=0.917 ks=0.790 gap=+0.012 tau@0.99=0.731 fpr~0.000 | reduce=max topk=16
+[134] pool=last_k|mod=v|k=8 | layer= 7 d=+1.991 auc=0.916 ks=0.725 gap=+0.024 tau@0.99=0.575 fpr~0.000 
+[135] pool=mean|mod=qv|k=16 | layer=17 d=+1.195 auc=0.916 ks=0.705 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[136] pool=last_k|mod=qv|k=4 | layer=18 d=+1.955 auc=0.915 ks=0.685 gap=+0.012 tau@0.99=0.911 fpr~0.000 
+[137] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 6 d=+1.738 auc=0.915 ks=0.765 gap=+0.004 tau@0.99=0.747 fpr~0.010 | reduce=topk_mean topk=4
+[138] pool=mean|mod=q|k=16 | layer= 9 d=+1.082 auc=0.914 ks=0.715 gap=+0.013 tau@0.99=0.997 fpr~0.000 
+[139] pool=last_k|mod=qv|k=8 | layer=19 d=+1.964 auc=0.914 ks=0.710 gap=+0.010 tau@0.99=0.923 fpr~0.000 
+[140] pool=mean|mod=qv|k=16 | layer= 9 d=+1.080 auc=0.914 ks=0.710 gap=+0.014 tau@0.99=0.997 fpr~0.000 
+[141] pool=mean|mod=q|k=16 | layer=17 d=+1.184 auc=0.914 ks=0.705 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[142] pool=last_k|mod=q|k=4 | layer=18 d=+1.944 auc=0.914 ks=0.675 gap=+0.012 tau@0.99=0.916 fpr~0.000 
+[143] pool=mean|mod=q|k=16 | layer=11 d=+1.104 auc=0.914 ks=0.725 gap=+0.012 tau@0.99=0.997 fpr~0.000 
+[144] pool=mean|mod=qv|k=16 | layer=18 d=+1.221 auc=0.914 ks=0.705 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[145] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer= 9 d=+1.827 auc=0.914 ks=0.795 gap=+0.008 tau@0.99=0.720 fpr~0.005 | reduce=max topk=4
+[146] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer= 9 d=+1.827 auc=0.914 ks=0.795 gap=+0.008 tau@0.99=0.720 fpr~0.005 | reduce=max topk=8
+[147] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer= 9 d=+1.827 auc=0.914 ks=0.795 gap=+0.008 tau@0.99=0.720 fpr~0.005 | reduce=max topk=16
+[148] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 8 d=+1.945 auc=0.914 ks=0.640 gap=+0.009 tau@0.99=0.719 fpr~0.000 | reduce=topk_mean topk=4
+[149] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=30 d=+2.006 auc=0.913 ks=0.740 gap=+0.011 tau@0.99=0.560 fpr~0.000 | reduce=topk_mean topk=8
+[150] pool=mean|mod=qv|k=16 | layer=11 d=+1.095 auc=0.913 ks=0.725 gap=+0.013 tau@0.99=0.997 fpr~0.000 
+[151] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer= 8 d=+2.001 auc=0.913 ks=0.790 gap=+0.012 tau@0.99=0.738 fpr~0.000 | reduce=max topk=4
+[152] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer= 8 d=+2.001 auc=0.913 ks=0.790 gap=+0.012 tau@0.99=0.738 fpr~0.000 | reduce=max topk=8
+[153] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer= 8 d=+2.001 auc=0.913 ks=0.790 gap=+0.012 tau@0.99=0.738 fpr~0.000 | reduce=max topk=16
+[154] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=20 d=+1.984 auc=0.913 ks=0.790 gap=+0.005 tau@0.99=0.792 fpr~0.005 | reduce=topk_mean topk=16
+[155] pool=last_k|mod=q|k=8 | layer=24 d=+1.896 auc=0.913 ks=0.710 gap=+0.008 tau@0.99=0.936 fpr~0.000 
+[156] pool=last_k|mod=qv|k=8 | layer=17 d=+1.828 auc=0.913 ks=0.685 gap=+0.011 tau@0.99=0.925 fpr~0.000 
+[157] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=25 d=+1.951 auc=0.912 ks=0.830 gap=+0.005 tau@0.99=0.892 fpr~0.005 | reduce=topk_mean topk=8
+[158] pool=last_k|mod=q|k=8 | layer=19 d=+1.943 auc=0.912 ks=0.710 gap=+0.010 tau@0.99=0.926 fpr~0.000 
+[159] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 8 d=+1.923 auc=0.912 ks=0.630 gap=+0.009 tau@0.99=0.726 fpr~0.000 | reduce=topk_mean topk=4
+[160] pool=last|mod=v|k=16 | layer= 7 d=+1.850 auc=0.912 ks=0.730 gap=+0.032 tau@0.99=0.465 fpr~0.000 
+[161] pool=mean|mod=q|k=16 | layer=18 d=+1.209 auc=0.912 ks=0.705 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[162] pool=last|mod=q|k=16 | layer= 7 d=+1.943 auc=0.911 ks=0.740 gap=+0.017 tau@0.99=0.859 fpr~0.005 
+[163] pool=last|mod=qv|k=16 | layer= 7 d=+1.938 auc=0.911 ks=0.740 gap=+0.017 tau@0.99=0.855 fpr~0.005 
+[164] pool=mean|mod=qv|k=16 | layer=19 d=+1.193 auc=0.910 ks=0.715 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[165] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=20 d=+1.988 auc=0.910 ks=0.780 gap=+0.005 tau@0.99=0.799 fpr~0.005 | reduce=topk_mean topk=16
+[166] pool=last_k|mod=q|k=8 | layer=17 d=+1.806 auc=0.910 ks=0.675 gap=+0.011 tau@0.99=0.927 fpr~0.000 
+[167] pool=mean|mod=q|k=16 | layer=10 d=+1.082 auc=0.910 ks=0.705 gap=+0.014 tau@0.99=0.997 fpr~0.000 
+[168] pool=mean|mod=qv|k=16 | layer=20 d=+1.188 auc=0.910 ks=0.705 gap=+0.010 tau@0.99=0.997 fpr~0.000 
+[169] pool=last_k|mod=v|k=8 | layer=14 d=+1.848 auc=0.910 ks=0.745 gap=+0.031 tau@0.99=0.565 fpr~0.000 
+[170] pool=mean|mod=qv|k=16 | layer=10 d=+1.080 auc=0.909 ks=0.705 gap=+0.014 tau@0.99=0.997 fpr~0.000 
+[171] pool=last_k|mod=v|k=4 | layer= 7 d=+1.849 auc=0.909 ks=0.670 gap=+0.032 tau@0.99=0.315 fpr~0.000 
+[172] pool=last_k|mod=q|k=8 | layer=29 d=+1.804 auc=0.909 ks=0.675 gap=+0.005 tau@0.99=0.944 fpr~0.000 
+[173] pool=last_k|mod=q|k=8 | layer=28 d=+1.763 auc=0.909 ks=0.670 gap=+0.006 tau@0.99=0.948 fpr~0.000 
+[174] pool=mean|mod=q|k=16 | layer=19 d=+1.180 auc=0.908 ks=0.710 gap=+0.008 tau@0.99=0.998 fpr~0.000 
+[175] pool=mean|mod=q|k=16 | layer=20 d=+1.179 auc=0.908 ks=0.705 gap=+0.010 tau@0.99=0.998 fpr~0.000 
+[176] pool=mean|mod=q|k=16 | layer= 8 d=+1.074 auc=0.908 ks=0.705 gap=+0.012 tau@0.99=0.997 fpr~0.000 
+[177] pool=mean|mod=qv|k=16 | layer= 8 d=+1.073 auc=0.908 ks=0.705 gap=+0.012 tau@0.99=0.997 fpr~0.000 
+[178] pool=last_k|mod=qv|k=4 | layer=23 d=+1.757 auc=0.908 ks=0.710 gap=+0.010 tau@0.99=0.902 fpr~0.000 
+[179] pool=mean|mod=qv|k=16 | layer=12 d=+1.141 auc=0.907 ks=0.710 gap=+0.008 tau@0.99=0.999 fpr~0.000 
+[180] pool=last_k|mod=qv|k=8 | layer=27 d=+1.820 auc=0.907 ks=0.665 gap=+0.007 tau@0.99=0.929 fpr~0.000 
+[181] pool=mean|mod=qv|k=16 | layer=15 d=+1.110 auc=0.907 ks=0.720 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[182] pool=mean|mod=q|k=16 | layer=12 d=+1.142 auc=0.907 ks=0.710 gap=+0.008 tau@0.99=0.999 fpr~0.000 
+[183] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=15 d=+1.727 auc=0.906 ks=0.715 gap=+0.004 tau@0.99=0.267 fpr~0.030 | reduce=topk_mean topk=16
+[184] pool=mean|mod=q|k=16 | layer=15 d=+1.106 auc=0.906 ks=0.715 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[185] pool=last_k|mod=q|k=16 | layer=26 d=+1.812 auc=0.906 ks=0.645 gap=+0.006 tau@0.99=0.974 fpr~0.000 
+[186] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=15 d=+1.751 auc=0.906 ks=0.795 gap=+0.004 tau@0.99=0.796 fpr~0.000 | reduce=topk_mean topk=8
+[187] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 6 d=+1.675 auc=0.905 ks=0.740 gap=+0.004 tau@0.99=0.742 fpr~0.010 | reduce=topk_mean topk=4
+[188] pool=last_k|mod=q|k=4 | layer=23 d=+1.738 auc=0.905 ks=0.685 gap=+0.010 tau@0.99=0.908 fpr~0.000 
+[189] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 6 d=+1.774 auc=0.905 ks=0.715 gap=+0.003 tau@0.99=0.734 fpr~0.000 | reduce=topk_mean topk=16
+[190] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer= 9 d=+1.868 auc=0.904 ks=0.750 gap=+0.008 tau@0.99=0.730 fpr~0.005 | reduce=max topk=4
+[191] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer= 9 d=+1.868 auc=0.904 ks=0.750 gap=+0.008 tau@0.99=0.730 fpr~0.005 | reduce=max topk=8
+[192] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer= 9 d=+1.868 auc=0.904 ks=0.750 gap=+0.008 tau@0.99=0.730 fpr~0.005 | reduce=max topk=16
+[193] pool=mean|mod=qv|k=16 | layer=16 d=+1.078 auc=0.904 ks=0.710 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[194] pool=mean|mod=q|k=16 | layer=16 d=+1.077 auc=0.904 ks=0.710 gap=+0.009 tau@0.99=0.998 fpr~0.000 
+[195] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=23 d=+1.627 auc=0.904 ks=0.855 gap=+0.007 tau@0.99=0.562 fpr~0.000 | reduce=topk_mean topk=8
+[196] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=16 d=+1.686 auc=0.904 ks=0.760 gap=+0.005 tau@0.99=0.315 fpr~0.000 | reduce=topk_mean topk=8
+[197] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 6 d=+1.770 auc=0.903 ks=0.715 gap=+0.003 tau@0.99=0.728 fpr~0.000 | reduce=topk_mean topk=16
+[198] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=15 d=+1.742 auc=0.903 ks=0.805 gap=+0.004 tau@0.99=0.789 fpr~0.000 | reduce=topk_mean topk=8
+[199] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=23 d=+1.907 auc=0.903 ks=0.775 gap=+0.011 tau@0.99=0.542 fpr~0.000 | reduce=topk_mean topk=16
+[200] pool=last_k|mod=v|k=4 | layer=24 d=+1.778 auc=0.903 ks=0.630 gap=+0.025 tau@0.99=0.521 fpr~0.000 
+[201] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=24 d=+1.517 auc=0.902 ks=0.860 gap=+0.002 tau@0.99=0.874 fpr~0.030 | reduce=topk_mean topk=4
+[202] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=13 d=+1.851 auc=0.902 ks=0.640 gap=+0.006 tau@0.99=0.274 fpr~0.000 | reduce=topk_mean topk=16
+[203] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=14 d=+1.878 auc=0.901 ks=0.755 gap=+0.004 tau@0.99=0.777 fpr~0.000 | reduce=topk_mean topk=16
+[204] pool=last_k|mod=v|k=4 | layer=18 d=+1.850 auc=0.901 ks=0.650 gap=+0.026 tau@0.99=0.430 fpr~0.000 
+[205] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=13 d=+1.918 auc=0.900 ks=0.635 gap=+0.004 tau@0.99=0.753 fpr~0.000 | reduce=topk_mean topk=16
+
+==================== DOMAIN: units-and-measurement ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/units-and-measurement/forget_analyze_20260131_202929
+[COUNT] kept=538/1260
+
+[000] pool=last_k|mod=v|k=16 | layer=14 d=+5.827 auc=1.000 ks=1.000 gap=+0.103 tau@0.99=0.752 fpr~0.000 
+[001] pool=last_k|mod=v|k=16 | layer=15 d=+5.740 auc=1.000 ks=1.000 gap=+0.117 tau@0.99=0.756 fpr~0.000 
+[002] pool=last_k|mod=v|k=16 | layer=21 d=+5.430 auc=1.000 ks=1.000 gap=+0.082 tau@0.99=0.851 fpr~0.000 
+[003] pool=last_k|mod=v|k=16 | layer=19 d=+5.110 auc=1.000 ks=1.000 gap=+0.087 tau@0.99=0.801 fpr~0.000 
+[004] pool=last_k|mod=v|k=16 | layer=30 d=+5.011 auc=1.000 ks=1.000 gap=+0.089 tau@0.99=0.840 fpr~0.000 
+[005] pool=last_k|mod=v|k=16 | layer=29 d=+4.786 auc=1.000 ks=1.000 gap=+0.090 tau@0.99=0.867 fpr~0.000 
+[006] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=19 d=+4.134 auc=1.000 ks=1.000 gap=+0.052 tau@0.99=0.354 fpr~0.000 | reduce=mean topk=4
+[007] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=19 d=+4.134 auc=1.000 ks=1.000 gap=+0.052 tau@0.99=0.354 fpr~0.000 | reduce=mean topk=8
+[008] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=19 d=+4.134 auc=1.000 ks=1.000 gap=+0.052 tau@0.99=0.354 fpr~0.000 | reduce=mean topk=16
+[009] pool=last_k|mod=v|k=8 | layer=21 d=+4.115 auc=1.000 ks=1.000 gap=+0.059 tau@0.99=0.682 fpr~0.000 
+[010] pool=last_k|mod=v|k=16 | layer=24 d=+4.025 auc=1.000 ks=1.000 gap=+0.075 tau@0.99=0.806 fpr~0.000 
+[011] pool=last_k|mod=v|k=8 | layer=26 d=+3.968 auc=1.000 ks=1.000 gap=+0.062 tau@0.99=0.665 fpr~0.000 
+[012] pool=last_k|mod=v|k=16 | layer=27 d=+3.715 auc=1.000 ks=1.000 gap=+0.060 tau@0.99=0.893 fpr~0.000 
+[013] pool=last_k|mod=qv|k=16 | layer=25 d=+3.542 auc=1.000 ks=1.000 gap=+0.011 tau@0.99=0.977 fpr~0.000 
+[014] pool=last_k|mod=q|k=16 | layer=25 d=+3.455 auc=1.000 ks=1.000 gap=+0.010 tau@0.99=0.979 fpr~0.000 
+[015] pool=last_k|mod=q|k=16 | layer=26 d=+3.424 auc=1.000 ks=1.000 gap=+0.016 tau@0.99=0.971 fpr~0.000 
+[016] pool=last_k|mod=qv|k=16 | layer=28 d=+3.293 auc=1.000 ks=1.000 gap=+0.010 tau@0.99=0.979 fpr~0.000 
+[017] pool=last_k|mod=q|k=16 | layer=28 d=+3.220 auc=1.000 ks=1.000 gap=+0.009 tau@0.99=0.980 fpr~0.000 
+[018] pool=mean|mod=v|k=16 | layer=19 d=+3.023 auc=1.000 ks=1.000 gap=+0.113 tau@0.99=0.980 fpr~0.000 
+[019] pool=mean|mod=v|k=16 | layer=20 d=+2.707 auc=1.000 ks=1.000 gap=+0.077 tau@0.99=0.987 fpr~0.000 
+[020] pool=last_k|mod=v|k=16 | layer=28 d=+5.486 auc=1.000 ks=0.995 gap=+0.095 tau@0.99=0.870 fpr~0.000 
+[021] pool=last_k|mod=v|k=16 | layer=25 d=+5.378 auc=1.000 ks=0.995 gap=+0.092 tau@0.99=0.829 fpr~0.000 
+[022] pool=last_k|mod=v|k=16 | layer=16 d=+4.815 auc=1.000 ks=0.995 gap=+0.061 tau@0.99=0.789 fpr~0.000 
+[023] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=20 d=+4.024 auc=1.000 ks=0.995 gap=+0.041 tau@0.99=0.392 fpr~0.000 | reduce=mean topk=4
+[024] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=20 d=+4.024 auc=1.000 ks=0.995 gap=+0.041 tau@0.99=0.392 fpr~0.000 | reduce=mean topk=8
+[025] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=20 d=+4.024 auc=1.000 ks=0.995 gap=+0.041 tau@0.99=0.392 fpr~0.000 | reduce=mean topk=16
+[026] pool=last_k|mod=v|k=16 | layer= 5 d=+4.015 auc=1.000 ks=0.995 gap=+0.034 tau@0.99=0.794 fpr~0.000 
+[027] pool=last_k|mod=qv|k=16 | layer=26 d=+3.440 auc=1.000 ks=0.995 gap=+0.017 tau@0.99=0.969 fpr~0.000 
+[028] pool=mean|mod=v|k=16 | layer=30 d=+2.851 auc=1.000 ks=0.995 gap=+0.079 tau@0.99=0.980 fpr~0.000 
+[029] pool=last_k|mod=qv|k=16 | layer=27 d=+3.341 auc=1.000 ks=0.995 gap=+0.011 tau@0.99=0.976 fpr~0.000 
+[030] pool=last_k|mod=q|k=16 | layer=27 d=+3.341 auc=1.000 ks=0.995 gap=+0.010 tau@0.99=0.978 fpr~0.000 
+[031] pool=mean|mod=v|k=16 | layer=18 d=+2.460 auc=1.000 ks=0.995 gap=+0.125 tau@0.99=0.982 fpr~0.000 
+[032] pool=last_k|mod=qv|k=16 | layer=22 d=+3.736 auc=1.000 ks=0.995 gap=+0.017 tau@0.99=0.969 fpr~0.000 
+[033] pool=last_k|mod=qv|k=16 | layer=24 d=+3.198 auc=1.000 ks=0.995 gap=+0.015 tau@0.99=0.974 fpr~0.000 
+[034] pool=last_k|mod=q|k=16 | layer=22 d=+3.660 auc=1.000 ks=0.995 gap=+0.017 tau@0.99=0.971 fpr~0.000 
+[035] pool=last_k|mod=v|k=16 | layer=22 d=+5.815 auc=1.000 ks=0.995 gap=+0.089 tau@0.99=0.855 fpr~0.000 
+[036] pool=last_k|mod=v|k=16 | layer=20 d=+5.187 auc=1.000 ks=0.990 gap=+0.084 tau@0.99=0.784 fpr~0.000 
+[037] pool=last_k|mod=v|k=8 | layer=22 d=+3.979 auc=1.000 ks=0.990 gap=+0.060 tau@0.99=0.700 fpr~0.000 
+[038] pool=last_k|mod=qv|k=16 | layer=29 d=+3.762 auc=1.000 ks=0.985 gap=+0.008 tau@0.99=0.981 fpr~0.000 
+[039] pool=last_k|mod=q|k=16 | layer=24 d=+3.216 auc=1.000 ks=0.985 gap=+0.014 tau@0.99=0.976 fpr~0.000 
+[040] pool=mean|mod=v|k=16 | layer=28 d=+2.883 auc=1.000 ks=0.990 gap=+0.102 tau@0.99=0.977 fpr~0.000 
+[041] pool=last_k|mod=v|k=16 | layer= 6 d=+4.386 auc=1.000 ks=0.990 gap=+0.042 tau@0.99=0.781 fpr~0.000 
+[042] pool=last_k|mod=v|k=8 | layer=27 d=+3.185 auc=1.000 ks=0.995 gap=+0.054 tau@0.99=0.735 fpr~0.000 
+[043] pool=last_k|mod=v|k=16 | layer=17 d=+6.249 auc=1.000 ks=0.985 gap=+0.101 tau@0.99=0.770 fpr~0.000 
+[044] pool=last_k|mod=v|k=16 | layer=23 d=+4.883 auc=1.000 ks=0.990 gap=+0.077 tau@0.99=0.856 fpr~0.000 
+[045] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=17 d=+6.628 auc=1.000 ks=0.990 gap=+0.015 tau@0.99=0.374 fpr~0.000 | reduce=topk_mean topk=8
+[046] pool=mean|mod=v|k=16 | layer=25 d=+3.059 auc=1.000 ks=0.990 gap=+0.104 tau@0.99=0.977 fpr~0.000 
+[047] pool=last_k|mod=v|k=16 | layer=13 d=+5.041 auc=1.000 ks=0.985 gap=+0.112 tau@0.99=0.728 fpr~0.000 
+[048] pool=last_k|mod=q|k=16 | layer=29 d=+3.693 auc=1.000 ks=0.980 gap=+0.007 tau@0.99=0.983 fpr~0.000 
+[049] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=17 d=+3.150 auc=1.000 ks=0.985 gap=+0.065 tau@0.99=0.254 fpr~0.000 | reduce=mean topk=4
+[050] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=17 d=+3.150 auc=1.000 ks=0.985 gap=+0.065 tau@0.99=0.254 fpr~0.000 | reduce=mean topk=8
+[051] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=17 d=+3.150 auc=1.000 ks=0.985 gap=+0.065 tau@0.99=0.254 fpr~0.000 | reduce=mean topk=16
+[052] pool=last_k|mod=v|k=16 | layer=18 d=+5.464 auc=1.000 ks=0.980 gap=+0.069 tau@0.99=0.813 fpr~0.000 
+[053] pool=last_k|mod=v|k=8 | layer=29 d=+4.059 auc=1.000 ks=0.985 gap=+0.061 tau@0.99=0.723 fpr~0.000 
+[054] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=17 d=+6.575 auc=0.999 ks=0.985 gap=+0.014 tau@0.99=0.348 fpr~0.000 | reduce=topk_mean topk=16
+[055] pool=mean|mod=v|k=16 | layer=27 d=+2.592 auc=0.999 ks=0.980 gap=+0.051 tau@0.99=0.988 fpr~0.000 
+[056] pool=last_k|mod=qv|k=16 | layer=18 d=+3.745 auc=0.999 ks=0.990 gap=+0.017 tau@0.99=0.973 fpr~0.000 
+[057] pool=last_k|mod=qv|k=16 | layer=23 d=+3.228 auc=0.999 ks=0.990 gap=+0.015 tau@0.99=0.973 fpr~0.000 
+[058] pool=mean|mod=v|k=16 | layer=29 d=+2.405 auc=0.999 ks=0.980 gap=+0.085 tau@0.99=0.984 fpr~0.000 
+[059] pool=mean|mod=v|k=16 | layer=17 d=+2.263 auc=0.999 ks=0.985 gap=+0.183 tau@0.99=0.979 fpr~0.000 
+[060] pool=mean|mod=v|k=16 | layer=15 d=+1.582 auc=0.999 ks=0.980 gap=+0.115 tau@0.99=0.988 fpr~0.000 
+[061] pool=mean|mod=v|k=16 | layer=13 d=+1.337 auc=0.999 ks=0.985 gap=+0.078 tau@0.99=0.994 fpr~0.000 
+[062] pool=last_k|mod=v|k=8 | layer=28 d=+4.561 auc=0.999 ks=0.975 gap=+0.069 tau@0.99=0.719 fpr~0.000 
+[063] pool=last_k|mod=q|k=16 | layer=23 d=+3.206 auc=0.999 ks=0.990 gap=+0.014 tau@0.99=0.974 fpr~0.000 
+[064] pool=last_k|mod=q|k=16 | layer=18 d=+3.690 auc=0.999 ks=0.985 gap=+0.017 tau@0.99=0.974 fpr~0.000 
+[065] pool=mean|mod=v|k=16 | layer=24 d=+2.756 auc=0.999 ks=0.985 gap=+0.079 tau@0.99=0.977 fpr~0.000 
+[066] pool=mean|mod=v|k=16 | layer=23 d=+2.523 auc=0.999 ks=0.975 gap=+0.084 tau@0.99=0.981 fpr~0.000 
+[067] pool=last_k|mod=qv|k=16 | layer=21 d=+3.484 auc=0.999 ks=0.990 gap=+0.013 tau@0.99=0.974 fpr~0.000 
+[068] pool=last_k|mod=v|k=8 | layer=25 d=+3.608 auc=0.999 ks=0.975 gap=+0.054 tau@0.99=0.645 fpr~0.000 
+[069] pool=last_k|mod=qv|k=16 | layer=20 d=+3.391 auc=0.999 ks=0.985 gap=+0.016 tau@0.99=0.962 fpr~0.000 
+[070] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=30 d=+5.577 auc=0.999 ks=0.965 gap=+0.004 tau@0.99=0.908 fpr~0.000 | reduce=topk_mean topk=4
+[071] pool=last_k|mod=qv|k=16 | layer=30 d=+3.239 auc=0.999 ks=0.965 gap=+0.006 tau@0.99=0.980 fpr~0.000 
+[072] pool=mean|mod=v|k=16 | layer=14 d=+1.273 auc=0.999 ks=0.975 gap=+0.095 tau@0.99=0.993 fpr~0.000 
+[073] pool=mean|mod=v|k=16 | layer= 9 d=+1.237 auc=0.999 ks=0.975 gap=+0.080 tau@0.99=0.995 fpr~0.000 
+[074] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 9 d=+3.834 auc=0.999 ks=0.965 gap=+0.011 tau@0.99=0.662 fpr~0.000 | reduce=topk_mean topk=8
+[075] pool=last|mod=v|k=16 | layer=23 d=+4.573 auc=0.999 ks=0.980 gap=+0.102 tau@0.99=0.572 fpr~0.000 
+[076] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=18 d=+3.105 auc=0.999 ks=0.965 gap=+0.063 tau@0.99=0.371 fpr~0.000 | reduce=mean topk=4
+[077] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=18 d=+3.105 auc=0.999 ks=0.965 gap=+0.063 tau@0.99=0.371 fpr~0.000 | reduce=mean topk=8
+[078] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=18 d=+3.105 auc=0.999 ks=0.965 gap=+0.063 tau@0.99=0.371 fpr~0.000 | reduce=mean topk=16
+[079] pool=last_k|mod=q|k=16 | layer=20 d=+3.331 auc=0.999 ks=0.980 gap=+0.015 tau@0.99=0.964 fpr~0.000 
+[080] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 9 d=+3.938 auc=0.999 ks=0.965 gap=+0.011 tau@0.99=0.650 fpr~0.000 | reduce=topk_mean topk=8
+[081] pool=last_k|mod=q|k=16 | layer=21 d=+3.437 auc=0.999 ks=0.985 gap=+0.012 tau@0.99=0.975 fpr~0.000 
+[082] pool=last_k|mod=v|k=16 | layer= 4 d=+3.409 auc=0.999 ks=0.980 gap=+0.015 tau@0.99=0.816 fpr~0.000 
+[083] pool=mean|mod=v|k=16 | layer=21 d=+2.423 auc=0.999 ks=0.980 gap=+0.101 tau@0.99=0.979 fpr~0.000 
+[084] pool=last_k|mod=qv|k=16 | layer=19 d=+3.377 auc=0.999 ks=0.975 gap=+0.013 tau@0.99=0.965 fpr~0.000 
+[085] pool=last_k|mod=v|k=16 | layer=26 d=+4.586 auc=0.999 ks=0.965 gap=+0.090 tau@0.99=0.859 fpr~0.000 
+[086] pool=last_k|mod=v|k=8 | layer=23 d=+3.731 auc=0.999 ks=0.995 gap=+0.051 tau@0.99=0.664 fpr~0.000 
+[087] pool=last_k|mod=v|k=16 | layer=12 d=+3.723 auc=0.999 ks=0.980 gap=+0.066 tau@0.99=0.716 fpr~0.000 
+[088] pool=mean|mod=v|k=16 | layer=10 d=+1.224 auc=0.999 ks=0.970 gap=+0.076 tau@0.99=0.995 fpr~0.000 
+[089] pool=last_k|mod=qv|k=16 | layer=17 d=+3.311 auc=0.999 ks=0.980 gap=+0.014 tau@0.99=0.969 fpr~0.000 
+[090] pool=mean|mod=v|k=16 | layer=26 d=+2.571 auc=0.998 ks=0.955 gap=+0.096 tau@0.99=0.980 fpr~0.000 
+[091] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=15 d=+3.979 auc=0.998 ks=0.965 gap=+0.007 tau@0.99=0.765 fpr~0.000 | reduce=topk_mean topk=4
+[092] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 9 d=+4.308 auc=0.998 ks=0.965 gap=+0.011 tau@0.99=0.641 fpr~0.000 | reduce=topk_mean topk=16
+[093] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 9 d=+4.265 auc=0.998 ks=0.960 gap=+0.011 tau@0.99=0.653 fpr~0.000 | reduce=topk_mean topk=16
+[094] pool=last_k|mod=q|k=16 | layer=19 d=+3.315 auc=0.998 ks=0.970 gap=+0.013 tau@0.99=0.966 fpr~0.000 
+[095] pool=last_k|mod=q|k=16 | layer=17 d=+3.239 auc=0.998 ks=0.975 gap=+0.013 tau@0.99=0.970 fpr~0.000 
+[096] pool=mean|mod=v|k=16 | layer=22 d=+2.744 auc=0.998 ks=0.950 gap=+0.089 tau@0.99=0.979 fpr~0.000 
+[097] pool=mean|mod=v|k=16 | layer=11 d=+1.092 auc=0.998 ks=0.980 gap=+0.046 tau@0.99=0.997 fpr~0.000 
+[098] pool=mean|mod=qv|k=16 | layer=29 d=+1.798 auc=0.998 ks=0.980 gap=+0.010 tau@0.99=0.999 fpr~0.000 
+[099] pool=last_k|mod=qv|k=16 | layer=16 d=+3.472 auc=0.998 ks=0.970 gap=+0.016 tau@0.99=0.970 fpr~0.000 
+[100] pool=mean|mod=v|k=16 | layer=16 d=+1.480 auc=0.998 ks=0.965 gap=+0.112 tau@0.99=0.987 fpr~0.000 
+[101] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=21 d=+3.365 auc=0.998 ks=0.960 gap=+0.046 tau@0.99=0.403 fpr~0.000 | reduce=mean topk=4
+[102] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=21 d=+3.365 auc=0.998 ks=0.960 gap=+0.046 tau@0.99=0.403 fpr~0.000 | reduce=mean topk=8
+[103] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=21 d=+3.365 auc=0.998 ks=0.960 gap=+0.046 tau@0.99=0.403 fpr~0.000 | reduce=mean topk=16
+[104] pool=last_k|mod=q|k=16 | layer=16 d=+3.439 auc=0.998 ks=0.970 gap=+0.016 tau@0.99=0.971 fpr~0.000 
+[105] pool=mean|mod=v|k=16 | layer=12 d=+1.194 auc=0.998 ks=0.975 gap=+0.083 tau@0.99=0.994 fpr~0.000 
+[106] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=22 d=+3.279 auc=0.997 ks=0.945 gap=+0.056 tau@0.99=0.428 fpr~0.000 | reduce=mean topk=4
+[107] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=22 d=+3.279 auc=0.997 ks=0.945 gap=+0.056 tau@0.99=0.428 fpr~0.000 | reduce=mean topk=8
+[108] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=22 d=+3.279 auc=0.997 ks=0.945 gap=+0.056 tau@0.99=0.428 fpr~0.000 | reduce=mean topk=16
+[109] pool=last_k|mod=v|k=16 | layer= 9 d=+4.402 auc=0.997 ks=0.950 gap=+0.073 tau@0.99=0.719 fpr~0.000 
+[110] pool=mean|mod=q|k=16 | layer=29 d=+1.755 auc=0.997 ks=0.980 gap=+0.009 tau@0.99=0.999 fpr~0.000 
+[111] pool=mean|mod=qv|k=16 | layer=28 d=+1.800 auc=0.997 ks=0.980 gap=+0.012 tau@0.99=0.998 fpr~0.000 
+[112] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=28 d=+4.857 auc=0.997 ks=0.955 gap=+0.032 tau@0.99=0.592 fpr~0.000 | reduce=topk_mean topk=8
+[113] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=30 d=+3.409 auc=0.997 ks=0.965 gap=+0.004 tau@0.99=0.904 fpr~0.000 | reduce=topk_mean topk=8
+[114] pool=mean|mod=qv|k=16 | layer=27 d=+1.722 auc=0.996 ks=0.975 gap=+0.012 tau@0.99=0.998 fpr~0.000 
+[115] pool=mean|mod=q|k=16 | layer=28 d=+1.744 auc=0.996 ks=0.980 gap=+0.011 tau@0.99=0.999 fpr~0.000 
+[116] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=28 d=+4.696 auc=0.996 ks=0.960 gap=+0.031 tau@0.99=0.558 fpr~0.000 | reduce=topk_mean topk=16
+[117] pool=mean|mod=v|k=16 | layer= 1 d=+2.332 auc=0.996 ks=0.970 gap=+0.114 tau@0.99=0.963 fpr~0.000 
+[118] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=30 d=+4.016 auc=0.996 ks=0.965 gap=+0.028 tau@0.99=0.591 fpr~0.000 | reduce=topk_mean topk=4
+[119] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=30 d=+4.006 auc=0.996 ks=0.965 gap=+0.020 tau@0.99=0.562 fpr~0.000 | reduce=topk_mean topk=8
+[120] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=15 d=+3.575 auc=0.996 ks=0.965 gap=+0.007 tau@0.99=0.758 fpr~0.000 | reduce=topk_mean topk=8
+[121] pool=mean|mod=q|k=16 | layer=27 d=+1.684 auc=0.996 ks=0.975 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[122] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=15 d=+3.872 auc=0.996 ks=0.965 gap=+0.007 tau@0.99=0.759 fpr~0.000 | reduce=topk_mean topk=4
+[123] pool=last_k|mod=qv|k=16 | layer=15 d=+3.211 auc=0.996 ks=0.960 gap=+0.016 tau@0.99=0.970 fpr~0.000 
+[124] pool=last_k|mod=v|k=8 | layer=17 d=+3.581 auc=0.996 ks=0.950 gap=+0.059 tau@0.99=0.581 fpr~0.000 
+[125] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=30 d=+4.626 auc=0.996 ks=0.965 gap=+0.020 tau@0.99=0.537 fpr~0.000 | reduce=topk_mean topk=16
+[126] pool=last_k|mod=v|k=16 | layer=10 d=+4.344 auc=0.996 ks=0.960 gap=+0.080 tau@0.99=0.765 fpr~0.000 
+[127] pool=last_k|mod=v|k=8 | layer=30 d=+3.600 auc=0.996 ks=0.950 gap=+0.066 tau@0.99=0.646 fpr~0.000 
+[128] pool=mean|mod=qv|k=16 | layer=23 d=+1.707 auc=0.996 ks=0.980 gap=+0.016 tau@0.99=0.998 fpr~0.000 
+[129] pool=mean|mod=qv|k=16 | layer=25 d=+1.682 auc=0.996 ks=0.980 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[130] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer= 1 d=+3.620 auc=0.995 ks=0.970 gap=+0.004 tau@0.99=0.327 fpr~0.000 | reduce=topk_mean topk=8
+[131] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=16 d=+2.484 auc=0.995 ks=0.950 gap=+0.038 tau@0.99=0.153 fpr~0.000 | reduce=mean topk=4
+[132] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=16 d=+2.484 auc=0.995 ks=0.950 gap=+0.038 tau@0.99=0.153 fpr~0.000 | reduce=mean topk=8
+[133] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=16 d=+2.484 auc=0.995 ks=0.950 gap=+0.038 tau@0.99=0.153 fpr~0.000 | reduce=mean topk=16
+[134] pool=mean|mod=q|k=16 | layer=23 d=+1.684 auc=0.995 ks=0.980 gap=+0.015 tau@0.99=0.998 fpr~0.000 
+[135] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=15 d=+3.224 auc=0.995 ks=0.965 gap=+0.006 tau@0.99=0.751 fpr~0.000 | reduce=topk_mean topk=8
+[136] pool=mean|mod=qv|k=16 | layer=30 d=+1.668 auc=0.995 ks=0.980 gap=+0.009 tau@0.99=0.999 fpr~0.000 
+[137] pool=mean|mod=v|k=16 | layer= 7 d=+0.966 auc=0.995 ks=0.965 gap=+0.044 tau@0.99=0.997 fpr~0.000 
+[138] pool=last_k|mod=v|k=16 | layer= 7 d=+3.574 auc=0.995 ks=0.960 gap=+0.040 tau@0.99=0.723 fpr~0.000 
+[139] pool=last_k|mod=q|k=16 | layer=15 d=+3.142 auc=0.995 ks=0.955 gap=+0.016 tau@0.99=0.972 fpr~0.000 
+[140] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=15 d=+3.436 auc=0.995 ks=0.950 gap=+0.007 tau@0.99=0.749 fpr~0.000 | reduce=topk_mean topk=16
+[141] pool=mean|mod=q|k=16 | layer=25 d=+1.636 auc=0.995 ks=0.975 gap=+0.011 tau@0.99=0.999 fpr~0.000 
+[142] pool=last_k|mod=qv|k=16 | layer= 5 d=+2.329 auc=0.995 ks=0.935 gap=+0.009 tau@0.99=0.977 fpr~0.000 
+[143] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=15 d=+2.361 auc=0.995 ks=0.950 gap=+0.041 tau@0.99=0.153 fpr~0.000 | reduce=mean topk=4
+[144] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=15 d=+2.361 auc=0.995 ks=0.950 gap=+0.041 tau@0.99=0.153 fpr~0.000 | reduce=mean topk=8
+[145] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=15 d=+2.361 auc=0.995 ks=0.950 gap=+0.041 tau@0.99=0.153 fpr~0.000 | reduce=mean topk=16
+[146] pool=last_k|mod=q|k=16 | layer=30 d=+2.992 auc=0.995 ks=0.935 gap=+0.005 tau@0.99=0.983 fpr~0.000 
+[147] pool=mean|mod=qv|k=16 | layer= 1 d=+1.802 auc=0.995 ks=0.980 gap=+0.002 tau@0.99=1.000 fpr~0.000 
+[148] pool=mean|mod=q|k=16 | layer= 1 d=+1.797 auc=0.995 ks=0.980 gap=+0.002 tau@0.99=1.000 fpr~0.000 
+[149] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=10 d=+2.858 auc=0.994 ks=0.945 gap=+0.007 tau@0.99=0.618 fpr~0.000 | reduce=topk_mean topk=16
+[150] pool=mean|mod=qv|k=16 | layer=24 d=+1.588 auc=0.994 ks=0.980 gap=+0.015 tau@0.99=0.998 fpr~0.000 
+[151] pool=last_k|mod=q|k=16 | layer= 5 d=+2.316 auc=0.994 ks=0.930 gap=+0.009 tau@0.99=0.977 fpr~0.000 
+[152] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=28 d=+2.900 auc=0.994 ks=0.945 gap=+0.050 tau@0.99=0.417 fpr~0.000 | reduce=mean topk=4
+[153] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=28 d=+2.900 auc=0.994 ks=0.945 gap=+0.050 tau@0.99=0.417 fpr~0.000 | reduce=mean topk=8
+[154] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=28 d=+2.900 auc=0.994 ks=0.945 gap=+0.050 tau@0.99=0.417 fpr~0.000 | reduce=mean topk=16
+[155] pool=mean|mod=qv|k=16 | layer=22 d=+1.607 auc=0.994 ks=0.975 gap=+0.020 tau@0.99=0.998 fpr~0.000 
+[156] pool=mean|mod=qv|k=16 | layer=13 d=+1.529 auc=0.994 ks=0.955 gap=+0.031 tau@0.99=0.998 fpr~0.000 
+[157] pool=mean|mod=qv|k=16 | layer=26 d=+1.591 auc=0.994 ks=0.970 gap=+0.019 tau@0.99=0.998 fpr~0.000 
+[158] pool=mean|mod=q|k=16 | layer=13 d=+1.531 auc=0.994 ks=0.955 gap=+0.030 tau@0.99=0.998 fpr~0.000 
+[159] pool=mean|mod=q|k=16 | layer=24 d=+1.560 auc=0.994 ks=0.970 gap=+0.015 tau@0.99=0.998 fpr~0.000 
+[160] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=30 d=+3.112 auc=0.994 ks=0.955 gap=+0.042 tau@0.99=0.416 fpr~0.000 | reduce=mean topk=4
+[161] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=30 d=+3.112 auc=0.994 ks=0.955 gap=+0.042 tau@0.99=0.416 fpr~0.000 | reduce=mean topk=8
+[162] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=30 d=+3.112 auc=0.994 ks=0.955 gap=+0.042 tau@0.99=0.416 fpr~0.000 | reduce=mean topk=16
+[163] pool=mean|mod=q|k=16 | layer=22 d=+1.582 auc=0.994 ks=0.970 gap=+0.019 tau@0.99=0.998 fpr~0.000 
+[164] pool=mean|mod=q|k=16 | layer=30 d=+1.602 auc=0.994 ks=0.980 gap=+0.009 tau@0.99=0.999 fpr~0.000 
+[165] pool=mean|mod=q|k=16 | layer=26 d=+1.566 auc=0.994 ks=0.970 gap=+0.018 tau@0.99=0.998 fpr~0.000 
+[166] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=30 d=+3.276 auc=0.994 ks=0.965 gap=+0.003 tau@0.99=0.896 fpr~0.000 | reduce=topk_mean topk=4
+[167] pool=mean|mod=v|k=16 | layer= 6 d=+1.004 auc=0.994 ks=0.965 gap=+0.056 tau@0.99=0.996 fpr~0.000 
+[168] pool=mean|mod=qv|k=16 | layer=14 d=+1.546 auc=0.994 ks=0.970 gap=+0.026 tau@0.99=0.998 fpr~0.000 
+[169] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=10 d=+2.818 auc=0.993 ks=0.945 gap=+0.007 tau@0.99=0.626 fpr~0.000 | reduce=topk_mean topk=16
+[170] pool=mean|mod=q|k=16 | layer=14 d=+1.549 auc=0.993 ks=0.965 gap=+0.026 tau@0.99=0.998 fpr~0.000 
+[171] pool=mean|mod=qv|k=16 | layer=20 d=+1.528 auc=0.993 ks=0.970 gap=+0.024 tau@0.99=0.998 fpr~0.000 
+[172] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=22 d=+4.320 auc=0.993 ks=0.955 gap=+0.030 tau@0.99=0.621 fpr~0.000 | reduce=topk_mean topk=16
+[173] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=22 d=+4.420 auc=0.993 ks=0.935 gap=+0.025 tau@0.99=0.647 fpr~0.000 | reduce=topk_mean topk=8
+[174] pool=mean|mod=q|k=16 | layer=20 d=+1.514 auc=0.993 ks=0.965 gap=+0.023 tau@0.99=0.998 fpr~0.000 
+[175] pool=last_k|mod=qv|k=16 | layer=13 d=+3.099 auc=0.993 ks=0.970 gap=+0.032 tau@0.99=0.954 fpr~0.000 
+[176] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=15 d=+3.246 auc=0.993 ks=0.925 gap=+0.006 tau@0.99=0.743 fpr~0.000 | reduce=topk_mean topk=16
+[177] pool=mean|mod=v|k=16 | layer= 8 d=+1.199 auc=0.993 ks=0.965 gap=+0.064 tau@0.99=0.995 fpr~0.000 
+[178] pool=last_k|mod=qv|k=16 | layer=10 d=+3.235 auc=0.993 ks=0.965 gap=+0.025 tau@0.99=0.958 fpr~0.000 
+[179] pool=mean|mod=qv|k=16 | layer=19 d=+1.482 auc=0.993 ks=0.965 gap=+0.020 tau@0.99=0.998 fpr~0.000 
+[180] pool=mean|mod=qv|k=16 | layer=18 d=+1.509 auc=0.993 ks=0.960 gap=+0.020 tau@0.99=0.999 fpr~0.000 
+[181] pool=mean|mod=qv|k=16 | layer=17 d=+1.467 auc=0.993 ks=0.960 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[182] pool=mean|mod=qv|k=16 | layer=21 d=+1.538 auc=0.993 ks=0.960 gap=+0.016 tau@0.99=0.999 fpr~0.000 
+[183] pool=last_k|mod=q|k=16 | layer=10 d=+3.199 auc=0.993 ks=0.965 gap=+0.024 tau@0.99=0.959 fpr~0.000 
+[184] pool=last_k|mod=q|k=16 | layer=13 d=+3.053 auc=0.992 ks=0.960 gap=+0.032 tau@0.99=0.956 fpr~0.000 
+[185] pool=mean|mod=q|k=16 | layer=19 d=+1.466 auc=0.992 ks=0.960 gap=+0.020 tau@0.99=0.999 fpr~0.000 
+[186] pool=mean|mod=q|k=16 | layer=18 d=+1.495 auc=0.992 ks=0.955 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[187] pool=mean|mod=q|k=16 | layer=21 d=+1.524 auc=0.992 ks=0.955 gap=+0.016 tau@0.99=0.999 fpr~0.000 
+[188] pool=mean|mod=q|k=16 | layer=17 d=+1.454 auc=0.992 ks=0.950 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[189] pool=last_k|mod=qv|k=16 | layer=14 d=+3.187 auc=0.992 ks=0.950 gap=+0.021 tau@0.99=0.965 fpr~0.000 
+[190] pool=last_k|mod=v|k=16 | layer= 8 d=+3.414 auc=0.992 ks=0.965 gap=+0.053 tau@0.99=0.714 fpr~0.000 
+[191] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=19 d=+4.992 auc=0.992 ks=0.965 gap=+0.022 tau@0.99=0.449 fpr~0.000 | reduce=topk_mean topk=16
+[192] pool=mean|mod=qv|k=16 | layer=10 d=+1.394 auc=0.992 ks=0.945 gap=+0.033 tau@0.99=0.999 fpr~0.000 
+[193] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=25 d=+3.045 auc=0.992 ks=0.935 gap=+0.040 tau@0.99=0.396 fpr~0.000 | reduce=mean topk=4
+[194] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=25 d=+3.045 auc=0.992 ks=0.935 gap=+0.040 tau@0.99=0.396 fpr~0.000 | reduce=mean topk=8
+[195] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=25 d=+3.045 auc=0.992 ks=0.935 gap=+0.040 tau@0.99=0.396 fpr~0.000 | reduce=mean topk=16
+[196] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 9 d=+3.103 auc=0.992 ks=0.955 gap=+0.009 tau@0.99=0.655 fpr~0.000 | reduce=topk_mean topk=4
+[197] pool=last_k|mod=v|k=16 | layer=11 d=+3.533 auc=0.992 ks=0.920 gap=+0.070 tau@0.99=0.697 fpr~0.000 
+[198] pool=mean|mod=q|k=16 | layer=10 d=+1.394 auc=0.992 ks=0.940 gap=+0.032 tau@0.99=0.999 fpr~0.000 
+[199] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=26 d=+3.178 auc=0.991 ks=0.940 gap=+0.043 tau@0.99=0.391 fpr~0.000 | reduce=mean topk=4
+[200] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=26 d=+3.178 auc=0.991 ks=0.940 gap=+0.043 tau@0.99=0.391 fpr~0.000 | reduce=mean topk=8
+[201] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=26 d=+3.178 auc=0.991 ks=0.940 gap=+0.043 tau@0.99=0.391 fpr~0.000 | reduce=mean topk=16
+[202] pool=mean|mod=q|k=16 | layer=11 d=+1.416 auc=0.991 ks=0.930 gap=+0.030 tau@0.99=0.999 fpr~0.000 
+[203] pool=mean|mod=v|k=16 | layer= 5 d=+1.014 auc=0.991 ks=0.960 gap=+0.050 tau@0.99=0.997 fpr~0.000 
+[204] pool=last_k|mod=v|k=8 | layer=19 d=+2.642 auc=0.991 ks=0.915 gap=+0.051 tau@0.99=0.619 fpr~0.000 
+[205] pool=mean|mod=qv|k=16 | layer=11 d=+1.408 auc=0.991 ks=0.930 gap=+0.031 tau@0.99=0.999 fpr~0.000 
+[206] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+3.539 auc=0.991 ks=0.920 gap=+0.007 tau@0.99=0.650 fpr~0.000 | reduce=topk_mean topk=16
+[207] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=28 d=+3.565 auc=0.991 ks=0.965 gap=+0.022 tau@0.99=0.611 fpr~0.000 | reduce=topk_mean topk=4
+[208] pool=last_k|mod=q|k=16 | layer=14 d=+3.131 auc=0.990 ks=0.950 gap=+0.021 tau@0.99=0.966 fpr~0.000 
+[209] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=29 d=+2.880 auc=0.990 ks=0.990 gap=+0.002 tau@0.99=0.907 fpr~0.010 | reduce=topk_mean topk=8
+[210] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=29 d=+2.088 auc=0.990 ks=0.990 gap=+0.002 tau@0.99=0.896 fpr~0.010 | reduce=topk_mean topk=8
+[211] pool=last_k|mod=v|k=8 | layer=20 d=+2.925 auc=0.990 ks=0.885 gap=+0.044 tau@0.99=0.601 fpr~0.000 
+[212] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+3.462 auc=0.990 ks=0.915 gap=+0.007 tau@0.99=0.658 fpr~0.000 | reduce=topk_mean topk=16
+[213] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=23 d=+3.805 auc=0.990 ks=0.935 gap=+0.016 tau@0.99=0.539 fpr~0.000 | reduce=topk_mean topk=16
+[214] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=29 d=+2.812 auc=0.990 ks=0.930 gap=+0.042 tau@0.99=0.473 fpr~0.000 | reduce=mean topk=4
+[215] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=29 d=+2.812 auc=0.990 ks=0.930 gap=+0.042 tau@0.99=0.473 fpr~0.000 | reduce=mean topk=8
+[216] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=29 d=+2.812 auc=0.990 ks=0.930 gap=+0.042 tau@0.99=0.473 fpr~0.000 | reduce=mean topk=16
+[217] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 9 d=+2.954 auc=0.990 ks=0.950 gap=+0.008 tau@0.99=0.667 fpr~0.000 | reduce=topk_mean topk=4
+[218] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=21 d=+4.183 auc=0.989 ks=0.960 gap=+0.020 tau@0.99=0.514 fpr~0.000 | reduce=topk_mean topk=16
+[219] pool=mean|mod=v|k=16 | layer= 2 d=+1.279 auc=0.989 ks=0.940 gap=+0.051 tau@0.99=0.995 fpr~0.000 
+[220] pool=mean|mod=qv|k=16 | layer= 9 d=+1.355 auc=0.989 ks=0.920 gap=+0.030 tau@0.99=0.999 fpr~0.000 
+[221] pool=last|mod=v|k=16 | layer=22 d=+3.454 auc=0.989 ks=0.940 gap=+0.075 tau@0.99=0.619 fpr~0.000 
+[222] pool=mean|mod=v|k=16 | layer= 3 d=+1.306 auc=0.989 ks=0.930 gap=+0.057 tau@0.99=0.993 fpr~0.000 
+[223] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=23 d=+2.723 auc=0.989 ks=0.930 gap=+0.041 tau@0.99=0.418 fpr~0.000 | reduce=mean topk=4
+[224] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=23 d=+2.723 auc=0.989 ks=0.930 gap=+0.041 tau@0.99=0.418 fpr~0.000 | reduce=mean topk=8
+[225] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=23 d=+2.723 auc=0.989 ks=0.930 gap=+0.041 tau@0.99=0.418 fpr~0.000 | reduce=mean topk=16
+[226] pool=last|mod=v|k=16 | layer=25 d=+3.280 auc=0.989 ks=0.945 gap=+0.080 tau@0.99=0.490 fpr~0.000 
+[227] pool=mean|mod=q|k=16 | layer= 9 d=+1.353 auc=0.989 ks=0.920 gap=+0.029 tau@0.99=0.999 fpr~0.000 
+[228] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 1 d=+2.358 auc=0.988 ks=0.895 gap=+0.026 tau@0.99=0.215 fpr~0.000 | reduce=mean topk=4
+[229] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 1 d=+2.358 auc=0.988 ks=0.895 gap=+0.026 tau@0.99=0.215 fpr~0.000 | reduce=mean topk=8
+[230] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 1 d=+2.358 auc=0.988 ks=0.895 gap=+0.026 tau@0.99=0.215 fpr~0.000 | reduce=mean topk=16
+[231] pool=mean|mod=v|k=16 | layer= 4 d=+1.280 auc=0.988 ks=0.925 gap=+0.117 tau@0.99=0.989 fpr~0.000 
+[232] pool=last_k|mod=qv|k=16 | layer= 6 d=+2.461 auc=0.988 ks=0.940 gap=+0.009 tau@0.99=0.973 fpr~0.000 
+[233] pool=last_k|mod=qv|k=16 | layer= 8 d=+2.745 auc=0.988 ks=0.970 gap=+0.023 tau@0.99=0.952 fpr~0.000 
+[234] pool=mean|mod=qv|k=16 | layer=16 d=+1.374 auc=0.987 ks=0.895 gap=+0.021 tau@0.99=0.999 fpr~0.000 
+[235] pool=last_k|mod=q|k=16 | layer= 8 d=+2.731 auc=0.987 ks=0.965 gap=+0.022 tau@0.99=0.953 fpr~0.000 
+[236] pool=last_k|mod=q|k=16 | layer= 6 d=+2.445 auc=0.987 ks=0.940 gap=+0.009 tau@0.99=0.973 fpr~0.000 
+[237] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=16 d=+2.596 auc=0.987 ks=0.895 gap=+0.011 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=4
+[238] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=16 d=+2.596 auc=0.987 ks=0.895 gap=+0.011 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=8
+[239] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=16 d=+2.596 auc=0.987 ks=0.895 gap=+0.011 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=16
+[240] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=29 d=+3.155 auc=0.987 ks=0.925 gap=+0.009 tau@0.99=0.581 fpr~0.000 | reduce=topk_mean topk=16
+[241] pool=mean|mod=q|k=16 | layer=16 d=+1.369 auc=0.987 ks=0.895 gap=+0.021 tau@0.99=0.999 fpr~0.000 
+[242] pool=last_k|mod=v|k=8 | layer=24 d=+2.955 auc=0.987 ks=0.910 gap=+0.048 tau@0.99=0.639 fpr~0.000 
+[243] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=11 d=+3.325 auc=0.987 ks=0.960 gap=+0.005 tau@0.99=0.673 fpr~0.000 | reduce=topk_mean topk=16
+[244] pool=mean|mod=qv|k=16 | layer= 8 d=+1.375 auc=0.987 ks=0.905 gap=+0.027 tau@0.99=0.999 fpr~0.000 
+[245] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=14 d=+2.156 auc=0.987 ks=0.900 gap=+0.014 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=4
+[246] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=14 d=+2.156 auc=0.987 ks=0.900 gap=+0.014 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=8
+[247] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=14 d=+2.156 auc=0.987 ks=0.900 gap=+0.014 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=16
+[248] pool=mean|mod=q|k=16 | layer= 8 d=+1.375 auc=0.986 ks=0.905 gap=+0.026 tau@0.99=0.999 fpr~0.000 
+[249] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=14 d=+2.152 auc=0.986 ks=0.895 gap=+0.014 tau@0.99=0.691 fpr~0.000 | reduce=mean topk=4
+[250] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=14 d=+2.152 auc=0.986 ks=0.895 gap=+0.014 tau@0.99=0.691 fpr~0.000 | reduce=mean topk=8
+[251] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=14 d=+2.152 auc=0.986 ks=0.895 gap=+0.014 tau@0.99=0.691 fpr~0.000 | reduce=mean topk=16
+[252] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=11 d=+3.160 auc=0.986 ks=0.960 gap=+0.005 tau@0.99=0.682 fpr~0.000 | reduce=topk_mean topk=8
+[253] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=24 d=+2.736 auc=0.986 ks=0.915 gap=+0.037 tau@0.99=0.396 fpr~0.000 | reduce=mean topk=4
+[254] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=24 d=+2.736 auc=0.986 ks=0.915 gap=+0.037 tau@0.99=0.396 fpr~0.000 | reduce=mean topk=8
+[255] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=24 d=+2.736 auc=0.986 ks=0.915 gap=+0.037 tau@0.99=0.396 fpr~0.000 | reduce=mean topk=16
+[256] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=21 d=+3.951 auc=0.986 ks=0.955 gap=+0.019 tau@0.99=0.539 fpr~0.000 | reduce=topk_mean topk=8
+[257] pool=mean|mod=qv|k=16 | layer=15 d=+1.416 auc=0.986 ks=0.890 gap=+0.022 tau@0.99=0.999 fpr~0.000 
+[258] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=16 d=+2.579 auc=0.985 ks=0.890 gap=+0.011 tau@0.99=0.709 fpr~0.000 | reduce=mean topk=4
+[259] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=16 d=+2.579 auc=0.985 ks=0.890 gap=+0.011 tau@0.99=0.709 fpr~0.000 | reduce=mean topk=8
+[260] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=16 d=+2.579 auc=0.985 ks=0.890 gap=+0.011 tau@0.99=0.709 fpr~0.000 | reduce=mean topk=16
+[261] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 8 d=+2.300 auc=0.985 ks=0.890 gap=+0.011 tau@0.99=0.612 fpr~0.000 | reduce=mean topk=4
+[262] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 8 d=+2.300 auc=0.985 ks=0.890 gap=+0.011 tau@0.99=0.612 fpr~0.000 | reduce=mean topk=8
+[263] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 8 d=+2.300 auc=0.985 ks=0.890 gap=+0.011 tau@0.99=0.612 fpr~0.000 | reduce=mean topk=16
+[264] pool=whole|mod=v|k=16|reduce=max|topk=4 | layer=28 d=+1.965 auc=0.985 ks=0.955 gap=+0.018 tau@0.99=0.645 fpr~0.000 | reduce=max topk=4
+[265] pool=whole|mod=v|k=16|reduce=max|topk=8 | layer=28 d=+1.965 auc=0.985 ks=0.955 gap=+0.018 tau@0.99=0.645 fpr~0.000 | reduce=max topk=8
+[266] pool=whole|mod=v|k=16|reduce=max|topk=16 | layer=28 d=+1.965 auc=0.985 ks=0.955 gap=+0.018 tau@0.99=0.645 fpr~0.000 | reduce=max topk=16
+[267] pool=last|mod=v|k=16 | layer=24 d=+2.488 auc=0.985 ks=0.885 gap=+0.059 tau@0.99=0.591 fpr~0.000 
+[268] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=19 d=+4.171 auc=0.985 ks=0.960 gap=+0.022 tau@0.99=0.479 fpr~0.000 | reduce=topk_mean topk=8
+[269] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=11 d=+3.134 auc=0.984 ks=0.965 gap=+0.005 tau@0.99=0.668 fpr~0.000 | reduce=topk_mean topk=8
+[270] pool=last_k|mod=v|k=8 | layer=14 d=+2.961 auc=0.984 ks=0.900 gap=+0.046 tau@0.99=0.551 fpr~0.000 
+[271] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=11 d=+3.316 auc=0.984 ks=0.965 gap=+0.005 tau@0.99=0.659 fpr~0.000 | reduce=topk_mean topk=16
+[272] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=16 d=+2.945 auc=0.984 ks=0.910 gap=+0.006 tau@0.99=0.243 fpr~0.000 | reduce=topk_mean topk=16
+[273] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 8 d=+2.276 auc=0.984 ks=0.885 gap=+0.011 tau@0.99=0.621 fpr~0.000 | reduce=mean topk=4
+[274] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 8 d=+2.276 auc=0.984 ks=0.885 gap=+0.011 tau@0.99=0.621 fpr~0.000 | reduce=mean topk=8
+[275] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 8 d=+2.276 auc=0.984 ks=0.885 gap=+0.011 tau@0.99=0.621 fpr~0.000 | reduce=mean topk=16
+[276] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=26 d=+4.011 auc=0.984 ks=0.910 gap=+0.028 tau@0.99=0.540 fpr~0.000 | reduce=topk_mean topk=8
+[277] pool=last_k|mod=qv|k=16 | layer= 9 d=+2.727 auc=0.984 ks=0.915 gap=+0.020 tau@0.99=0.955 fpr~0.000 
+[278] pool=mean|mod=q|k=16 | layer=15 d=+1.409 auc=0.984 ks=0.875 gap=+0.021 tau@0.99=0.999 fpr~0.000 
+[279] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=16 d=+2.736 auc=0.984 ks=0.880 gap=+0.007 tau@0.99=0.297 fpr~0.000 | reduce=topk_mean topk=8
+[280] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=17 d=+2.469 auc=0.983 ks=0.920 gap=+0.009 tau@0.99=0.745 fpr~0.000 | reduce=mean topk=4
+[281] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=17 d=+2.469 auc=0.983 ks=0.920 gap=+0.009 tau@0.99=0.745 fpr~0.000 | reduce=mean topk=8
+[282] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=17 d=+2.469 auc=0.983 ks=0.920 gap=+0.009 tau@0.99=0.745 fpr~0.000 | reduce=mean topk=16
+[283] pool=last_k|mod=v|k=8 | layer=16 d=+3.038 auc=0.983 ks=0.865 gap=+0.042 tau@0.99=0.595 fpr~0.000 
+[284] pool=last_k|mod=q|k=16 | layer= 9 d=+2.686 auc=0.983 ks=0.905 gap=+0.019 tau@0.99=0.957 fpr~0.000 
+[285] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer=29 d=+6.299 auc=0.983 ks=0.965 gap=+0.003 tau@0.99=0.917 fpr~0.000 | reduce=max topk=4
+[286] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer=29 d=+6.299 auc=0.983 ks=0.965 gap=+0.003 tau@0.99=0.917 fpr~0.000 | reduce=max topk=8
+[287] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer=29 d=+6.299 auc=0.983 ks=0.965 gap=+0.003 tau@0.99=0.917 fpr~0.000 | reduce=max topk=16
+[288] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer=15 d=+5.967 auc=0.983 ks=0.965 gap=+0.011 tau@0.99=0.772 fpr~0.000 | reduce=max topk=4
+[289] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer=15 d=+5.967 auc=0.983 ks=0.965 gap=+0.011 tau@0.99=0.772 fpr~0.000 | reduce=max topk=8
+[290] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer=15 d=+5.967 auc=0.983 ks=0.965 gap=+0.011 tau@0.99=0.772 fpr~0.000 | reduce=max topk=16
+[291] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer=29 d=+4.535 auc=0.983 ks=0.965 gap=+0.003 tau@0.99=0.908 fpr~0.000 | reduce=max topk=4
+[292] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer=29 d=+4.535 auc=0.983 ks=0.965 gap=+0.003 tau@0.99=0.908 fpr~0.000 | reduce=max topk=8
+[293] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer=29 d=+4.535 auc=0.983 ks=0.965 gap=+0.003 tau@0.99=0.908 fpr~0.000 | reduce=max topk=16
+[294] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer=15 d=+5.656 auc=0.982 ks=0.965 gap=+0.011 tau@0.99=0.777 fpr~0.000 | reduce=max topk=4
+[295] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer=15 d=+5.656 auc=0.982 ks=0.965 gap=+0.011 tau@0.99=0.777 fpr~0.000 | reduce=max topk=8
+[296] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer=15 d=+5.656 auc=0.982 ks=0.965 gap=+0.011 tau@0.99=0.777 fpr~0.000 | reduce=max topk=16
+[297] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=17 d=+5.882 auc=0.982 ks=0.965 gap=+0.016 tau@0.99=0.401 fpr~0.000 | reduce=topk_mean topk=4
+[298] pool=last_k|mod=qv|k=16 | layer=11 d=+2.694 auc=0.982 ks=0.910 gap=+0.019 tau@0.99=0.957 fpr~0.000 
+[299] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=26 d=+3.764 auc=0.982 ks=0.945 gap=+0.028 tau@0.99=0.515 fpr~0.000 | reduce=topk_mean topk=16
+[300] pool=last_k|mod=v|k=8 | layer=15 d=+2.902 auc=0.982 ks=0.900 gap=+0.054 tau@0.99=0.543 fpr~0.000 
+[301] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer=10 d=+2.865 auc=0.982 ks=0.915 gap=+0.007 tau@0.99=0.636 fpr~0.000 | reduce=topk_mean topk=8
+[302] pool=last_k|mod=v|k=4 | layer=29 d=+2.745 auc=0.981 ks=0.850 gap=+0.056 tau@0.99=0.580 fpr~0.000 
+[303] pool=last_k|mod=q|k=16 | layer=11 d=+2.653 auc=0.981 ks=0.905 gap=+0.019 tau@0.99=0.959 fpr~0.000 
+[304] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=17 d=+2.412 auc=0.981 ks=0.910 gap=+0.009 tau@0.99=0.751 fpr~0.000 | reduce=mean topk=4
+[305] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=17 d=+2.412 auc=0.981 ks=0.910 gap=+0.009 tau@0.99=0.751 fpr~0.000 | reduce=mean topk=8
+[306] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=17 d=+2.412 auc=0.981 ks=0.910 gap=+0.009 tau@0.99=0.751 fpr~0.000 | reduce=mean topk=16
+[307] pool=last_k|mod=v|k=4 | layer=25 d=+2.495 auc=0.981 ks=0.875 gap=+0.058 tau@0.99=0.497 fpr~0.000 
+[308] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=18 d=+3.233 auc=0.981 ks=0.885 gap=+0.023 tau@0.99=0.540 fpr~0.000 | reduce=topk_mean topk=16
+[309] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 8 d=+2.307 auc=0.981 ks=0.935 gap=+0.028 tau@0.99=0.045 fpr~0.000 | reduce=mean topk=4
+[310] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 8 d=+2.307 auc=0.981 ks=0.935 gap=+0.028 tau@0.99=0.045 fpr~0.000 | reduce=mean topk=8
+[311] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 8 d=+2.307 auc=0.981 ks=0.935 gap=+0.028 tau@0.99=0.045 fpr~0.000 | reduce=mean topk=16
+[312] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 9 d=+2.250 auc=0.981 ks=0.895 gap=+0.017 tau@0.99=0.600 fpr~0.000 | reduce=mean topk=4
+[313] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 9 d=+2.250 auc=0.981 ks=0.895 gap=+0.017 tau@0.99=0.600 fpr~0.000 | reduce=mean topk=8
+[314] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 9 d=+2.250 auc=0.981 ks=0.895 gap=+0.017 tau@0.99=0.600 fpr~0.000 | reduce=mean topk=16
+[315] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=19 d=+2.603 auc=0.981 ks=0.885 gap=+0.010 tau@0.99=0.738 fpr~0.000 | reduce=mean topk=4
+[316] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=19 d=+2.603 auc=0.981 ks=0.885 gap=+0.010 tau@0.99=0.738 fpr~0.000 | reduce=mean topk=8
+[317] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=19 d=+2.603 auc=0.981 ks=0.885 gap=+0.010 tau@0.99=0.738 fpr~0.000 | reduce=mean topk=16
+[318] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=27 d=+2.417 auc=0.981 ks=0.910 gap=+0.039 tau@0.99=0.488 fpr~0.000 | reduce=mean topk=4
+[319] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=27 d=+2.417 auc=0.981 ks=0.910 gap=+0.039 tau@0.99=0.488 fpr~0.000 | reduce=mean topk=8
+[320] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=27 d=+2.417 auc=0.981 ks=0.910 gap=+0.039 tau@0.99=0.488 fpr~0.000 | reduce=mean topk=16
+[321] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 9 d=+2.226 auc=0.979 ks=0.885 gap=+0.017 tau@0.99=0.611 fpr~0.000 | reduce=mean topk=4
+[322] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 9 d=+2.226 auc=0.979 ks=0.885 gap=+0.017 tau@0.99=0.611 fpr~0.000 | reduce=mean topk=8
+[323] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 9 d=+2.226 auc=0.979 ks=0.885 gap=+0.017 tau@0.99=0.611 fpr~0.000 | reduce=mean topk=16
+[324] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=15 d=+2.356 auc=0.979 ks=0.860 gap=+0.013 tau@0.99=0.707 fpr~0.000 | reduce=mean topk=4
+[325] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=15 d=+2.356 auc=0.979 ks=0.860 gap=+0.013 tau@0.99=0.707 fpr~0.000 | reduce=mean topk=8
+[326] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=15 d=+2.356 auc=0.979 ks=0.860 gap=+0.013 tau@0.99=0.707 fpr~0.000 | reduce=mean topk=16
+[327] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=19 d=+2.543 auc=0.979 ks=0.875 gap=+0.009 tau@0.99=0.744 fpr~0.000 | reduce=mean topk=4
+[328] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=19 d=+2.543 auc=0.979 ks=0.875 gap=+0.009 tau@0.99=0.744 fpr~0.000 | reduce=mean topk=8
+[329] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=19 d=+2.543 auc=0.979 ks=0.875 gap=+0.009 tau@0.99=0.744 fpr~0.000 | reduce=mean topk=16
+[330] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=15 d=+2.335 auc=0.979 ks=0.860 gap=+0.013 tau@0.99=0.701 fpr~0.000 | reduce=mean topk=4
+[331] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=15 d=+2.335 auc=0.979 ks=0.860 gap=+0.013 tau@0.99=0.701 fpr~0.000 | reduce=mean topk=8
+[332] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=15 d=+2.335 auc=0.979 ks=0.860 gap=+0.013 tau@0.99=0.701 fpr~0.000 | reduce=mean topk=16
+[333] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=29 d=+2.648 auc=0.978 ks=0.935 gap=+0.002 tau@0.99=0.901 fpr~0.005 | reduce=topk_mean topk=16
+[334] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=20 d=+3.060 auc=0.978 ks=0.840 gap=+0.015 tau@0.99=0.505 fpr~0.000 | reduce=topk_mean topk=16
+[335] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer=10 d=+2.690 auc=0.977 ks=0.920 gap=+0.006 tau@0.99=0.628 fpr~0.000 | reduce=topk_mean topk=8
+[336] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=23 d=+3.589 auc=0.977 ks=0.965 gap=+0.016 tau@0.99=0.562 fpr~0.000 | reduce=topk_mean topk=8
+[337] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=26 d=+3.447 auc=0.976 ks=0.890 gap=+0.032 tau@0.99=0.567 fpr~0.000 | reduce=topk_mean topk=4
+[338] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=29 d=+2.477 auc=0.975 ks=0.935 gap=+0.002 tau@0.99=0.890 fpr~0.000 | reduce=topk_mean topk=16
+[339] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=10 d=+2.198 auc=0.975 ks=0.865 gap=+0.017 tau@0.99=0.578 fpr~0.000 | reduce=mean topk=4
+[340] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=10 d=+2.198 auc=0.975 ks=0.865 gap=+0.017 tau@0.99=0.578 fpr~0.000 | reduce=mean topk=8
+[341] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=10 d=+2.198 auc=0.975 ks=0.865 gap=+0.017 tau@0.99=0.578 fpr~0.000 | reduce=mean topk=16
+[342] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=10 d=+2.188 auc=0.974 ks=0.865 gap=+0.016 tau@0.99=0.586 fpr~0.000 | reduce=mean topk=4
+[343] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=10 d=+2.188 auc=0.974 ks=0.865 gap=+0.016 tau@0.99=0.586 fpr~0.000 | reduce=mean topk=8
+[344] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=10 d=+2.188 auc=0.974 ks=0.865 gap=+0.016 tau@0.99=0.586 fpr~0.000 | reduce=mean topk=16
+[345] pool=last|mod=v|k=16 | layer=26 d=+2.754 auc=0.974 ks=0.885 gap=+0.073 tau@0.99=0.511 fpr~0.000 
+[346] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=14 d=+2.065 auc=0.973 ks=0.910 gap=+0.037 tau@0.99=0.080 fpr~0.000 | reduce=mean topk=4
+[347] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=14 d=+2.065 auc=0.973 ks=0.910 gap=+0.037 tau@0.99=0.080 fpr~0.000 | reduce=mean topk=8
+[348] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=14 d=+2.065 auc=0.973 ks=0.910 gap=+0.037 tau@0.99=0.080 fpr~0.000 | reduce=mean topk=16
+[349] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer= 1 d=+3.038 auc=0.973 ks=0.865 gap=+0.006 tau@0.99=0.313 fpr~0.000 | reduce=topk_mean topk=16
+[350] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=22 d=+3.438 auc=0.972 ks=0.910 gap=+0.019 tau@0.99=0.658 fpr~0.000 | reduce=topk_mean topk=4
+[351] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=18 d=+2.353 auc=0.970 ks=0.880 gap=+0.009 tau@0.99=0.745 fpr~0.000 | reduce=mean topk=4
+[352] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=18 d=+2.353 auc=0.970 ks=0.880 gap=+0.009 tau@0.99=0.745 fpr~0.000 | reduce=mean topk=8
+[353] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=18 d=+2.353 auc=0.970 ks=0.880 gap=+0.009 tau@0.99=0.745 fpr~0.000 | reduce=mean topk=16
+[354] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer= 1 d=+3.118 auc=0.970 ks=0.940 gap=+0.003 tau@0.99=0.336 fpr~0.025 | reduce=topk_mean topk=4
+[355] pool=last|mod=v|k=16 | layer=27 d=+2.104 auc=0.970 ks=0.835 gap=+0.057 tau@0.99=0.658 fpr~0.000 
+[356] pool=last_k|mod=qv|k=16 | layer= 7 d=+2.337 auc=0.970 ks=0.890 gap=+0.010 tau@0.99=0.972 fpr~0.010 
+[357] pool=mean|mod=qv|k=16 | layer=12 d=+1.379 auc=0.969 ks=0.835 gap=+0.020 tau@0.99=0.999 fpr~0.000 
+[358] pool=last_k|mod=q|k=16 | layer= 7 d=+2.322 auc=0.969 ks=0.890 gap=+0.010 tau@0.99=0.973 fpr~0.010 
+[359] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=18 d=+4.355 auc=0.969 ks=0.925 gap=+0.009 tau@0.99=0.585 fpr~0.000 | reduce=topk_mean topk=4
+[360] pool=mean|mod=q|k=16 | layer=12 d=+1.377 auc=0.969 ks=0.830 gap=+0.020 tau@0.99=0.999 fpr~0.000 
+[361] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=10 d=+2.083 auc=0.968 ks=0.860 gap=+0.029 tau@0.99=0.028 fpr~0.000 | reduce=mean topk=4
+[362] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=10 d=+2.083 auc=0.968 ks=0.860 gap=+0.029 tau@0.99=0.028 fpr~0.000 | reduce=mean topk=8
+[363] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=10 d=+2.083 auc=0.968 ks=0.860 gap=+0.029 tau@0.99=0.028 fpr~0.000 | reduce=mean topk=16
+[364] pool=last_k|mod=v|k=4 | layer=30 d=+2.293 auc=0.968 ks=0.815 gap=+0.049 tau@0.99=0.481 fpr~0.000 
+[365] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=15 d=+2.538 auc=0.968 ks=0.870 gap=+0.004 tau@0.99=0.244 fpr~0.000 | reduce=topk_mean topk=16
+[366] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=18 d=+2.282 auc=0.967 ks=0.865 gap=+0.009 tau@0.99=0.751 fpr~0.000 | reduce=mean topk=4
+[367] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=18 d=+2.282 auc=0.967 ks=0.865 gap=+0.009 tau@0.99=0.751 fpr~0.000 | reduce=mean topk=8
+[368] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=18 d=+2.282 auc=0.967 ks=0.865 gap=+0.009 tau@0.99=0.751 fpr~0.000 | reduce=mean topk=16
+[369] pool=last_k|mod=v|k=4 | layer=21 d=+2.280 auc=0.967 ks=0.800 gap=+0.049 tau@0.99=0.523 fpr~0.000 
+[370] pool=last|mod=v|k=16 | layer=28 d=+2.601 auc=0.967 ks=0.815 gap=+0.068 tau@0.99=0.556 fpr~0.000 
+[371] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=18 d=+3.058 auc=0.966 ks=0.930 gap=+0.012 tau@0.99=0.571 fpr~0.000 | reduce=topk_mean topk=8
+[372] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 8 d=+2.492 auc=0.964 ks=0.845 gap=+0.007 tau@0.99=0.658 fpr~0.000 | reduce=topk_mean topk=8
+[373] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 8 d=+2.489 auc=0.963 ks=0.835 gap=+0.007 tau@0.99=0.667 fpr~0.000 | reduce=topk_mean topk=8
+[374] pool=last|mod=v|k=16 | layer=21 d=+2.470 auc=0.963 ks=0.825 gap=+0.058 tau@0.99=0.493 fpr~0.000 
+[375] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=25 d=+2.822 auc=0.962 ks=0.810 gap=+0.016 tau@0.99=0.517 fpr~0.000 | reduce=topk_mean topk=16
+[376] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer=30 d=+3.658 auc=0.962 ks=0.925 gap=+0.006 tau@0.99=0.912 fpr~0.000 | reduce=max topk=4
+[377] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer=30 d=+3.658 auc=0.962 ks=0.925 gap=+0.006 tau@0.99=0.912 fpr~0.000 | reduce=max topk=8
+[378] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer=30 d=+3.658 auc=0.962 ks=0.925 gap=+0.006 tau@0.99=0.912 fpr~0.000 | reduce=max topk=16
+[379] pool=mean|mod=q|k=16 | layer= 7 d=+1.273 auc=0.962 ks=0.795 gap=+0.024 tau@0.99=0.999 fpr~0.000 
+[380] pool=mean|mod=qv|k=16 | layer= 7 d=+1.271 auc=0.962 ks=0.795 gap=+0.025 tau@0.99=0.999 fpr~0.000 
+[381] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=29 d=+1.865 auc=0.961 ks=0.865 gap=+0.007 tau@0.99=0.600 fpr~0.000 | reduce=topk_mean topk=8
+[382] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer=16 d=+3.282 auc=0.961 ks=0.960 gap=+0.013 tau@0.99=0.767 fpr~0.040 | reduce=max topk=4
+[383] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer=16 d=+3.282 auc=0.961 ks=0.960 gap=+0.013 tau@0.99=0.767 fpr~0.040 | reduce=max topk=8
+[384] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer=16 d=+3.282 auc=0.961 ks=0.960 gap=+0.013 tau@0.99=0.767 fpr~0.040 | reduce=max topk=16
+[385] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer=16 d=+3.041 auc=0.961 ks=0.960 gap=+0.012 tau@0.99=0.775 fpr~0.040 | reduce=max topk=4
+[386] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer=16 d=+3.041 auc=0.961 ks=0.960 gap=+0.012 tau@0.99=0.775 fpr~0.040 | reduce=max topk=8
+[387] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer=16 d=+3.041 auc=0.961 ks=0.960 gap=+0.012 tau@0.99=0.775 fpr~0.040 | reduce=max topk=16
+[388] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=16 d=+2.269 auc=0.961 ks=0.915 gap=+0.003 tau@0.99=0.371 fpr~0.000 | reduce=topk_mean topk=4
+[389] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer=14 d=+2.189 auc=0.960 ks=0.855 gap=+0.004 tau@0.99=0.729 fpr~0.010 | reduce=topk_mean topk=16
+[390] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=13 d=+1.896 auc=0.960 ks=0.870 gap=+0.016 tau@0.99=0.648 fpr~0.005 | reduce=mean topk=4
+[391] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=13 d=+1.896 auc=0.960 ks=0.870 gap=+0.016 tau@0.99=0.648 fpr~0.005 | reduce=mean topk=8
+[392] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=13 d=+1.896 auc=0.960 ks=0.870 gap=+0.016 tau@0.99=0.648 fpr~0.005 | reduce=mean topk=16
+[393] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=13 d=+1.895 auc=0.959 ks=0.865 gap=+0.015 tau@0.99=0.658 fpr~0.005 | reduce=mean topk=4
+[394] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=13 d=+1.895 auc=0.959 ks=0.865 gap=+0.015 tau@0.99=0.658 fpr~0.005 | reduce=mean topk=8
+[395] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=13 d=+1.895 auc=0.959 ks=0.865 gap=+0.015 tau@0.99=0.658 fpr~0.005 | reduce=mean topk=16
+[396] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=15 d=+2.325 auc=0.958 ks=0.925 gap=+0.004 tau@0.99=0.376 fpr~0.000 | reduce=topk_mean topk=4
+[397] pool=whole|mod=v|k=16|reduce=max|topk=4 | layer=22 d=+1.739 auc=0.957 ks=0.925 gap=+0.016 tau@0.99=0.684 fpr~0.000 | reduce=max topk=4
+[398] pool=whole|mod=v|k=16|reduce=max|topk=8 | layer=22 d=+1.739 auc=0.957 ks=0.925 gap=+0.016 tau@0.99=0.684 fpr~0.000 | reduce=max topk=8
+[399] pool=whole|mod=v|k=16|reduce=max|topk=16 | layer=22 d=+1.739 auc=0.957 ks=0.925 gap=+0.016 tau@0.99=0.684 fpr~0.000 | reduce=max topk=16
+[400] pool=last_k|mod=v|k=4 | layer=23 d=+2.285 auc=0.957 ks=0.810 gap=+0.047 tau@0.99=0.495 fpr~0.000 
+[401] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=23 d=+2.846 auc=0.956 ks=0.890 gap=+0.015 tau@0.99=0.580 fpr~0.000 | reduce=topk_mean topk=4
+[402] pool=last|mod=qv|k=16 | layer=23 d=+2.021 auc=0.956 ks=0.775 gap=+0.019 tau@0.99=0.867 fpr~0.000 
+[403] pool=last_k|mod=v|k=4 | layer=17 d=+2.299 auc=0.955 ks=0.835 gap=+0.049 tau@0.99=0.373 fpr~0.000 
+[404] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=21 d=+2.077 auc=0.955 ks=0.825 gap=+0.007 tau@0.99=0.773 fpr~0.000 | reduce=mean topk=4
+[405] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=21 d=+2.077 auc=0.955 ks=0.825 gap=+0.007 tau@0.99=0.773 fpr~0.000 | reduce=mean topk=8
+[406] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=21 d=+2.077 auc=0.955 ks=0.825 gap=+0.007 tau@0.99=0.773 fpr~0.000 | reduce=mean topk=16
+[407] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=20 d=+2.560 auc=0.954 ks=0.785 gap=+0.017 tau@0.99=0.531 fpr~0.000 | reduce=topk_mean topk=8
+[408] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=14 d=+2.143 auc=0.953 ks=0.850 gap=+0.004 tau@0.99=0.740 fpr~0.010 | reduce=topk_mean topk=16
+[409] pool=last_k|mod=qv|k=16 | layer=12 d=+2.155 auc=0.952 ks=0.880 gap=+0.013 tau@0.99=0.973 fpr~0.005 
+[410] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 6 d=+2.276 auc=0.952 ks=0.840 gap=+0.004 tau@0.99=0.666 fpr~0.005 | reduce=topk_mean topk=16
+[411] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=19 d=+2.773 auc=0.952 ks=0.890 gap=+0.015 tau@0.99=0.500 fpr~0.000 | reduce=topk_mean topk=4
+[412] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=29 d=+2.435 auc=0.951 ks=0.950 gap=+0.002 tau@0.99=0.911 fpr~0.040 | reduce=topk_mean topk=4
+[413] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=29 d=+1.802 auc=0.951 ks=0.950 gap=+0.002 tau@0.99=0.902 fpr~0.040 | reduce=topk_mean topk=4
+[414] pool=last_k|mod=q|k=16 | layer=12 d=+2.129 auc=0.950 ks=0.880 gap=+0.012 tau@0.99=0.974 fpr~0.005 
+[415] pool=last_k|mod=v|k=8 | layer=18 d=+2.415 auc=0.950 ks=0.720 gap=+0.034 tau@0.99=0.607 fpr~0.000 
+[416] pool=last_k|mod=qv|k=16 | layer= 4 d=+1.901 auc=0.950 ks=0.810 gap=+0.005 tau@0.99=0.984 fpr~0.000 
+[417] pool=last_k|mod=v|k=4 | layer=26 d=+2.055 auc=0.950 ks=0.785 gap=+0.052 tau@0.99=0.513 fpr~0.000 
+[418] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=13 d=+1.967 auc=0.949 ks=0.825 gap=+0.038 tau@0.99=0.112 fpr~0.000 | reduce=mean topk=4
+[419] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=13 d=+1.967 auc=0.949 ks=0.825 gap=+0.038 tau@0.99=0.112 fpr~0.000 | reduce=mean topk=8
+[420] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=13 d=+1.967 auc=0.949 ks=0.825 gap=+0.038 tau@0.99=0.112 fpr~0.000 | reduce=mean topk=16
+[421] pool=last_k|mod=q|k=16 | layer= 4 d=+1.889 auc=0.948 ks=0.810 gap=+0.005 tau@0.99=0.984 fpr~0.000 
+[422] pool=last_k|mod=v|k=4 | layer=28 d=+2.123 auc=0.948 ks=0.755 gap=+0.047 tau@0.99=0.568 fpr~0.000 
+[423] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer=30 d=+4.748 auc=0.947 ks=0.930 gap=+0.006 tau@0.99=0.901 fpr~0.035 | reduce=max topk=4
+[424] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer=30 d=+4.748 auc=0.947 ks=0.930 gap=+0.006 tau@0.99=0.901 fpr~0.035 | reduce=max topk=8
+[425] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer=30 d=+4.748 auc=0.947 ks=0.930 gap=+0.006 tau@0.99=0.901 fpr~0.035 | reduce=max topk=16
+[426] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=21 d=+1.979 auc=0.947 ks=0.805 gap=+0.007 tau@0.99=0.780 fpr~0.000 | reduce=mean topk=4
+[427] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=21 d=+1.979 auc=0.947 ks=0.805 gap=+0.007 tau@0.99=0.780 fpr~0.000 | reduce=mean topk=8
+[428] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=21 d=+1.979 auc=0.947 ks=0.805 gap=+0.007 tau@0.99=0.780 fpr~0.000 | reduce=mean topk=16
+[429] pool=last_k|mod=v|k=4 | layer=22 d=+2.098 auc=0.946 ks=0.775 gap=+0.049 tau@0.99=0.563 fpr~0.000 
+[430] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 6 d=+2.197 auc=0.946 ks=0.830 gap=+0.003 tau@0.99=0.661 fpr~0.010 | reduce=topk_mean topk=16
+[431] pool=whole|mod=qv|k=16|reduce=max|topk=4 | layer= 8 d=+2.031 auc=0.944 ks=0.935 gap=+0.010 tau@0.99=0.673 fpr~0.035 | reduce=max topk=4
+[432] pool=whole|mod=qv|k=16|reduce=max|topk=8 | layer= 8 d=+2.031 auc=0.944 ks=0.935 gap=+0.010 tau@0.99=0.673 fpr~0.035 | reduce=max topk=8
+[433] pool=whole|mod=qv|k=16|reduce=max|topk=16 | layer= 8 d=+2.031 auc=0.944 ks=0.935 gap=+0.010 tau@0.99=0.673 fpr~0.035 | reduce=max topk=16
+[434] pool=whole|mod=q|k=16|reduce=max|topk=4 | layer= 8 d=+2.093 auc=0.944 ks=0.925 gap=+0.010 tau@0.99=0.683 fpr~0.030 | reduce=max topk=4
+[435] pool=whole|mod=q|k=16|reduce=max|topk=8 | layer= 8 d=+2.093 auc=0.944 ks=0.925 gap=+0.010 tau@0.99=0.683 fpr~0.030 | reduce=max topk=8
+[436] pool=whole|mod=q|k=16|reduce=max|topk=16 | layer= 8 d=+2.093 auc=0.944 ks=0.925 gap=+0.010 tau@0.99=0.683 fpr~0.030 | reduce=max topk=16
+[437] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=15 d=+2.220 auc=0.944 ks=0.860 gap=+0.003 tau@0.99=0.293 fpr~0.000 | reduce=topk_mean topk=8
+[438] pool=last|mod=v|k=16 | layer=18 d=+2.136 auc=0.943 ks=0.775 gap=+0.040 tau@0.99=0.522 fpr~0.000 
+[439] pool=whole|mod=v|k=16|reduce=max|topk=4 | layer=26 d=+2.680 auc=0.942 ks=0.880 gap=+0.050 tau@0.99=0.622 fpr~0.000 | reduce=max topk=4
+[440] pool=whole|mod=v|k=16|reduce=max|topk=8 | layer=26 d=+2.680 auc=0.942 ks=0.880 gap=+0.050 tau@0.99=0.622 fpr~0.000 | reduce=max topk=8
+[441] pool=whole|mod=v|k=16|reduce=max|topk=16 | layer=26 d=+2.680 auc=0.942 ks=0.880 gap=+0.050 tau@0.99=0.622 fpr~0.000 | reduce=max topk=16
+[442] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=12 d=+1.965 auc=0.941 ks=0.795 gap=+0.027 tau@0.99=0.024 fpr~0.000 | reduce=mean topk=4
+[443] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=12 d=+1.965 auc=0.941 ks=0.795 gap=+0.027 tau@0.99=0.024 fpr~0.000 | reduce=mean topk=8
+[444] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=12 d=+1.965 auc=0.941 ks=0.795 gap=+0.027 tau@0.99=0.024 fpr~0.000 | reduce=mean topk=16
+[445] pool=whole|mod=v|k=16|reduce=max|topk=4 | layer=30 d=+2.077 auc=0.940 ks=0.880 gap=+0.014 tau@0.99=0.613 fpr~0.000 | reduce=max topk=4
+[446] pool=whole|mod=v|k=16|reduce=max|topk=8 | layer=30 d=+2.077 auc=0.940 ks=0.880 gap=+0.014 tau@0.99=0.613 fpr~0.000 | reduce=max topk=8
+[447] pool=whole|mod=v|k=16|reduce=max|topk=16 | layer=30 d=+2.077 auc=0.940 ks=0.880 gap=+0.014 tau@0.99=0.613 fpr~0.000 | reduce=max topk=16
+[448] pool=mean|mod=qv|k=16 | layer= 6 d=+1.191 auc=0.940 ks=0.715 gap=+0.027 tau@0.99=0.999 fpr~0.000 
+[449] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=27 d=+2.458 auc=0.940 ks=0.735 gap=+0.014 tau@0.99=0.723 fpr~0.000 | reduce=topk_mean topk=8
+[450] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 8 d=+2.184 auc=0.940 ks=0.750 gap=+0.007 tau@0.99=0.674 fpr~0.000 | reduce=topk_mean topk=4
+[451] pool=mean|mod=q|k=16 | layer= 6 d=+1.190 auc=0.939 ks=0.710 gap=+0.026 tau@0.99=0.999 fpr~0.000 
+[452] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 2 d=+2.051 auc=0.939 ks=0.815 gap=+0.018 tau@0.99=0.217 fpr~0.000 | reduce=mean topk=4
+[453] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 2 d=+2.051 auc=0.939 ks=0.815 gap=+0.018 tau@0.99=0.217 fpr~0.000 | reduce=mean topk=8
+[454] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 2 d=+2.051 auc=0.939 ks=0.815 gap=+0.018 tau@0.99=0.217 fpr~0.000 | reduce=mean topk=16
+[455] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 8 d=+2.174 auc=0.938 ks=0.740 gap=+0.007 tau@0.99=0.666 fpr~0.000 | reduce=topk_mean topk=4
+[456] pool=last|mod=q|k=16 | layer=23 d=+1.866 auc=0.938 ks=0.720 gap=+0.017 tau@0.99=0.873 fpr~0.000 
+[457] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 3 d=+2.029 auc=0.937 ks=0.780 gap=+0.019 tau@0.99=0.158 fpr~0.005 | reduce=mean topk=4
+[458] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 3 d=+2.029 auc=0.937 ks=0.780 gap=+0.019 tau@0.99=0.158 fpr~0.005 | reduce=mean topk=8
+[459] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 3 d=+2.029 auc=0.937 ks=0.780 gap=+0.019 tau@0.99=0.158 fpr~0.005 | reduce=mean topk=16
+[460] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 5 d=+1.907 auc=0.936 ks=0.870 gap=+0.020 tau@0.99=0.023 fpr~0.020 | reduce=mean topk=4
+[461] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 5 d=+1.907 auc=0.936 ks=0.870 gap=+0.020 tau@0.99=0.023 fpr~0.020 | reduce=mean topk=8
+[462] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 5 d=+1.907 auc=0.936 ks=0.870 gap=+0.020 tau@0.99=0.023 fpr~0.020 | reduce=mean topk=16
+[463] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 9 d=+1.855 auc=0.933 ks=0.755 gap=+0.026 tau@0.99=0.036 fpr~0.015 | reduce=mean topk=4
+[464] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 9 d=+1.855 auc=0.933 ks=0.755 gap=+0.026 tau@0.99=0.036 fpr~0.015 | reduce=mean topk=8
+[465] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 9 d=+1.855 auc=0.933 ks=0.755 gap=+0.026 tau@0.99=0.036 fpr~0.015 | reduce=mean topk=16
+[466] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=10 d=+2.029 auc=0.929 ks=0.875 gap=+0.005 tau@0.99=0.633 fpr~0.005 | reduce=topk_mean topk=4
+[467] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=25 d=+2.233 auc=0.929 ks=0.745 gap=+0.009 tau@0.99=0.538 fpr~0.000 | reduce=topk_mean topk=8
+[468] pool=last|mod=v|k=16 | layer= 1 d=+2.046 auc=0.929 ks=0.770 gap=+0.026 tau@0.99=0.165 fpr~0.000 
+[469] pool=mean|mod=qv|k=16 | layer= 5 d=+1.138 auc=0.928 ks=0.695 gap=+0.031 tau@0.99=0.999 fpr~0.000 
+[470] pool=mean|mod=q|k=16 | layer= 5 d=+1.138 auc=0.928 ks=0.695 gap=+0.031 tau@0.99=0.999 fpr~0.000 
+[471] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=22 d=+1.766 auc=0.927 ks=0.730 gap=+0.009 tau@0.99=0.746 fpr~0.000 | reduce=mean topk=4
+[472] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=22 d=+1.766 auc=0.927 ks=0.730 gap=+0.009 tau@0.99=0.746 fpr~0.000 | reduce=mean topk=8
+[473] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=22 d=+1.766 auc=0.927 ks=0.730 gap=+0.009 tau@0.99=0.746 fpr~0.000 | reduce=mean topk=16
+[474] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=10 d=+1.970 auc=0.926 ks=0.865 gap=+0.005 tau@0.99=0.641 fpr~0.005 | reduce=topk_mean topk=4
+[475] pool=last|mod=v|k=16 | layer=29 d=+2.101 auc=0.926 ks=0.765 gap=+0.055 tau@0.99=0.490 fpr~0.000 
+[476] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=21 d=+1.843 auc=0.925 ks=0.805 gap=+0.007 tau@0.99=0.551 fpr~0.000 | reduce=topk_mean topk=4
+[477] pool=last|mod=v|k=16 | layer=30 d=+2.084 auc=0.924 ks=0.710 gap=+0.062 tau@0.99=0.434 fpr~0.000 
+[478] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 4 d=+1.713 auc=0.924 ks=0.800 gap=+0.029 tau@0.99=0.075 fpr~0.030 | reduce=mean topk=4
+[479] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 4 d=+1.713 auc=0.924 ks=0.800 gap=+0.029 tau@0.99=0.075 fpr~0.030 | reduce=mean topk=8
+[480] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 4 d=+1.713 auc=0.924 ks=0.800 gap=+0.029 tau@0.99=0.075 fpr~0.030 | reduce=mean topk=16
+[481] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=27 d=+2.460 auc=0.923 ks=0.890 gap=+0.003 tau@0.99=0.892 fpr~0.075 | reduce=topk_mean topk=4
+[482] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer=30 d=+2.073 auc=0.923 ks=0.795 gap=+0.002 tau@0.99=0.898 fpr~0.000 | reduce=topk_mean topk=16
+[483] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=22 d=+1.719 auc=0.922 ks=0.715 gap=+0.009 tau@0.99=0.756 fpr~0.000 | reduce=mean topk=4
+[484] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=22 d=+1.719 auc=0.922 ks=0.715 gap=+0.009 tau@0.99=0.756 fpr~0.000 | reduce=mean topk=8
+[485] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=22 d=+1.719 auc=0.922 ks=0.715 gap=+0.009 tau@0.99=0.756 fpr~0.000 | reduce=mean topk=16
+[486] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer=16 d=+1.797 auc=0.920 ks=0.755 gap=+0.005 tau@0.99=0.761 fpr~0.010 | reduce=topk_mean topk=4
+[487] pool=last|mod=qv|k=16 | layer=22 d=+1.761 auc=0.917 ks=0.670 gap=+0.018 tau@0.99=0.846 fpr~0.000 
+[488] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer=16 d=+1.769 auc=0.917 ks=0.735 gap=+0.005 tau@0.99=0.754 fpr~0.005 | reduce=topk_mean topk=4
+[489] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 6 d=+1.836 auc=0.915 ks=0.765 gap=+0.010 tau@0.99=0.632 fpr~0.000 | reduce=mean topk=4
+[490] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 6 d=+1.836 auc=0.915 ks=0.765 gap=+0.010 tau@0.99=0.632 fpr~0.000 | reduce=mean topk=8
+[491] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 6 d=+1.836 auc=0.915 ks=0.765 gap=+0.010 tau@0.99=0.632 fpr~0.000 | reduce=mean topk=16
+[492] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=11 d=+1.819 auc=0.914 ks=0.745 gap=+0.015 tau@0.99=0.633 fpr~0.020 | reduce=mean topk=4
+[493] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=11 d=+1.819 auc=0.914 ks=0.745 gap=+0.015 tau@0.99=0.633 fpr~0.020 | reduce=mean topk=8
+[494] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=11 d=+1.819 auc=0.914 ks=0.745 gap=+0.015 tau@0.99=0.633 fpr~0.020 | reduce=mean topk=16
+[495] pool=last_k|mod=v|k=4 | layer=15 d=+1.916 auc=0.914 ks=0.700 gap=+0.035 tau@0.99=0.355 fpr~0.005 
+[496] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 6 d=+1.828 auc=0.914 ks=0.760 gap=+0.010 tau@0.99=0.638 fpr~0.000 | reduce=mean topk=4
+[497] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 6 d=+1.828 auc=0.914 ks=0.760 gap=+0.010 tau@0.99=0.638 fpr~0.000 | reduce=mean topk=8
+[498] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 6 d=+1.828 auc=0.914 ks=0.760 gap=+0.010 tau@0.99=0.638 fpr~0.000 | reduce=mean topk=16
+[499] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=20 d=+1.694 auc=0.914 ks=0.725 gap=+0.007 tau@0.99=0.696 fpr~0.000 | reduce=mean topk=4
+[500] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=20 d=+1.694 auc=0.914 ks=0.725 gap=+0.007 tau@0.99=0.696 fpr~0.000 | reduce=mean topk=8
+[501] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=20 d=+1.694 auc=0.914 ks=0.725 gap=+0.007 tau@0.99=0.696 fpr~0.000 | reduce=mean topk=16
+[502] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 6 d=+1.863 auc=0.913 ks=0.770 gap=+0.003 tau@0.99=0.667 fpr~0.015 | reduce=topk_mean topk=8
+[503] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 6 d=+1.843 auc=0.913 ks=0.760 gap=+0.003 tau@0.99=0.672 fpr~0.015 | reduce=topk_mean topk=8
+[504] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 6 d=+1.622 auc=0.912 ks=0.750 gap=+0.003 tau@0.99=0.679 fpr~0.025 | reduce=topk_mean topk=4
+[505] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=11 d=+1.804 auc=0.912 ks=0.745 gap=+0.015 tau@0.99=0.619 fpr~0.020 | reduce=mean topk=4
+[506] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=11 d=+1.804 auc=0.912 ks=0.745 gap=+0.015 tau@0.99=0.619 fpr~0.020 | reduce=mean topk=8
+[507] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=11 d=+1.804 auc=0.912 ks=0.745 gap=+0.015 tau@0.99=0.619 fpr~0.020 | reduce=mean topk=16
+[508] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 6 d=+1.609 auc=0.911 ks=0.745 gap=+0.003 tau@0.99=0.674 fpr~0.020 | reduce=topk_mean topk=4
+[509] pool=last|mod=qv|k=16 | layer=20 d=+1.840 auc=0.909 ks=0.685 gap=+0.017 tau@0.99=0.845 fpr~0.000 
+[510] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=23 d=+1.586 auc=0.909 ks=0.740 gap=+0.007 tau@0.99=0.788 fpr~0.000 | reduce=mean topk=4
+[511] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=23 d=+1.586 auc=0.909 ks=0.740 gap=+0.007 tau@0.99=0.788 fpr~0.000 | reduce=mean topk=8
+[512] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=23 d=+1.586 auc=0.909 ks=0.740 gap=+0.007 tau@0.99=0.788 fpr~0.000 | reduce=mean topk=16
+[513] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=24 d=+2.401 auc=0.907 ks=0.830 gap=+0.011 tau@0.99=0.571 fpr~0.000 | reduce=topk_mean topk=8
+[514] pool=last|mod=q|k=16 | layer=20 d=+1.817 auc=0.907 ks=0.670 gap=+0.017 tau@0.99=0.852 fpr~0.000 
+[515] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 2 d=+1.636 auc=0.906 ks=0.715 gap=+0.008 tau@0.99=-0.318 fpr~0.010 | reduce=mean topk=4
+[516] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 2 d=+1.636 auc=0.906 ks=0.715 gap=+0.008 tau@0.99=-0.318 fpr~0.010 | reduce=mean topk=8
+[517] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 2 d=+1.636 auc=0.906 ks=0.715 gap=+0.008 tau@0.99=-0.318 fpr~0.010 | reduce=mean topk=16
+[518] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 2 d=+1.636 auc=0.906 ks=0.715 gap=+0.008 tau@0.99=-0.320 fpr~0.010 | reduce=mean topk=4
+[519] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 2 d=+1.636 auc=0.906 ks=0.715 gap=+0.008 tau@0.99=-0.320 fpr~0.010 | reduce=mean topk=8
+[520] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 2 d=+1.636 auc=0.906 ks=0.715 gap=+0.008 tau@0.99=-0.320 fpr~0.010 | reduce=mean topk=16
+[521] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=23 d=+1.553 auc=0.905 ks=0.720 gap=+0.007 tau@0.99=0.797 fpr~0.000 | reduce=mean topk=4
+[522] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=23 d=+1.553 auc=0.905 ks=0.720 gap=+0.007 tau@0.99=0.797 fpr~0.000 | reduce=mean topk=8
+[523] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=23 d=+1.553 auc=0.905 ks=0.720 gap=+0.007 tau@0.99=0.797 fpr~0.000 | reduce=mean topk=16
+[524] pool=last|mod=v|k=16 | layer=17 d=+1.843 auc=0.903 ks=0.675 gap=+0.033 tau@0.99=0.275 fpr~0.000 
+[525] pool=last|mod=qv|k=16 | layer=18 d=+1.843 auc=0.903 ks=0.655 gap=+0.016 tau@0.99=0.835 fpr~0.000 
+[526] pool=last|mod=qv|k=16 | layer=28 d=+1.773 auc=0.903 ks=0.645 gap=+0.015 tau@0.99=0.849 fpr~0.000 
+[527] pool=last_k|mod=qv|k=8 | layer=22 d=+1.591 auc=0.902 ks=0.670 gap=+0.009 tau@0.99=0.929 fpr~0.000 
+[528] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=12 d=+1.875 auc=0.901 ks=0.795 gap=+0.007 tau@0.99=0.725 fpr~0.025 | reduce=mean topk=4
+[529] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=12 d=+1.875 auc=0.901 ks=0.795 gap=+0.007 tau@0.99=0.725 fpr~0.025 | reduce=mean topk=8
+[530] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=12 d=+1.875 auc=0.901 ks=0.795 gap=+0.007 tau@0.99=0.725 fpr~0.025 | reduce=mean topk=16
+[531] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=20 d=+1.603 auc=0.900 ks=0.695 gap=+0.007 tau@0.99=0.703 fpr~0.000 | reduce=mean topk=4
+[532] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=20 d=+1.603 auc=0.900 ks=0.695 gap=+0.007 tau@0.99=0.703 fpr~0.000 | reduce=mean topk=8
+[533] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=20 d=+1.603 auc=0.900 ks=0.695 gap=+0.007 tau@0.99=0.703 fpr~0.000 | reduce=mean topk=16
+[534] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=12 d=+1.875 auc=0.900 ks=0.795 gap=+0.007 tau@0.99=0.735 fpr~0.025 | reduce=mean topk=4
+[535] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=12 d=+1.875 auc=0.900 ks=0.795 gap=+0.007 tau@0.99=0.735 fpr~0.025 | reduce=mean topk=8
+[536] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=12 d=+1.875 auc=0.900 ks=0.795 gap=+0.007 tau@0.99=0.735 fpr~0.025 | reduce=mean topk=16
+[537] pool=last|mod=q|k=16 | layer=18 d=+1.821 auc=0.900 ks=0.655 gap=+0.016 tau@0.99=0.840 fpr~0.000 
+
+==================== DOMAIN: physics ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/physics/forget_analyze_20260131_203944
+[COUNT] kept=52/1260
+
+[000] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=17 d=+2.107 auc=0.969 ks=0.830 gap=+0.010 tau@0.99=0.373 fpr~0.000 | reduce=topk_mean topk=16
+[001] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=23 d=+2.468 auc=0.952 ks=0.779 gap=+0.019 tau@0.99=0.542 fpr~0.000 | reduce=topk_mean topk=16
+[002] pool=last_k|mod=v|k=16 | layer=17 d=+2.535 auc=0.950 ks=0.761 gap=+0.050 tau@0.99=0.783 fpr~0.000 
+[003] pool=last_k|mod=v|k=16 | layer=23 d=+2.204 auc=0.950 ks=0.733 gap=+0.044 tau@0.99=0.845 fpr~0.000 
+[004] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=23 d=+1.966 auc=0.949 ks=0.735 gap=+0.027 tau@0.99=0.409 fpr~0.000 | reduce=mean topk=4
+[005] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=23 d=+1.966 auc=0.949 ks=0.735 gap=+0.027 tau@0.99=0.409 fpr~0.000 | reduce=mean topk=8
+[006] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=23 d=+1.966 auc=0.949 ks=0.735 gap=+0.027 tau@0.99=0.409 fpr~0.000 | reduce=mean topk=16
+[007] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=21 d=+2.362 auc=0.947 ks=0.745 gap=+0.024 tau@0.99=0.570 fpr~0.000 | reduce=topk_mean topk=8
+[008] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=23 d=+2.248 auc=0.942 ks=0.719 gap=+0.016 tau@0.99=0.562 fpr~0.000 | reduce=topk_mean topk=8
+[009] pool=last_k|mod=v|k=16 | layer=15 d=+2.144 auc=0.931 ks=0.726 gap=+0.048 tau@0.99=0.775 fpr~0.000 
+[010] pool=last_k|mod=v|k=16 | layer=26 d=+2.024 auc=0.930 ks=0.762 gap=+0.040 tau@0.99=0.844 fpr~0.000 
+[011] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=21 d=+2.239 auc=0.929 ks=0.715 gap=+0.023 tau@0.99=0.543 fpr~0.000 | reduce=topk_mean topk=16
+[012] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=21 d=+1.960 auc=0.929 ks=0.779 gap=+0.027 tau@0.99=0.406 fpr~0.000 | reduce=mean topk=4
+[013] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=21 d=+1.960 auc=0.929 ks=0.779 gap=+0.027 tau@0.99=0.406 fpr~0.000 | reduce=mean topk=8
+[014] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=21 d=+1.960 auc=0.929 ks=0.779 gap=+0.027 tau@0.99=0.406 fpr~0.000 | reduce=mean topk=16
+[015] pool=last_k|mod=v|k=16 | layer=30 d=+2.017 auc=0.928 ks=0.753 gap=+0.042 tau@0.99=0.844 fpr~0.000 
+[016] pool=last_k|mod=v|k=16 | layer=29 d=+2.155 auc=0.927 ks=0.766 gap=+0.046 tau@0.99=0.868 fpr~0.000 
+[017] pool=last_k|mod=v|k=16 | layer=28 d=+1.986 auc=0.927 ks=0.725 gap=+0.038 tau@0.99=0.873 fpr~0.000 
+[018] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=21 d=+2.045 auc=0.924 ks=0.686 gap=+0.017 tau@0.99=0.584 fpr~0.000 | reduce=topk_mean topk=4
+[019] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=26 d=+1.817 auc=0.918 ks=0.662 gap=+0.025 tau@0.99=0.393 fpr~0.000 | reduce=mean topk=4
+[020] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=26 d=+1.817 auc=0.918 ks=0.662 gap=+0.025 tau@0.99=0.393 fpr~0.000 | reduce=mean topk=8
+[021] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=26 d=+1.817 auc=0.918 ks=0.662 gap=+0.025 tau@0.99=0.393 fpr~0.000 | reduce=mean topk=16
+[022] pool=last_k|mod=v|k=16 | layer=21 d=+1.990 auc=0.915 ks=0.769 gap=+0.036 tau@0.99=0.835 fpr~0.000 
+[023] pool=last_k|mod=v|k=16 | layer=22 d=+1.969 auc=0.915 ks=0.711 gap=+0.036 tau@0.99=0.845 fpr~0.000 
+[024] pool=last_k|mod=v|k=16 | layer=20 d=+1.882 auc=0.914 ks=0.685 gap=+0.037 tau@0.99=0.796 fpr~0.000 
+[025] pool=last_k|mod=v|k=16 | layer=25 d=+1.857 auc=0.914 ks=0.691 gap=+0.035 tau@0.99=0.819 fpr~0.000 
+[026] pool=last_k|mod=v|k=8 | layer=23 d=+1.808 auc=0.913 ks=0.669 gap=+0.028 tau@0.99=0.670 fpr~0.000 
+[027] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=25 d=+1.828 auc=0.912 ks=0.723 gap=+0.024 tau@0.99=0.398 fpr~0.000 | reduce=mean topk=4
+[028] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=25 d=+1.828 auc=0.912 ks=0.723 gap=+0.024 tau@0.99=0.398 fpr~0.000 | reduce=mean topk=8
+[029] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=25 d=+1.828 auc=0.912 ks=0.723 gap=+0.024 tau@0.99=0.398 fpr~0.000 | reduce=mean topk=16
+[030] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=19 d=+1.863 auc=0.912 ks=0.690 gap=+0.023 tau@0.99=0.350 fpr~0.000 | reduce=mean topk=4
+[031] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=19 d=+1.863 auc=0.912 ks=0.690 gap=+0.023 tau@0.99=0.350 fpr~0.000 | reduce=mean topk=8
+[032] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=19 d=+1.863 auc=0.912 ks=0.690 gap=+0.023 tau@0.99=0.350 fpr~0.000 | reduce=mean topk=16
+[033] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+1.864 auc=0.910 ks=0.689 gap=+0.007 tau@0.99=0.707 fpr~0.000 | reduce=topk_mean topk=16
+[034] pool=last_k|mod=qv|k=16 | layer=29 d=+1.739 auc=0.909 ks=0.649 gap=+0.004 tau@0.99=0.982 fpr~0.000 
+[035] pool=last_k|mod=v|k=8 | layer=20 d=+1.850 auc=0.908 ks=0.682 gap=+0.028 tau@0.99=0.614 fpr~0.000 
+[036] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer=17 d=+1.387 auc=0.907 ks=0.797 gap=+0.006 tau@0.99=0.393 fpr~0.000 | reduce=topk_mean topk=8
+[037] pool=last_k|mod=v|k=8 | layer=26 d=+1.865 auc=0.907 ks=0.717 gap=+0.026 tau@0.99=0.651 fpr~0.000 
+[038] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer=23 d=+1.937 auc=0.907 ks=0.649 gap=+0.014 tau@0.99=0.584 fpr~0.000 | reduce=topk_mean topk=4
+[039] pool=whole|mod=q|k=16|reduce=topk_mean|topk=16 | layer= 8 d=+1.830 auc=0.907 ks=0.664 gap=+0.007 tau@0.99=0.714 fpr~0.000 | reduce=topk_mean topk=16
+[040] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=24 d=+1.711 auc=0.904 ks=0.651 gap=+0.023 tau@0.99=0.390 fpr~0.000 | reduce=mean topk=4
+[041] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=24 d=+1.711 auc=0.904 ks=0.651 gap=+0.023 tau@0.99=0.390 fpr~0.000 | reduce=mean topk=8
+[042] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=24 d=+1.711 auc=0.904 ks=0.651 gap=+0.023 tau@0.99=0.390 fpr~0.000 | reduce=mean topk=16
+[043] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=17 d=+1.742 auc=0.903 ks=0.710 gap=+0.035 tau@0.99=0.270 fpr~0.000 | reduce=mean topk=4
+[044] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=17 d=+1.742 auc=0.903 ks=0.710 gap=+0.035 tau@0.99=0.270 fpr~0.000 | reduce=mean topk=8
+[045] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=17 d=+1.742 auc=0.903 ks=0.710 gap=+0.035 tau@0.99=0.270 fpr~0.000 | reduce=mean topk=16
+[046] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 8 d=+1.852 auc=0.903 ks=0.692 gap=+0.009 tau@0.99=0.720 fpr~0.000 | reduce=topk_mean topk=8
+[047] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=29 d=+1.736 auc=0.902 ks=0.688 gap=+0.025 tau@0.99=0.465 fpr~0.000 | reduce=mean topk=4
+[048] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=29 d=+1.736 auc=0.902 ks=0.688 gap=+0.025 tau@0.99=0.465 fpr~0.000 | reduce=mean topk=8
+[049] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=29 d=+1.736 auc=0.902 ks=0.688 gap=+0.025 tau@0.99=0.465 fpr~0.000 | reduce=mean topk=16
+[050] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 8 d=+1.844 auc=0.901 ks=0.687 gap=+0.009 tau@0.99=0.727 fpr~0.000 | reduce=topk_mean topk=8
+[051] pool=last_k|mod=q|k=16 | layer=29 d=+1.696 auc=0.901 ks=0.632 gap=+0.004 tau@0.99=0.984 fpr~0.000 
+
+==================== DOMAIN: reference-skills ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/reference-skills/forget_analyze_20260131_205057
+[COUNT] kept=476/1260
+
+[000] pool=last_k|mod=v|k=8 | layer=13 d=+3.297 auc=0.997 ks=0.976 gap=+0.055 tau@0.99=0.572 fpr~0.000 
+[001] pool=last_k|mod=v|k=16 | layer=28 d=+4.485 auc=0.997 ks=0.972 gap=+0.061 tau@0.99=0.881 fpr~0.000 
+[002] pool=last_k|mod=v|k=4 | layer=26 d=+3.741 auc=0.996 ks=0.968 gap=+0.081 tau@0.99=0.531 fpr~0.000 
+[003] pool=last_k|mod=v|k=4 | layer=14 d=+3.476 auc=0.996 ks=0.949 gap=+0.060 tau@0.99=0.383 fpr~0.000 
+[004] pool=last_k|mod=v|k=16 | layer=25 d=+5.437 auc=0.996 ks=0.972 gap=+0.075 tau@0.99=0.839 fpr~0.000 
+[005] pool=last|mod=v|k=16 | layer=27 d=+2.775 auc=0.996 ks=0.954 gap=+0.069 tau@0.99=0.624 fpr~0.000 
+[006] pool=last_k|mod=v|k=16 | layer=27 d=+3.140 auc=0.994 ks=0.972 gap=+0.043 tau@0.99=0.889 fpr~0.000 
+[007] pool=last_k|mod=v|k=4 | layer=22 d=+3.618 auc=0.994 ks=0.962 gap=+0.086 tau@0.99=0.594 fpr~0.000 
+[008] pool=last_k|mod=v|k=4 | layer=24 d=+3.230 auc=0.994 ks=0.950 gap=+0.044 tau@0.99=0.519 fpr~0.000 
+[009] pool=last_k|mod=v|k=8 | layer=27 d=+2.620 auc=0.994 ks=0.954 gap=+0.037 tau@0.99=0.723 fpr~0.000 
+[010] pool=last_k|mod=v|k=8 | layer=14 d=+3.243 auc=0.993 ks=0.957 gap=+0.050 tau@0.99=0.577 fpr~0.000 
+[011] pool=last_k|mod=v|k=4 | layer=20 d=+4.223 auc=0.993 ks=0.967 gap=+0.071 tau@0.99=0.510 fpr~0.000 
+[012] pool=last_k|mod=v|k=4 | layer=28 d=+3.127 auc=0.993 ks=0.941 gap=+0.067 tau@0.99=0.580 fpr~0.000 
+[013] pool=last_k|mod=v|k=16 | layer=26 d=+5.374 auc=0.993 ks=0.972 gap=+0.077 tau@0.99=0.867 fpr~0.000 
+[014] pool=last_k|mod=v|k=8 | layer=26 d=+5.551 auc=0.992 ks=0.972 gap=+0.079 tau@0.99=0.679 fpr~0.000 
+[015] pool=last_k|mod=v|k=4 | layer=23 d=+4.153 auc=0.992 ks=0.960 gap=+0.061 tau@0.99=0.529 fpr~0.000 
+[016] pool=last_k|mod=v|k=8 | layer=28 d=+3.713 auc=0.992 ks=0.972 gap=+0.051 tau@0.99=0.711 fpr~0.000 
+[017] pool=last_k|mod=v|k=4 | layer=21 d=+3.698 auc=0.992 ks=0.972 gap=+0.068 tau@0.99=0.560 fpr~0.000 
+[018] pool=last_k|mod=v|k=16 | layer=23 d=+3.848 auc=0.991 ks=0.972 gap=+0.051 tau@0.99=0.867 fpr~0.000 
+[019] pool=last_k|mod=v|k=8 | layer=30 d=+3.220 auc=0.991 ks=0.953 gap=+0.064 tau@0.99=0.636 fpr~0.000 
+[020] pool=last|mod=v|k=16 | layer=17 d=+4.262 auc=0.991 ks=0.972 gap=+0.090 tau@0.99=0.354 fpr~0.000 
+[021] pool=last_k|mod=v|k=8 | layer=15 d=+3.824 auc=0.991 ks=0.972 gap=+0.073 tau@0.99=0.604 fpr~0.000 
+[022] pool=last_k|mod=qv|k=8 | layer=26 d=+3.433 auc=0.990 ks=0.972 gap=+0.017 tau@0.99=0.917 fpr~0.000 
+[023] pool=last|mod=v|k=16 | layer=25 d=+3.217 auc=0.990 ks=0.939 gap=+0.072 tau@0.99=0.452 fpr~0.000 
+[024] pool=last_k|mod=v|k=4 | layer=15 d=+3.938 auc=0.990 ks=0.972 gap=+0.074 tau@0.99=0.435 fpr~0.000 
+[025] pool=last_k|mod=q|k=8 | layer=26 d=+3.266 auc=0.990 ks=0.972 gap=+0.016 tau@0.99=0.921 fpr~0.000 
+[026] pool=last_k|mod=qv|k=8 | layer=23 d=+2.952 auc=0.990 ks=0.972 gap=+0.014 tau@0.99=0.937 fpr~0.000 
+[027] pool=last_k|mod=q|k=8 | layer=23 d=+2.919 auc=0.990 ks=0.972 gap=+0.014 tau@0.99=0.941 fpr~0.000 
+[028] pool=last_k|mod=v|k=8 | layer=29 d=+3.480 auc=0.989 ks=0.962 gap=+0.052 tau@0.99=0.702 fpr~0.000 
+[029] pool=last_k|mod=v|k=16 | layer=29 d=+3.570 auc=0.989 ks=0.952 gap=+0.065 tau@0.99=0.870 fpr~0.000 
+[030] pool=last_k|mod=qv|k=4 | layer=23 d=+2.796 auc=0.989 ks=0.965 gap=+0.018 tau@0.99=0.903 fpr~0.000 
+[031] pool=last_k|mod=v|k=4 | layer=19 d=+4.262 auc=0.989 ks=0.972 gap=+0.070 tau@0.99=0.430 fpr~0.000 
+[032] pool=last_k|mod=qv|k=4 | layer=21 d=+2.846 auc=0.989 ks=0.962 gap=+0.015 tau@0.99=0.902 fpr~0.000 
+[033] pool=last|mod=v|k=16 | layer=19 d=+3.555 auc=0.989 ks=0.932 gap=+0.057 tau@0.99=0.371 fpr~0.000 
+[034] pool=last_k|mod=v|k=8 | layer=25 d=+3.720 auc=0.989 ks=0.962 gap=+0.055 tau@0.99=0.646 fpr~0.000 
+[035] pool=last_k|mod=v|k=16 | layer=18 d=+4.056 auc=0.988 ks=0.972 gap=+0.049 tau@0.99=0.859 fpr~0.000 
+[036] pool=last_k|mod=q|k=4 | layer=23 d=+2.781 auc=0.988 ks=0.960 gap=+0.018 tau@0.99=0.909 fpr~0.000 
+[037] pool=last_k|mod=qv|k=4 | layer=14 d=+3.683 auc=0.988 ks=0.967 gap=+0.023 tau@0.99=0.903 fpr~0.000 
+[038] pool=last_k|mod=qv|k=8 | layer=24 d=+3.522 auc=0.988 ks=0.972 gap=+0.017 tau@0.99=0.934 fpr~0.000 
+[039] pool=last_k|mod=v|k=4 | layer=18 d=+3.790 auc=0.988 ks=0.972 gap=+0.054 tau@0.99=0.465 fpr~0.000 
+[040] pool=last_k|mod=qv|k=8 | layer=25 d=+3.365 auc=0.988 ks=0.972 gap=+0.012 tau@0.99=0.942 fpr~0.000 
+[041] pool=last_k|mod=q|k=8 | layer=25 d=+3.316 auc=0.988 ks=0.972 gap=+0.011 tau@0.99=0.947 fpr~0.000 
+[042] pool=last_k|mod=q|k=4 | layer=21 d=+2.824 auc=0.988 ks=0.960 gap=+0.014 tau@0.99=0.906 fpr~0.000 
+[043] pool=last_k|mod=q|k=8 | layer=24 d=+3.464 auc=0.988 ks=0.972 gap=+0.016 tau@0.99=0.939 fpr~0.000 
+[044] pool=last_k|mod=qv|k=8 | layer=28 d=+2.754 auc=0.988 ks=0.957 gap=+0.010 tau@0.99=0.945 fpr~0.000 
+[045] pool=last_k|mod=v|k=4 | layer=25 d=+3.200 auc=0.988 ks=0.939 gap=+0.068 tau@0.99=0.502 fpr~0.000 
+[046] pool=last_k|mod=q|k=4 | layer=14 d=+3.626 auc=0.988 ks=0.967 gap=+0.023 tau@0.99=0.909 fpr~0.000 
+[047] pool=last_k|mod=qv|k=8 | layer=20 d=+3.172 auc=0.987 ks=0.957 gap=+0.018 tau@0.99=0.926 fpr~0.000 
+[048] pool=last_k|mod=q|k=8 | layer=20 d=+3.106 auc=0.987 ks=0.952 gap=+0.017 tau@0.99=0.929 fpr~0.000 
+[049] pool=last_k|mod=qv|k=8 | layer=29 d=+3.288 auc=0.987 ks=0.972 gap=+0.009 tau@0.99=0.942 fpr~0.000 
+[050] pool=last_k|mod=qv|k=4 | layer=15 d=+2.863 auc=0.987 ks=0.933 gap=+0.016 tau@0.99=0.895 fpr~0.000 
+[051] pool=last_k|mod=v|k=16 | layer=20 d=+3.406 auc=0.987 ks=0.972 gap=+0.059 tau@0.99=0.790 fpr~0.000 
+[052] pool=last_k|mod=qv|k=8 | layer=27 d=+3.508 auc=0.987 ks=0.972 gap=+0.013 tau@0.99=0.934 fpr~0.000 
+[053] pool=last_k|mod=v|k=16 | layer=15 d=+5.139 auc=0.987 ks=0.972 gap=+0.102 tau@0.99=0.825 fpr~0.000 
+[054] pool=last_k|mod=v|k=16 | layer=12 d=+3.099 auc=0.986 ks=0.972 gap=+0.064 tau@0.99=0.790 fpr~0.000 
+[055] pool=last_k|mod=q|k=8 | layer=28 d=+2.644 auc=0.986 ks=0.948 gap=+0.009 tau@0.99=0.949 fpr~0.000 
+[056] pool=last_k|mod=v|k=16 | layer=13 d=+5.026 auc=0.986 ks=0.972 gap=+0.097 tau@0.99=0.825 fpr~0.000 
+[057] pool=last_k|mod=v|k=16 | layer=19 d=+3.484 auc=0.986 ks=0.972 gap=+0.052 tau@0.99=0.820 fpr~0.000 
+[058] pool=last_k|mod=v|k=16 | layer=22 d=+4.784 auc=0.986 ks=0.972 gap=+0.067 tau@0.99=0.879 fpr~0.000 
+[059] pool=last_k|mod=qv|k=4 | layer=20 d=+3.541 auc=0.986 ks=0.972 gap=+0.024 tau@0.99=0.895 fpr~0.000 
+[060] pool=last_k|mod=v|k=8 | layer=20 d=+4.902 auc=0.986 ks=0.972 gap=+0.065 tau@0.99=0.648 fpr~0.000 
+[061] pool=last_k|mod=q|k=4 | layer=15 d=+2.815 auc=0.986 ks=0.933 gap=+0.016 tau@0.99=0.899 fpr~0.000 
+[062] pool=last_k|mod=qv|k=8 | layer=17 d=+2.610 auc=0.986 ks=0.929 gap=+0.015 tau@0.99=0.928 fpr~0.000 
+[063] pool=last_k|mod=q|k=4 | layer=20 d=+3.509 auc=0.986 ks=0.972 gap=+0.024 tau@0.99=0.899 fpr~0.000 
+[064] pool=last_k|mod=v|k=16 | layer=17 d=+5.826 auc=0.986 ks=0.972 gap=+0.099 tau@0.99=0.835 fpr~0.000 
+[065] pool=last_k|mod=v|k=16 | layer=30 d=+3.499 auc=0.986 ks=0.938 gap=+0.077 tau@0.99=0.848 fpr~0.000 
+[066] pool=last_k|mod=q|k=8 | layer=27 d=+3.391 auc=0.986 ks=0.972 gap=+0.013 tau@0.99=0.939 fpr~0.000 
+[067] pool=last_k|mod=v|k=8 | layer=12 d=+3.299 auc=0.986 ks=0.952 gap=+0.059 tau@0.99=0.542 fpr~0.000 
+[068] pool=last_k|mod=q|k=8 | layer=29 d=+3.026 auc=0.986 ks=0.960 gap=+0.008 tau@0.99=0.947 fpr~0.000 
+[069] pool=last_k|mod=qv|k=4 | layer=17 d=+3.293 auc=0.985 ks=0.967 gap=+0.020 tau@0.99=0.895 fpr~0.000 
+[070] pool=last_k|mod=v|k=8 | layer=18 d=+3.810 auc=0.985 ks=0.972 gap=+0.054 tau@0.99=0.644 fpr~0.000 
+[071] pool=mean|mod=v|k=16 | layer=28 d=+2.493 auc=0.985 ks=0.972 gap=+0.106 tau@0.99=0.986 fpr~0.000 
+[072] pool=last_k|mod=v|k=8 | layer=21 d=+3.897 auc=0.985 ks=0.972 gap=+0.060 tau@0.99=0.701 fpr~0.000 
+[073] pool=last_k|mod=v|k=8 | layer=22 d=+4.179 auc=0.985 ks=0.972 gap=+0.066 tau@0.99=0.709 fpr~0.000 
+[074] pool=last_k|mod=q|k=4 | layer=17 d=+3.242 auc=0.985 ks=0.967 gap=+0.019 tau@0.99=0.899 fpr~0.000 
+[075] pool=last_k|mod=qv|k=4 | layer=26 d=+2.539 auc=0.985 ks=0.906 gap=+0.020 tau@0.99=0.862 fpr~0.000 
+[076] pool=last_k|mod=qv|k=8 | layer=22 d=+2.846 auc=0.985 ks=0.947 gap=+0.014 tau@0.99=0.927 fpr~0.000 
+[077] pool=last_k|mod=qv|k=4 | layer=18 d=+2.541 auc=0.985 ks=0.924 gap=+0.018 tau@0.99=0.911 fpr~0.000 
+[078] pool=last_k|mod=v|k=8 | layer=19 d=+3.953 auc=0.985 ks=0.972 gap=+0.062 tau@0.99=0.642 fpr~0.000 
+[079] pool=last|mod=v|k=16 | layer=15 d=+2.614 auc=0.984 ks=0.909 gap=+0.044 tau@0.99=0.331 fpr~0.000 
+[080] pool=last_k|mod=q|k=8 | layer=17 d=+2.526 auc=0.984 ks=0.914 gap=+0.014 tau@0.99=0.930 fpr~0.000 
+[081] pool=last_k|mod=qv|k=4 | layer=24 d=+2.609 auc=0.984 ks=0.912 gap=+0.019 tau@0.99=0.891 fpr~0.000 
+[082] pool=last_k|mod=qv|k=4 | layer=16 d=+3.904 auc=0.984 ks=0.967 gap=+0.026 tau@0.99=0.891 fpr~0.000 
+[083] pool=last_k|mod=qv|k=8 | layer=16 d=+3.377 auc=0.984 ks=0.972 gap=+0.019 tau@0.99=0.932 fpr~0.000 
+[084] pool=last|mod=v|k=16 | layer=24 d=+2.838 auc=0.984 ks=0.894 gap=+0.054 tau@0.99=0.556 fpr~0.000 
+[085] pool=last_k|mod=q|k=4 | layer=16 d=+3.893 auc=0.984 ks=0.967 gap=+0.026 tau@0.99=0.896 fpr~0.000 
+[086] pool=last_k|mod=v|k=8 | layer=23 d=+3.491 auc=0.984 ks=0.955 gap=+0.045 tau@0.99=0.686 fpr~0.000 
+[087] pool=last_k|mod=v|k=16 | layer=24 d=+4.044 auc=0.984 ks=0.972 gap=+0.061 tau@0.99=0.826 fpr~0.000 
+[088] pool=last_k|mod=q|k=4 | layer=24 d=+2.587 auc=0.984 ks=0.913 gap=+0.018 tau@0.99=0.898 fpr~0.000 
+[089] pool=last_k|mod=v|k=16 | layer=21 d=+5.061 auc=0.984 ks=0.972 gap=+0.065 tau@0.99=0.875 fpr~0.000 
+[090] pool=last_k|mod=q|k=4 | layer=18 d=+2.513 auc=0.984 ks=0.919 gap=+0.018 tau@0.99=0.916 fpr~0.000 
+[091] pool=last_k|mod=q|k=8 | layer=16 d=+3.338 auc=0.984 ks=0.972 gap=+0.018 tau@0.99=0.935 fpr~0.000 
+[092] pool=last_k|mod=qv|k=4 | layer=22 d=+2.703 auc=0.983 ks=0.940 gap=+0.017 tau@0.99=0.892 fpr~0.000 
+[093] pool=mean|mod=v|k=16 | layer=25 d=+2.730 auc=0.983 ks=0.972 gap=+0.107 tau@0.99=0.985 fpr~0.000 
+[094] pool=mean|mod=v|k=16 | layer=21 d=+2.346 auc=0.983 ks=0.972 gap=+0.116 tau@0.99=0.988 fpr~0.000 
+[095] pool=last_k|mod=v|k=4 | layer=17 d=+3.345 auc=0.982 ks=0.947 gap=+0.090 tau@0.99=0.441 fpr~0.000 
+[096] pool=last_k|mod=v|k=16 | layer=10 d=+3.018 auc=0.982 ks=0.943 gap=+0.052 tau@0.99=0.782 fpr~0.000 
+[097] pool=last|mod=v|k=16 | layer=21 d=+2.886 auc=0.982 ks=0.923 gap=+0.064 tau@0.99=0.504 fpr~0.000 
+[098] pool=last_k|mod=q|k=4 | layer=26 d=+2.468 auc=0.982 ks=0.894 gap=+0.019 tau@0.99=0.869 fpr~0.000 
+[099] pool=mean|mod=v|k=16 | layer=29 d=+2.195 auc=0.982 ks=0.972 gap=+0.095 tau@0.99=0.989 fpr~0.000 
+[100] pool=mean|mod=v|k=16 | layer=27 d=+2.503 auc=0.982 ks=0.972 gap=+0.060 tau@0.99=0.990 fpr~0.000 
+[101] pool=last_k|mod=v|k=16 | layer= 6 d=+3.038 auc=0.982 ks=0.972 gap=+0.025 tau@0.99=0.819 fpr~0.000 
+[102] pool=last_k|mod=qv|k=16 | layer=27 d=+3.267 auc=0.982 ks=0.967 gap=+0.010 tau@0.99=0.980 fpr~0.000 
+[103] pool=last_k|mod=v|k=8 | layer= 9 d=+2.966 auc=0.982 ks=0.957 gap=+0.042 tau@0.99=0.464 fpr~0.000 
+[104] pool=last_k|mod=qv|k=4 | layer=19 d=+2.909 auc=0.982 ks=0.911 gap=+0.017 tau@0.99=0.894 fpr~0.000 
+[105] pool=last|mod=v|k=16 | layer=18 d=+2.678 auc=0.981 ks=0.925 gap=+0.051 tau@0.99=0.553 fpr~0.000 
+[106] pool=last_k|mod=q|k=16 | layer=27 d=+3.275 auc=0.981 ks=0.967 gap=+0.010 tau@0.99=0.981 fpr~0.000 
+[107] pool=last|mod=v|k=16 | layer=22 d=+2.836 auc=0.981 ks=0.871 gap=+0.061 tau@0.99=0.597 fpr~0.000 
+[108] pool=last_k|mod=v|k=16 | layer= 9 d=+4.363 auc=0.981 ks=0.972 gap=+0.053 tau@0.99=0.772 fpr~0.000 
+[109] pool=mean|mod=v|k=16 | layer=23 d=+2.423 auc=0.981 ks=0.972 gap=+0.091 tau@0.99=0.988 fpr~0.000 
+[110] pool=last_k|mod=v|k=16 | layer=14 d=+4.826 auc=0.981 ks=0.972 gap=+0.091 tau@0.99=0.811 fpr~0.000 
+[111] pool=last_k|mod=qv|k=16 | layer=28 d=+3.129 auc=0.981 ks=0.967 gap=+0.008 tau@0.99=0.983 fpr~0.000 
+[112] pool=last_k|mod=v|k=16 | layer= 7 d=+2.804 auc=0.981 ks=0.967 gap=+0.030 tau@0.99=0.786 fpr~0.000 
+[113] pool=last_k|mod=qv|k=16 | layer=24 d=+3.331 auc=0.981 ks=0.972 gap=+0.013 tau@0.99=0.978 fpr~0.000 
+[114] pool=mean|mod=v|k=16 | layer=24 d=+2.681 auc=0.981 ks=0.972 gap=+0.090 tau@0.99=0.985 fpr~0.000 
+[115] pool=mean|mod=qv|k=16 | layer=29 d=+1.609 auc=0.981 ks=0.972 gap=+0.010 tau@0.99=0.999 fpr~0.000 
+[116] pool=mean|mod=q|k=16 | layer=29 d=+1.563 auc=0.981 ks=0.972 gap=+0.009 tau@0.99=0.999 fpr~0.000 
+[117] pool=last_k|mod=q|k=16 | layer=24 d=+3.327 auc=0.980 ks=0.972 gap=+0.012 tau@0.99=0.980 fpr~0.000 
+[118] pool=mean|mod=v|k=16 | layer=30 d=+2.412 auc=0.980 ks=0.972 gap=+0.082 tau@0.99=0.985 fpr~0.000 
+[119] pool=last_k|mod=qv|k=16 | layer=26 d=+3.320 auc=0.980 ks=0.972 gap=+0.014 tau@0.99=0.975 fpr~0.000 
+[120] pool=last_k|mod=q|k=4 | layer=22 d=+2.580 auc=0.980 ks=0.930 gap=+0.016 tau@0.99=0.897 fpr~0.000 
+[121] pool=mean|mod=v|k=16 | layer=26 d=+2.444 auc=0.980 ks=0.972 gap=+0.108 tau@0.99=0.984 fpr~0.000 
+[122] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=16 d=+2.136 auc=0.980 ks=0.972 gap=+0.036 tau@0.99=0.148 fpr~0.000 | reduce=mean topk=4
+[123] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=16 d=+2.136 auc=0.980 ks=0.972 gap=+0.036 tau@0.99=0.148 fpr~0.000 | reduce=mean topk=8
+[124] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=16 d=+2.136 auc=0.980 ks=0.972 gap=+0.036 tau@0.99=0.148 fpr~0.000 | reduce=mean topk=16
+[125] pool=mean|mod=v|k=16 | layer=20 d=+2.465 auc=0.980 ks=0.972 gap=+0.076 tau@0.99=0.989 fpr~0.000 
+[126] pool=mean|mod=v|k=16 | layer= 1 d=+2.334 auc=0.980 ks=0.972 gap=+0.131 tau@0.99=0.976 fpr~0.000 
+[127] pool=mean|mod=v|k=16 | layer=17 d=+2.071 auc=0.980 ks=0.972 gap=+0.196 tau@0.99=0.980 fpr~0.000 
+[128] pool=last_k|mod=qv|k=16 | layer=29 d=+3.546 auc=0.980 ks=0.972 gap=+0.007 tau@0.99=0.984 fpr~0.000 
+[129] pool=last_k|mod=q|k=16 | layer=26 d=+3.259 auc=0.980 ks=0.972 gap=+0.013 tau@0.99=0.977 fpr~0.000 
+[130] pool=last_k|mod=qv|k=16 | layer=23 d=+3.195 auc=0.980 ks=0.972 gap=+0.012 tau@0.99=0.978 fpr~0.000 
+[131] pool=mean|mod=qv|k=16 | layer=27 d=+1.525 auc=0.980 ks=0.972 gap=+0.013 tau@0.99=0.999 fpr~0.000 
+[132] pool=last_k|mod=qv|k=16 | layer=25 d=+3.544 auc=0.980 ks=0.972 gap=+0.010 tau@0.99=0.980 fpr~0.000 
+[133] pool=mean|mod=qv|k=16 | layer=30 d=+1.500 auc=0.980 ks=0.972 gap=+0.010 tau@0.99=0.999 fpr~0.000 
+[134] pool=mean|mod=v|k=16 | layer=16 d=+1.360 auc=0.980 ks=0.972 gap=+0.113 tau@0.99=0.990 fpr~0.000 
+[135] pool=mean|mod=v|k=16 | layer=18 d=+2.087 auc=0.980 ks=0.972 gap=+0.123 tau@0.99=0.985 fpr~0.000 
+[136] pool=mean|mod=q|k=16 | layer=27 d=+1.481 auc=0.980 ks=0.972 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[137] pool=mean|mod=q|k=16 | layer=30 d=+1.447 auc=0.980 ks=0.972 gap=+0.009 tau@0.99=0.999 fpr~0.000 
+[138] pool=mean|mod=qv|k=16 | layer=28 d=+1.523 auc=0.980 ks=0.972 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[139] pool=last_k|mod=q|k=4 | layer=19 d=+2.841 auc=0.980 ks=0.901 gap=+0.016 tau@0.99=0.899 fpr~0.000 
+[140] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=15 d=+2.241 auc=0.980 ks=0.962 gap=+0.045 tau@0.99=0.156 fpr~0.000 | reduce=mean topk=4
+[141] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=15 d=+2.241 auc=0.980 ks=0.962 gap=+0.045 tau@0.99=0.156 fpr~0.000 | reduce=mean topk=8
+[142] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=15 d=+2.241 auc=0.980 ks=0.962 gap=+0.045 tau@0.99=0.156 fpr~0.000 | reduce=mean topk=16
+[143] pool=last_k|mod=v|k=4 | layer=30 d=+2.735 auc=0.980 ks=0.858 gap=+0.068 tau@0.99=0.479 fpr~0.000 
+[144] pool=last_k|mod=q|k=8 | layer=22 d=+2.670 auc=0.980 ks=0.937 gap=+0.013 tau@0.99=0.930 fpr~0.000 
+[145] pool=mean|mod=v|k=16 | layer=15 d=+1.387 auc=0.980 ks=0.972 gap=+0.115 tau@0.99=0.991 fpr~0.000 
+[146] pool=mean|mod=v|k=16 | layer= 3 d=+1.181 auc=0.980 ks=0.972 gap=+0.056 tau@0.99=0.995 fpr~0.000 
+[147] pool=mean|mod=q|k=16 | layer=28 d=+1.471 auc=0.980 ks=0.972 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[148] pool=mean|mod=qv|k=16 | layer=25 d=+1.495 auc=0.979 ks=0.972 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[149] pool=last_k|mod=v|k=8 | layer=17 d=+4.807 auc=0.979 ks=0.972 gap=+0.095 tau@0.99=0.645 fpr~0.000 
+[150] pool=mean|mod=v|k=16 | layer=10 d=+1.084 auc=0.979 ks=0.972 gap=+0.075 tau@0.99=0.995 fpr~0.000 
+[151] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=17 d=+2.472 auc=0.979 ks=0.972 gap=+0.060 tau@0.99=0.247 fpr~0.000 | reduce=mean topk=4
+[152] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=17 d=+2.472 auc=0.979 ks=0.972 gap=+0.060 tau@0.99=0.247 fpr~0.000 | reduce=mean topk=8
+[153] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=17 d=+2.472 auc=0.979 ks=0.972 gap=+0.060 tau@0.99=0.247 fpr~0.000 | reduce=mean topk=16
+[154] pool=mean|mod=q|k=16 | layer=25 d=+1.453 auc=0.979 ks=0.972 gap=+0.012 tau@0.99=0.999 fpr~0.000 
+[155] pool=last_k|mod=q|k=16 | layer=23 d=+3.209 auc=0.979 ks=0.972 gap=+0.011 tau@0.99=0.980 fpr~0.000 
+[156] pool=mean|mod=v|k=16 | layer=19 d=+2.495 auc=0.979 ks=0.972 gap=+0.110 tau@0.99=0.984 fpr~0.000 
+[157] pool=mean|mod=qv|k=16 | layer=24 d=+1.422 auc=0.979 ks=0.972 gap=+0.016 tau@0.99=0.999 fpr~0.000 
+[158] pool=mean|mod=q|k=16 | layer=24 d=+1.392 auc=0.979 ks=0.972 gap=+0.016 tau@0.99=0.999 fpr~0.000 
+[159] pool=mean|mod=v|k=16 | layer= 9 d=+1.094 auc=0.979 ks=0.972 gap=+0.080 tau@0.99=0.995 fpr~0.000 
+[160] pool=last_k|mod=q|k=16 | layer=25 d=+3.446 auc=0.979 ks=0.972 gap=+0.009 tau@0.99=0.982 fpr~0.000 
+[161] pool=last_k|mod=q|k=16 | layer=28 d=+3.105 auc=0.979 ks=0.967 gap=+0.007 tau@0.99=0.984 fpr~0.000 
+[162] pool=mean|mod=qv|k=16 | layer=26 d=+1.392 auc=0.979 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[163] pool=mean|mod=q|k=16 | layer=26 d=+1.364 auc=0.979 ks=0.972 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[164] pool=mean|mod=qv|k=16 | layer=23 d=+1.452 auc=0.979 ks=0.972 gap=+0.015 tau@0.99=0.999 fpr~0.000 
+[165] pool=mean|mod=v|k=16 | layer=14 d=+1.110 auc=0.979 ks=0.972 gap=+0.091 tau@0.99=0.994 fpr~0.000 
+[166] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 1 d=+2.392 auc=0.979 ks=0.965 gap=+0.029 tau@0.99=0.216 fpr~0.000 | reduce=mean topk=4
+[167] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 1 d=+2.392 auc=0.979 ks=0.965 gap=+0.029 tau@0.99=0.216 fpr~0.000 | reduce=mean topk=8
+[168] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 1 d=+2.392 auc=0.979 ks=0.965 gap=+0.029 tau@0.99=0.216 fpr~0.000 | reduce=mean topk=16
+[169] pool=mean|mod=q|k=16 | layer=23 d=+1.424 auc=0.979 ks=0.972 gap=+0.014 tau@0.99=0.999 fpr~0.000 
+[170] pool=mean|mod=qv|k=16 | layer= 1 d=+1.437 auc=0.979 ks=0.972 gap=+0.002 tau@0.99=1.000 fpr~0.000 
+[171] pool=mean|mod=v|k=16 | layer=22 d=+2.787 auc=0.979 ks=0.972 gap=+0.107 tau@0.99=0.987 fpr~0.000 
+[172] pool=last_k|mod=qv|k=4 | layer=25 d=+2.493 auc=0.979 ks=0.864 gap=+0.014 tau@0.99=0.899 fpr~0.000 
+[173] pool=mean|mod=q|k=16 | layer= 1 d=+1.429 auc=0.979 ks=0.972 gap=+0.002 tau@0.99=1.000 fpr~0.000 
+[174] pool=mean|mod=qv|k=16 | layer=22 d=+1.374 auc=0.979 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[175] pool=mean|mod=q|k=16 | layer=22 d=+1.339 auc=0.979 ks=0.972 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[176] pool=mean|mod=qv|k=16 | layer=17 d=+1.217 auc=0.979 ks=0.972 gap=+0.017 tau@0.99=0.999 fpr~0.000 
+[177] pool=mean|mod=q|k=16 | layer=17 d=+1.201 auc=0.979 ks=0.972 gap=+0.016 tau@0.99=0.999 fpr~0.000 
+[178] pool=mean|mod=v|k=16 | layer= 2 d=+1.149 auc=0.979 ks=0.972 gap=+0.050 tau@0.99=0.996 fpr~0.000 
+[179] pool=last_k|mod=q|k=16 | layer=29 d=+3.575 auc=0.979 ks=0.972 gap=+0.006 tau@0.99=0.986 fpr~0.000 
+[180] pool=mean|mod=v|k=16 | layer=13 d=+1.122 auc=0.979 ks=0.972 gap=+0.073 tau@0.99=0.995 fpr~0.000 
+[181] pool=mean|mod=qv|k=16 | layer=10 d=+1.131 auc=0.978 ks=0.972 gap=+0.028 tau@0.99=0.999 fpr~0.000 
+[182] pool=mean|mod=qv|k=16 | layer=16 d=+1.144 auc=0.978 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[183] pool=mean|mod=q|k=16 | layer=16 d=+1.138 auc=0.978 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[184] pool=mean|mod=q|k=16 | layer=10 d=+1.129 auc=0.978 ks=0.972 gap=+0.028 tau@0.99=0.999 fpr~0.000 
+[185] pool=mean|mod=qv|k=16 | layer=18 d=+1.259 auc=0.978 ks=0.972 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[186] pool=mean|mod=q|k=16 | layer=18 d=+1.246 auc=0.978 ks=0.972 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[187] pool=mean|mod=v|k=16 | layer= 4 d=+1.182 auc=0.978 ks=0.972 gap=+0.120 tau@0.99=0.990 fpr~0.000 
+[188] pool=mean|mod=qv|k=16 | layer=19 d=+1.248 auc=0.978 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[189] pool=mean|mod=q|k=16 | layer=19 d=+1.234 auc=0.978 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[190] pool=mean|mod=qv|k=16 | layer= 9 d=+1.138 auc=0.978 ks=0.972 gap=+0.028 tau@0.99=0.999 fpr~0.000 
+[191] pool=mean|mod=q|k=16 | layer= 9 d=+1.135 auc=0.978 ks=0.972 gap=+0.027 tau@0.99=0.999 fpr~0.000 
+[192] pool=last_k|mod=qv|k=8 | layer=18 d=+2.309 auc=0.978 ks=0.853 gap=+0.013 tau@0.99=0.940 fpr~0.000 
+[193] pool=mean|mod=qv|k=16 | layer=21 d=+1.303 auc=0.978 ks=0.972 gap=+0.015 tau@0.99=0.999 fpr~0.000 
+[194] pool=mean|mod=qv|k=16 | layer=14 d=+1.223 auc=0.978 ks=0.972 gap=+0.023 tau@0.99=0.998 fpr~0.000 
+[195] pool=mean|mod=q|k=16 | layer=14 d=+1.221 auc=0.978 ks=0.972 gap=+0.022 tau@0.99=0.998 fpr~0.000 
+[196] pool=last_k|mod=qv|k=4 | layer=27 d=+2.636 auc=0.978 ks=0.872 gap=+0.015 tau@0.99=0.883 fpr~0.000 
+[197] pool=mean|mod=v|k=16 | layer= 8 d=+1.086 auc=0.978 ks=0.972 gap=+0.065 tau@0.99=0.996 fpr~0.000 
+[198] pool=mean|mod=q|k=16 | layer= 7 d=+1.075 auc=0.978 ks=0.972 gap=+0.022 tau@0.99=0.999 fpr~0.000 
+[199] pool=mean|mod=q|k=16 | layer=21 d=+1.283 auc=0.978 ks=0.972 gap=+0.015 tau@0.99=0.999 fpr~0.000 
+[200] pool=mean|mod=qv|k=16 | layer=15 d=+1.146 auc=0.978 ks=0.972 gap=+0.019 tau@0.99=0.999 fpr~0.000 
+[201] pool=mean|mod=qv|k=16 | layer=20 d=+1.263 auc=0.978 ks=0.972 gap=+0.022 tau@0.99=0.999 fpr~0.000 
+[202] pool=mean|mod=q|k=16 | layer=15 d=+1.137 auc=0.978 ks=0.972 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[203] pool=mean|mod=qv|k=16 | layer= 7 d=+1.074 auc=0.978 ks=0.972 gap=+0.023 tau@0.99=0.999 fpr~0.000 
+[204] pool=mean|mod=q|k=16 | layer=11 d=+1.154 auc=0.978 ks=0.972 gap=+0.026 tau@0.99=0.999 fpr~0.000 
+[205] pool=mean|mod=q|k=16 | layer=20 d=+1.249 auc=0.978 ks=0.972 gap=+0.021 tau@0.99=0.999 fpr~0.000 
+[206] pool=mean|mod=qv|k=16 | layer=13 d=+1.220 auc=0.978 ks=0.972 gap=+0.027 tau@0.99=0.999 fpr~0.000 
+[207] pool=mean|mod=q|k=16 | layer=13 d=+1.219 auc=0.978 ks=0.972 gap=+0.026 tau@0.99=0.999 fpr~0.000 
+[208] pool=last|mod=v|k=16 | layer=28 d=+2.659 auc=0.978 ks=0.866 gap=+0.067 tau@0.99=0.535 fpr~0.000 
+[209] pool=mean|mod=qv|k=16 | layer=11 d=+1.149 auc=0.978 ks=0.972 gap=+0.026 tau@0.99=0.998 fpr~0.000 
+[210] pool=mean|mod=v|k=16 | layer= 5 d=+0.925 auc=0.978 ks=0.972 gap=+0.051 tau@0.99=0.997 fpr~0.000 
+[211] pool=mean|mod=qv|k=16 | layer= 8 d=+1.175 auc=0.978 ks=0.972 gap=+0.026 tau@0.99=0.999 fpr~0.000 
+[212] pool=mean|mod=q|k=16 | layer= 8 d=+1.175 auc=0.978 ks=0.972 gap=+0.026 tau@0.99=0.999 fpr~0.000 
+[213] pool=last_k|mod=v|k=8 | layer=16 d=+2.899 auc=0.978 ks=0.925 gap=+0.045 tau@0.99=0.622 fpr~0.000 
+[214] pool=mean|mod=v|k=16 | layer= 7 d=+0.833 auc=0.978 ks=0.972 gap=+0.042 tau@0.99=0.997 fpr~0.000 
+[215] pool=last_k|mod=qv|k=16 | layer=18 d=+3.215 auc=0.978 ks=0.972 gap=+0.012 tau@0.99=0.981 fpr~0.000 
+[216] pool=mean|mod=qv|k=16 | layer= 5 d=+0.960 auc=0.978 ks=0.965 gap=+0.028 tau@0.99=0.999 fpr~0.000 
+[217] pool=mean|mod=q|k=16 | layer=12 d=+1.139 auc=0.978 ks=0.972 gap=+0.017 tau@0.99=0.999 fpr~0.000 
+[218] pool=mean|mod=v|k=16 | layer=11 d=+0.945 auc=0.978 ks=0.972 gap=+0.045 tau@0.99=0.997 fpr~0.000 
+[219] pool=last_k|mod=qv|k=16 | layer=21 d=+3.371 auc=0.978 ks=0.972 gap=+0.010 tau@0.99=0.980 fpr~0.000 
+[220] pool=last_k|mod=qv|k=16 | layer=13 d=+2.892 auc=0.978 ks=0.952 gap=+0.023 tau@0.99=0.967 fpr~0.000 
+[221] pool=mean|mod=qv|k=16 | layer=12 d=+1.141 auc=0.978 ks=0.972 gap=+0.018 tau@0.99=0.999 fpr~0.000 
+[222] pool=mean|mod=qv|k=16 | layer= 6 d=+1.009 auc=0.978 ks=0.972 gap=+0.024 tau@0.99=0.999 fpr~0.000 
+[223] pool=mean|mod=q|k=16 | layer= 6 d=+1.008 auc=0.978 ks=0.972 gap=+0.024 tau@0.99=0.999 fpr~0.000 
+[224] pool=mean|mod=q|k=16 | layer= 5 d=+0.959 auc=0.978 ks=0.960 gap=+0.028 tau@0.99=0.999 fpr~0.000 
+[225] pool=mean|mod=v|k=16 | layer=12 d=+1.025 auc=0.978 ks=0.972 gap=+0.077 tau@0.99=0.994 fpr~0.000 
+[226] pool=last_k|mod=q|k=16 | layer=18 d=+3.184 auc=0.978 ks=0.972 gap=+0.012 tau@0.99=0.982 fpr~0.000 
+[227] pool=last|mod=v|k=16 | layer=20 d=+3.422 auc=0.978 ks=0.930 gap=+0.084 tau@0.99=0.494 fpr~0.000 
+[228] pool=last_k|mod=qv|k=16 | layer=20 d=+3.464 auc=0.978 ks=0.972 gap=+0.014 tau@0.99=0.972 fpr~0.000 
+[229] pool=last_k|mod=q|k=16 | layer=21 d=+3.319 auc=0.977 ks=0.972 gap=+0.010 tau@0.99=0.981 fpr~0.000 
+[230] pool=last_k|mod=qv|k=16 | layer=22 d=+3.631 auc=0.977 ks=0.972 gap=+0.015 tau@0.99=0.975 fpr~0.000 
+[231] pool=last_k|mod=q|k=16 | layer=20 d=+3.455 auc=0.977 ks=0.972 gap=+0.013 tau@0.99=0.973 fpr~0.000 
+[232] pool=mean|mod=v|k=16 | layer= 6 d=+0.902 auc=0.977 ks=0.972 gap=+0.056 tau@0.99=0.997 fpr~0.000 
+[233] pool=last_k|mod=qv|k=16 | layer=30 d=+3.837 auc=0.977 ks=0.972 gap=+0.008 tau@0.99=0.984 fpr~0.000 
+[234] pool=last_k|mod=v|k=16 | layer=16 d=+4.964 auc=0.977 ks=0.972 gap=+0.072 tau@0.99=0.836 fpr~0.000 
+[235] pool=last_k|mod=q|k=16 | layer=22 d=+3.571 auc=0.977 ks=0.972 gap=+0.014 tau@0.99=0.977 fpr~0.000 
+[236] pool=last_k|mod=q|k=16 | layer=13 d=+2.839 auc=0.977 ks=0.952 gap=+0.023 tau@0.99=0.968 fpr~0.000 
+[237] pool=last_k|mod=q|k=16 | layer=30 d=+3.835 auc=0.977 ks=0.972 gap=+0.007 tau@0.99=0.986 fpr~0.000 
+[238] pool=last_k|mod=qv|k=16 | layer=19 d=+3.152 auc=0.976 ks=0.967 gap=+0.010 tau@0.99=0.973 fpr~0.000 
+[239] pool=last_k|mod=v|k=16 | layer= 5 d=+2.364 auc=0.976 ks=0.965 gap=+0.019 tau@0.99=0.824 fpr~0.000 
+[240] pool=last_k|mod=q|k=16 | layer=19 d=+3.136 auc=0.976 ks=0.967 gap=+0.010 tau@0.99=0.974 fpr~0.000 
+[241] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=21 d=+1.974 auc=0.976 ks=0.947 gap=+0.032 tau@0.99=0.388 fpr~0.000 | reduce=mean topk=4
+[242] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=21 d=+1.974 auc=0.976 ks=0.947 gap=+0.032 tau@0.99=0.388 fpr~0.000 | reduce=mean topk=8
+[243] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=21 d=+1.974 auc=0.976 ks=0.947 gap=+0.032 tau@0.99=0.388 fpr~0.000 | reduce=mean topk=16
+[244] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=26 d=+2.064 auc=0.975 ks=0.943 gap=+0.032 tau@0.99=0.378 fpr~0.000 | reduce=mean topk=4
+[245] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=26 d=+2.064 auc=0.975 ks=0.943 gap=+0.032 tau@0.99=0.378 fpr~0.000 | reduce=mean topk=8
+[246] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=26 d=+2.064 auc=0.975 ks=0.943 gap=+0.032 tau@0.99=0.378 fpr~0.000 | reduce=mean topk=16
+[247] pool=last_k|mod=qv|k=16 | layer=16 d=+2.897 auc=0.975 ks=0.967 gap=+0.012 tau@0.99=0.978 fpr~0.000 
+[248] pool=last_k|mod=q|k=4 | layer=27 d=+2.579 auc=0.975 ks=0.868 gap=+0.014 tau@0.99=0.892 fpr~0.000 
+[249] pool=last_k|mod=v|k=16 | layer= 2 d=+2.660 auc=0.975 ks=0.967 gap=+0.018 tau@0.99=0.879 fpr~0.000 
+[250] pool=last_k|mod=q|k=4 | layer=25 d=+2.417 auc=0.975 ks=0.856 gap=+0.013 tau@0.99=0.906 fpr~0.000 
+[251] pool=last_k|mod=q|k=16 | layer=16 d=+2.832 auc=0.975 ks=0.962 gap=+0.012 tau@0.99=0.979 fpr~0.000 
+[252] pool=last_k|mod=qv|k=16 | layer=14 d=+3.006 auc=0.975 ks=0.962 gap=+0.018 tau@0.99=0.976 fpr~0.000 
+[253] pool=last_k|mod=v|k=16 | layer= 3 d=+2.584 auc=0.975 ks=0.967 gap=+0.017 tau@0.99=0.868 fpr~0.000 
+[254] pool=last_k|mod=q|k=16 | layer=14 d=+2.950 auc=0.975 ks=0.962 gap=+0.017 tau@0.99=0.977 fpr~0.000 
+[255] pool=last_k|mod=qv|k=16 | layer=17 d=+3.221 auc=0.975 ks=0.972 gap=+0.011 tau@0.99=0.978 fpr~0.000 
+[256] pool=last_k|mod=q|k=16 | layer=17 d=+3.156 auc=0.974 ks=0.972 gap=+0.011 tau@0.99=0.979 fpr~0.000 
+[257] pool=last_k|mod=v|k=4 | layer=29 d=+2.505 auc=0.974 ks=0.828 gap=+0.049 tau@0.99=0.551 fpr~0.000 
+[258] pool=last_k|mod=q|k=8 | layer=18 d=+2.254 auc=0.973 ks=0.847 gap=+0.013 tau@0.99=0.942 fpr~0.000 
+[259] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=23 d=+2.017 auc=0.973 ks=0.962 gap=+0.033 tau@0.99=0.410 fpr~0.000 | reduce=mean topk=4
+[260] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=23 d=+2.017 auc=0.973 ks=0.962 gap=+0.033 tau@0.99=0.410 fpr~0.000 | reduce=mean topk=8
+[261] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=23 d=+2.017 auc=0.973 ks=0.962 gap=+0.033 tau@0.99=0.410 fpr~0.000 | reduce=mean topk=16
+[262] pool=last_k|mod=v|k=8 | layer=24 d=+2.615 auc=0.973 ks=0.905 gap=+0.043 tau@0.99=0.642 fpr~0.000 
+[263] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=25 d=+2.106 auc=0.972 ks=0.952 gap=+0.031 tau@0.99=0.388 fpr~0.000 | reduce=mean topk=4
+[264] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=25 d=+2.106 auc=0.972 ks=0.952 gap=+0.031 tau@0.99=0.388 fpr~0.000 | reduce=mean topk=8
+[265] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=25 d=+2.106 auc=0.972 ks=0.952 gap=+0.031 tau@0.99=0.388 fpr~0.000 | reduce=mean topk=16
+[266] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=11 d=+2.319 auc=0.971 ks=0.952 gap=+0.035 tau@0.99=0.020 fpr~0.000 | reduce=mean topk=4
+[267] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=11 d=+2.319 auc=0.971 ks=0.952 gap=+0.035 tau@0.99=0.020 fpr~0.000 | reduce=mean topk=8
+[268] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=11 d=+2.319 auc=0.971 ks=0.952 gap=+0.035 tau@0.99=0.020 fpr~0.000 | reduce=mean topk=16
+[269] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=10 d=+2.240 auc=0.971 ks=0.952 gap=+0.038 tau@0.99=0.043 fpr~0.000 | reduce=mean topk=4
+[270] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=10 d=+2.240 auc=0.971 ks=0.952 gap=+0.038 tau@0.99=0.043 fpr~0.000 | reduce=mean topk=8
+[271] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=10 d=+2.240 auc=0.971 ks=0.952 gap=+0.038 tau@0.99=0.043 fpr~0.000 | reduce=mean topk=16
+[272] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=18 d=+1.902 auc=0.971 ks=0.925 gap=+0.045 tau@0.99=0.352 fpr~0.000 | reduce=mean topk=4
+[273] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=18 d=+1.902 auc=0.971 ks=0.925 gap=+0.045 tau@0.99=0.352 fpr~0.000 | reduce=mean topk=8
+[274] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=18 d=+1.902 auc=0.971 ks=0.925 gap=+0.045 tau@0.99=0.352 fpr~0.000 | reduce=mean topk=16
+[275] pool=last_k|mod=qv|k=8 | layer=14 d=+2.580 auc=0.971 ks=0.945 gap=+0.014 tau@0.99=0.929 fpr~0.000 
+[276] pool=last_k|mod=qv|k=4 | layer=13 d=+2.564 auc=0.970 ks=0.859 gap=+0.023 tau@0.99=0.870 fpr~0.000 
+[277] pool=last_k|mod=q|k=8 | layer=14 d=+2.533 auc=0.970 ks=0.945 gap=+0.013 tau@0.99=0.932 fpr~0.000 
+[278] pool=last_k|mod=qv|k=8 | layer=21 d=+2.517 auc=0.970 ks=0.870 gap=+0.011 tau@0.99=0.938 fpr~0.000 
+[279] pool=last_k|mod=q|k=16 | layer=11 d=+2.127 auc=0.970 ks=0.930 gap=+0.012 tau@0.99=0.969 fpr~0.000 
+[280] pool=last_k|mod=qv|k=16 | layer=11 d=+2.141 auc=0.970 ks=0.923 gap=+0.012 tau@0.99=0.968 fpr~0.000 
+[281] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=24 d=+1.923 auc=0.969 ks=0.937 gap=+0.028 tau@0.99=0.384 fpr~0.000 | reduce=mean topk=4
+[282] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=24 d=+1.923 auc=0.969 ks=0.937 gap=+0.028 tau@0.99=0.384 fpr~0.000 | reduce=mean topk=8
+[283] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=24 d=+1.923 auc=0.969 ks=0.937 gap=+0.028 tau@0.99=0.384 fpr~0.000 | reduce=mean topk=16
+[284] pool=last_k|mod=v|k=8 | layer= 5 d=+2.656 auc=0.968 ks=0.930 gap=+0.014 tau@0.99=0.573 fpr~0.000 
+[285] pool=last_k|mod=q|k=4 | layer=13 d=+2.533 auc=0.968 ks=0.854 gap=+0.023 tau@0.99=0.877 fpr~0.000 
+[286] pool=last_k|mod=v|k=16 | layer= 8 d=+2.680 auc=0.967 ks=0.917 gap=+0.037 tau@0.99=0.768 fpr~0.000 
+[287] pool=last_k|mod=qv|k=8 | layer=19 d=+2.484 auc=0.967 ks=0.839 gap=+0.013 tau@0.99=0.928 fpr~0.000 
+[288] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=14 d=+1.928 auc=0.966 ks=0.937 gap=+0.040 tau@0.99=0.085 fpr~0.000 | reduce=mean topk=4
+[289] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=14 d=+1.928 auc=0.966 ks=0.937 gap=+0.040 tau@0.99=0.085 fpr~0.000 | reduce=mean topk=8
+[290] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=14 d=+1.928 auc=0.966 ks=0.937 gap=+0.040 tau@0.99=0.085 fpr~0.000 | reduce=mean topk=16
+[291] pool=last_k|mod=q|k=8 | layer=21 d=+2.459 auc=0.966 ks=0.858 gap=+0.011 tau@0.99=0.941 fpr~0.000 
+[292] pool=last|mod=v|k=16 | layer=30 d=+2.651 auc=0.966 ks=0.856 gap=+0.073 tau@0.99=0.391 fpr~0.000 
+[293] pool=last_k|mod=v|k=4 | layer=12 d=+2.503 auc=0.965 ks=0.851 gap=+0.039 tau@0.99=0.293 fpr~0.000 
+[294] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=10 d=+1.884 auc=0.965 ks=0.925 gap=+0.018 tau@0.99=0.594 fpr~0.000 | reduce=mean topk=4
+[295] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=10 d=+1.884 auc=0.965 ks=0.925 gap=+0.018 tau@0.99=0.594 fpr~0.000 | reduce=mean topk=8
+[296] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=10 d=+1.884 auc=0.965 ks=0.925 gap=+0.018 tau@0.99=0.594 fpr~0.000 | reduce=mean topk=16
+[297] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=10 d=+1.879 auc=0.964 ks=0.925 gap=+0.018 tau@0.99=0.602 fpr~0.000 | reduce=mean topk=4
+[298] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=10 d=+1.879 auc=0.964 ks=0.925 gap=+0.018 tau@0.99=0.602 fpr~0.000 | reduce=mean topk=8
+[299] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=10 d=+1.879 auc=0.964 ks=0.925 gap=+0.018 tau@0.99=0.602 fpr~0.000 | reduce=mean topk=16
+[300] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 8 d=+2.099 auc=0.964 ks=0.942 gap=+0.028 tau@0.99=0.043 fpr~0.000 | reduce=mean topk=4
+[301] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 8 d=+2.099 auc=0.964 ks=0.942 gap=+0.028 tau@0.99=0.043 fpr~0.000 | reduce=mean topk=8
+[302] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 8 d=+2.099 auc=0.964 ks=0.942 gap=+0.028 tau@0.99=0.043 fpr~0.000 | reduce=mean topk=16
+[303] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=22 d=+1.856 auc=0.964 ks=0.922 gap=+0.037 tau@0.99=0.405 fpr~0.000 | reduce=mean topk=4
+[304] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=22 d=+1.856 auc=0.964 ks=0.922 gap=+0.037 tau@0.99=0.405 fpr~0.000 | reduce=mean topk=8
+[305] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=22 d=+1.856 auc=0.964 ks=0.922 gap=+0.037 tau@0.99=0.405 fpr~0.000 | reduce=mean topk=16
+[306] pool=last_k|mod=v|k=4 | layer=16 d=+2.397 auc=0.964 ks=0.905 gap=+0.045 tau@0.99=0.472 fpr~0.000 
+[307] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=13 d=+1.850 auc=0.963 ks=0.927 gap=+0.019 tau@0.99=0.668 fpr~0.000 | reduce=mean topk=4
+[308] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=13 d=+1.850 auc=0.963 ks=0.927 gap=+0.019 tau@0.99=0.668 fpr~0.000 | reduce=mean topk=8
+[309] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=13 d=+1.850 auc=0.963 ks=0.927 gap=+0.019 tau@0.99=0.668 fpr~0.000 | reduce=mean topk=16
+[310] pool=last_k|mod=qv|k=16 | layer= 2 d=+1.595 auc=0.962 ks=0.898 gap=+0.002 tau@0.99=0.990 fpr~0.000 
+[311] pool=last_k|mod=q|k=8 | layer=19 d=+2.424 auc=0.962 ks=0.826 gap=+0.012 tau@0.99=0.931 fpr~0.000 
+[312] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=13 d=+1.843 auc=0.962 ks=0.927 gap=+0.019 tau@0.99=0.678 fpr~0.000 | reduce=mean topk=4
+[313] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=13 d=+1.843 auc=0.962 ks=0.927 gap=+0.019 tau@0.99=0.678 fpr~0.000 | reduce=mean topk=8
+[314] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=13 d=+1.843 auc=0.962 ks=0.927 gap=+0.019 tau@0.99=0.678 fpr~0.000 | reduce=mean topk=16
+[315] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=14 d=+1.690 auc=0.962 ks=0.922 gap=+0.014 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=4
+[316] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=14 d=+1.690 auc=0.962 ks=0.922 gap=+0.014 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=8
+[317] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=14 d=+1.690 auc=0.962 ks=0.922 gap=+0.014 tau@0.99=0.702 fpr~0.000 | reduce=mean topk=16
+[318] pool=last_k|mod=q|k=16 | layer= 2 d=+1.587 auc=0.961 ks=0.893 gap=+0.002 tau@0.99=0.990 fpr~0.000 
+[319] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 6 d=+2.309 auc=0.961 ks=0.928 gap=+0.031 tau@0.99=-0.017 fpr~0.015 | reduce=mean topk=4
+[320] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 6 d=+2.309 auc=0.961 ks=0.928 gap=+0.031 tau@0.99=-0.017 fpr~0.015 | reduce=mean topk=8
+[321] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 6 d=+2.309 auc=0.961 ks=0.928 gap=+0.031 tau@0.99=-0.017 fpr~0.015 | reduce=mean topk=16
+[322] pool=last|mod=qv|k=16 | layer=23 d=+2.104 auc=0.961 ks=0.817 gap=+0.017 tau@0.99=0.856 fpr~0.000 
+[323] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 9 d=+2.165 auc=0.960 ks=0.947 gap=+0.036 tau@0.99=0.047 fpr~0.010 | reduce=mean topk=4
+[324] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 9 d=+2.165 auc=0.960 ks=0.947 gap=+0.036 tau@0.99=0.047 fpr~0.010 | reduce=mean topk=8
+[325] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 9 d=+2.165 auc=0.960 ks=0.947 gap=+0.036 tau@0.99=0.047 fpr~0.010 | reduce=mean topk=16
+[326] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=14 d=+1.665 auc=0.960 ks=0.917 gap=+0.013 tau@0.99=0.712 fpr~0.000 | reduce=mean topk=4
+[327] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=14 d=+1.665 auc=0.960 ks=0.917 gap=+0.013 tau@0.99=0.712 fpr~0.000 | reduce=mean topk=8
+[328] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=14 d=+1.665 auc=0.960 ks=0.917 gap=+0.013 tau@0.99=0.712 fpr~0.000 | reduce=mean topk=16
+[329] pool=last_k|mod=v|k=8 | layer=11 d=+2.375 auc=0.960 ks=0.846 gap=+0.039 tau@0.99=0.512 fpr~0.000 
+[330] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=19 d=+1.588 auc=0.959 ks=0.882 gap=+0.023 tau@0.99=0.331 fpr~0.000 | reduce=mean topk=4
+[331] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=19 d=+1.588 auc=0.959 ks=0.882 gap=+0.023 tau@0.99=0.331 fpr~0.000 | reduce=mean topk=8
+[332] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=19 d=+1.588 auc=0.959 ks=0.882 gap=+0.023 tau@0.99=0.331 fpr~0.000 | reduce=mean topk=16
+[333] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=12 d=+2.025 auc=0.959 ks=0.920 gap=+0.032 tau@0.99=0.036 fpr~0.000 | reduce=mean topk=4
+[334] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=12 d=+2.025 auc=0.959 ks=0.920 gap=+0.032 tau@0.99=0.036 fpr~0.000 | reduce=mean topk=8
+[335] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=12 d=+2.025 auc=0.959 ks=0.920 gap=+0.032 tau@0.99=0.036 fpr~0.000 | reduce=mean topk=16
+[336] pool=last_k|mod=v|k=16 | layer= 4 d=+1.979 auc=0.958 ks=0.899 gap=+0.013 tau@0.99=0.839 fpr~0.000 
+[337] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=13 d=+1.857 auc=0.957 ks=0.927 gap=+0.042 tau@0.99=0.121 fpr~0.005 | reduce=mean topk=4
+[338] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=13 d=+1.857 auc=0.957 ks=0.927 gap=+0.042 tau@0.99=0.121 fpr~0.005 | reduce=mean topk=8
+[339] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=13 d=+1.857 auc=0.957 ks=0.927 gap=+0.042 tau@0.99=0.121 fpr~0.005 | reduce=mean topk=16
+[340] pool=last|mod=v|k=16 | layer=26 d=+2.423 auc=0.956 ks=0.836 gap=+0.061 tau@0.99=0.495 fpr~0.000 
+[341] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=29 d=+1.752 auc=0.956 ks=0.878 gap=+0.032 tau@0.99=0.464 fpr~0.000 | reduce=mean topk=4
+[342] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=29 d=+1.752 auc=0.956 ks=0.878 gap=+0.032 tau@0.99=0.464 fpr~0.000 | reduce=mean topk=8
+[343] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=29 d=+1.752 auc=0.956 ks=0.878 gap=+0.032 tau@0.99=0.464 fpr~0.000 | reduce=mean topk=16
+[344] pool=last|mod=q|k=16 | layer=23 d=+2.049 auc=0.956 ks=0.789 gap=+0.016 tau@0.99=0.863 fpr~0.000 
+[345] pool=last_k|mod=v|k=16 | layer=11 d=+2.398 auc=0.956 ks=0.804 gap=+0.053 tau@0.99=0.795 fpr~0.000 
+[346] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=28 d=+1.935 auc=0.954 ks=0.903 gap=+0.039 tau@0.99=0.409 fpr~0.000 | reduce=mean topk=4
+[347] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=28 d=+1.935 auc=0.954 ks=0.903 gap=+0.039 tau@0.99=0.409 fpr~0.000 | reduce=mean topk=8
+[348] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=28 d=+1.935 auc=0.954 ks=0.903 gap=+0.039 tau@0.99=0.409 fpr~0.000 | reduce=mean topk=16
+[349] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=11 d=+1.878 auc=0.953 ks=0.927 gap=+0.018 tau@0.99=0.635 fpr~0.015 | reduce=mean topk=4
+[350] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=11 d=+1.878 auc=0.953 ks=0.927 gap=+0.018 tau@0.99=0.635 fpr~0.015 | reduce=mean topk=8
+[351] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=11 d=+1.878 auc=0.953 ks=0.927 gap=+0.018 tau@0.99=0.635 fpr~0.015 | reduce=mean topk=16
+[352] pool=last_k|mod=qv|k=16 | layer= 3 d=+1.576 auc=0.953 ks=0.895 gap=+0.003 tau@0.99=0.991 fpr~0.000 
+[353] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 4 d=+1.840 auc=0.953 ks=0.900 gap=+0.036 tau@0.99=0.089 fpr~0.020 | reduce=mean topk=4
+[354] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 4 d=+1.840 auc=0.953 ks=0.900 gap=+0.036 tau@0.99=0.089 fpr~0.020 | reduce=mean topk=8
+[355] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 4 d=+1.840 auc=0.953 ks=0.900 gap=+0.036 tau@0.99=0.089 fpr~0.020 | reduce=mean topk=16
+[356] pool=last_k|mod=q|k=16 | layer= 3 d=+1.568 auc=0.952 ks=0.895 gap=+0.003 tau@0.99=0.991 fpr~0.000 
+[357] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=11 d=+1.859 auc=0.952 ks=0.927 gap=+0.018 tau@0.99=0.649 fpr~0.015 | reduce=mean topk=4
+[358] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=11 d=+1.859 auc=0.952 ks=0.927 gap=+0.018 tau@0.99=0.649 fpr~0.015 | reduce=mean topk=8
+[359] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=11 d=+1.859 auc=0.952 ks=0.927 gap=+0.018 tau@0.99=0.649 fpr~0.015 | reduce=mean topk=16
+[360] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer= 6 d=+2.563 auc=0.952 ks=0.912 gap=+0.007 tau@0.99=0.094 fpr~0.025 | reduce=topk_mean topk=16
+[361] pool=last_k|mod=qv|k=16 | layer=15 d=+2.135 auc=0.951 ks=0.870 gap=+0.010 tau@0.99=0.976 fpr~0.000 
+[362] pool=mean|mod=qv|k=16 | layer= 4 d=+0.905 auc=0.951 ks=0.840 gap=+0.035 tau@0.99=0.999 fpr~0.000 
+[363] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 3 d=+2.004 auc=0.949 ks=0.896 gap=+0.020 tau@0.99=0.165 fpr~0.015 | reduce=mean topk=4
+[364] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 3 d=+2.004 auc=0.949 ks=0.896 gap=+0.020 tau@0.99=0.165 fpr~0.015 | reduce=mean topk=8
+[365] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 3 d=+2.004 auc=0.949 ks=0.896 gap=+0.020 tau@0.99=0.165 fpr~0.015 | reduce=mean topk=16
+[366] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 7 d=+1.968 auc=0.949 ks=0.881 gap=+0.028 tau@0.99=-0.018 fpr~0.015 | reduce=mean topk=4
+[367] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 7 d=+1.968 auc=0.949 ks=0.881 gap=+0.028 tau@0.99=-0.018 fpr~0.015 | reduce=mean topk=8
+[368] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 7 d=+1.968 auc=0.949 ks=0.881 gap=+0.028 tau@0.99=-0.018 fpr~0.015 | reduce=mean topk=16
+[369] pool=last_k|mod=v|k=8 | layer= 6 d=+2.226 auc=0.948 ks=0.746 gap=+0.026 tau@0.99=0.605 fpr~0.000 
+[370] pool=last_k|mod=qv|k=16 | layer=12 d=+1.693 auc=0.948 ks=0.831 gap=+0.008 tau@0.99=0.980 fpr~0.000 
+[371] pool=last|mod=qv|k=16 | layer=27 d=+2.227 auc=0.947 ks=0.807 gap=+0.015 tau@0.99=0.825 fpr~0.000 
+[372] pool=mean|mod=q|k=16 | layer= 4 d=+0.904 auc=0.947 ks=0.835 gap=+0.034 tau@0.99=0.999 fpr~0.000 
+[373] pool=last_k|mod=v|k=4 | layer=27 d=+1.873 auc=0.946 ks=0.741 gap=+0.048 tau@0.99=0.609 fpr~0.000 
+[374] pool=last_k|mod=q|k=16 | layer=15 d=+2.065 auc=0.946 ks=0.856 gap=+0.010 tau@0.99=0.976 fpr~0.000 
+[375] pool=last_k|mod=qv|k=8 | layer=30 d=+2.191 auc=0.946 ks=0.821 gap=+0.009 tau@0.99=0.927 fpr~0.000 
+[376] pool=last_k|mod=q|k=16 | layer=12 d=+1.664 auc=0.945 ks=0.828 gap=+0.008 tau@0.99=0.981 fpr~0.000 
+[377] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 8 d=+1.598 auc=0.944 ks=0.901 gap=+0.011 tau@0.99=0.616 fpr~0.020 | reduce=mean topk=4
+[378] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 8 d=+1.598 auc=0.944 ks=0.901 gap=+0.011 tau@0.99=0.616 fpr~0.020 | reduce=mean topk=8
+[379] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 8 d=+1.598 auc=0.944 ks=0.901 gap=+0.011 tau@0.99=0.616 fpr~0.020 | reduce=mean topk=16
+[380] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 8 d=+1.589 auc=0.943 ks=0.900 gap=+0.011 tau@0.99=0.624 fpr~0.020 | reduce=mean topk=4
+[381] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 8 d=+1.589 auc=0.943 ks=0.900 gap=+0.011 tau@0.99=0.624 fpr~0.020 | reduce=mean topk=8
+[382] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 8 d=+1.589 auc=0.943 ks=0.900 gap=+0.011 tau@0.99=0.624 fpr~0.020 | reduce=mean topk=16
+[383] pool=last|mod=qv|k=16 | layer=26 d=+2.128 auc=0.940 ks=0.799 gap=+0.018 tau@0.99=0.796 fpr~0.000 
+[384] pool=last_k|mod=v|k=8 | layer=10 d=+2.453 auc=0.940 ks=0.885 gap=+0.047 tau@0.99=0.533 fpr~0.005 
+[385] pool=last_k|mod=v|k=8 | layer= 8 d=+2.090 auc=0.938 ks=0.847 gap=+0.025 tau@0.99=0.424 fpr~0.010 
+[386] pool=last_k|mod=v|k=4 | layer=13 d=+2.118 auc=0.937 ks=0.816 gap=+0.037 tau@0.99=0.347 fpr~0.010 
+[387] pool=whole|mod=q|k=16|reduce=topk_mean|topk=4 | layer= 3 d=+2.194 auc=0.936 ks=0.794 gap=+0.007 tau@0.99=0.445 fpr~0.000 | reduce=topk_mean topk=4
+[388] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=19 d=+2.072 auc=0.934 ks=0.800 gap=+0.005 tau@0.99=0.432 fpr~0.010 | reduce=topk_mean topk=16
+[389] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=12 d=+1.815 auc=0.934 ks=0.838 gap=+0.009 tau@0.99=0.738 fpr~0.000 | reduce=mean topk=4
+[390] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=12 d=+1.815 auc=0.934 ks=0.838 gap=+0.009 tau@0.99=0.738 fpr~0.000 | reduce=mean topk=8
+[391] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=12 d=+1.815 auc=0.934 ks=0.838 gap=+0.009 tau@0.99=0.738 fpr~0.000 | reduce=mean topk=16
+[392] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer= 5 d=+1.720 auc=0.932 ks=0.887 gap=+0.020 tau@0.99=0.024 fpr~0.025 | reduce=mean topk=4
+[393] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer= 5 d=+1.720 auc=0.932 ks=0.887 gap=+0.020 tau@0.99=0.024 fpr~0.025 | reduce=mean topk=8
+[394] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer= 5 d=+1.720 auc=0.932 ks=0.887 gap=+0.020 tau@0.99=0.024 fpr~0.025 | reduce=mean topk=16
+[395] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=12 d=+1.797 auc=0.932 ks=0.823 gap=+0.009 tau@0.99=0.747 fpr~0.000 | reduce=mean topk=4
+[396] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=12 d=+1.797 auc=0.932 ks=0.823 gap=+0.009 tau@0.99=0.747 fpr~0.000 | reduce=mean topk=8
+[397] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=12 d=+1.797 auc=0.932 ks=0.823 gap=+0.009 tau@0.99=0.747 fpr~0.000 | reduce=mean topk=16
+[398] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=4 | layer= 3 d=+2.137 auc=0.932 ks=0.782 gap=+0.007 tau@0.99=0.444 fpr~0.000 | reduce=topk_mean topk=4
+[399] pool=whole|mod=v|k=16|reduce=topk_mean|topk=4 | layer= 2 d=+1.986 auc=0.932 ks=0.918 gap=+0.004 tau@0.99=0.436 fpr~0.000 | reduce=topk_mean topk=4
+[400] pool=last_k|mod=qv|k=8 | layer=13 d=+1.746 auc=0.931 ks=0.787 gap=+0.014 tau@0.99=0.905 fpr~0.000 
+[401] pool=last_k|mod=qv|k=16 | layer= 6 d=+1.491 auc=0.931 ks=0.838 gap=+0.005 tau@0.99=0.980 fpr~0.000 
+[402] pool=last_k|mod=qv|k=8 | layer=15 d=+1.652 auc=0.931 ks=0.786 gap=+0.009 tau@0.99=0.930 fpr~0.005 
+[403] pool=last|mod=q|k=16 | layer=26 d=+2.000 auc=0.930 ks=0.784 gap=+0.016 tau@0.99=0.805 fpr~0.000 
+[404] pool=last_k|mod=qv|k=16 | layer= 4 d=+1.413 auc=0.930 ks=0.850 gap=+0.003 tau@0.99=0.988 fpr~0.010 
+[405] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 9 d=+1.559 auc=0.929 ks=0.847 gap=+0.014 tau@0.99=0.616 fpr~0.010 | reduce=mean topk=4
+[406] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 9 d=+1.559 auc=0.929 ks=0.847 gap=+0.014 tau@0.99=0.616 fpr~0.010 | reduce=mean topk=8
+[407] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 9 d=+1.559 auc=0.929 ks=0.847 gap=+0.014 tau@0.99=0.616 fpr~0.010 | reduce=mean topk=16
+[408] pool=last|mod=qv|k=16 | layer=25 d=+2.064 auc=0.929 ks=0.811 gap=+0.017 tau@0.99=0.823 fpr~0.000 
+[409] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 9 d=+1.555 auc=0.928 ks=0.852 gap=+0.014 tau@0.99=0.605 fpr~0.010 | reduce=mean topk=4
+[410] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 9 d=+1.555 auc=0.928 ks=0.852 gap=+0.014 tau@0.99=0.605 fpr~0.010 | reduce=mean topk=8
+[411] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 9 d=+1.555 auc=0.928 ks=0.852 gap=+0.014 tau@0.99=0.605 fpr~0.010 | reduce=mean topk=16
+[412] pool=last_k|mod=q|k=16 | layer= 4 d=+1.405 auc=0.927 ks=0.850 gap=+0.003 tau@0.99=0.989 fpr~0.010 
+[413] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 6 d=+1.724 auc=0.927 ks=0.872 gap=+0.011 tau@0.99=0.641 fpr~0.020 | reduce=mean topk=4
+[414] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 6 d=+1.724 auc=0.927 ks=0.872 gap=+0.011 tau@0.99=0.641 fpr~0.020 | reduce=mean topk=8
+[415] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 6 d=+1.724 auc=0.927 ks=0.872 gap=+0.011 tau@0.99=0.641 fpr~0.020 | reduce=mean topk=16
+[416] pool=last_k|mod=q|k=8 | layer=13 d=+1.712 auc=0.926 ks=0.781 gap=+0.014 tau@0.99=0.908 fpr~0.000 
+[417] pool=last_k|mod=q|k=8 | layer=30 d=+1.960 auc=0.926 ks=0.745 gap=+0.008 tau@0.99=0.933 fpr~0.000 
+[418] pool=last_k|mod=q|k=16 | layer= 6 d=+1.474 auc=0.926 ks=0.838 gap=+0.005 tau@0.99=0.980 fpr~0.000 
+[419] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 6 d=+1.715 auc=0.926 ks=0.872 gap=+0.011 tau@0.99=0.647 fpr~0.020 | reduce=mean topk=4
+[420] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 6 d=+1.715 auc=0.926 ks=0.872 gap=+0.011 tau@0.99=0.647 fpr~0.020 | reduce=mean topk=8
+[421] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 6 d=+1.715 auc=0.926 ks=0.872 gap=+0.011 tau@0.99=0.647 fpr~0.020 | reduce=mean topk=16
+[422] pool=whole|mod=v|k=16|reduce=mean|topk=4 | layer=30 d=+1.559 auc=0.923 ks=0.782 gap=+0.025 tau@0.99=0.404 fpr~0.000 | reduce=mean topk=4
+[423] pool=whole|mod=v|k=16|reduce=mean|topk=8 | layer=30 d=+1.559 auc=0.923 ks=0.782 gap=+0.025 tau@0.99=0.404 fpr~0.000 | reduce=mean topk=8
+[424] pool=whole|mod=v|k=16|reduce=mean|topk=16 | layer=30 d=+1.559 auc=0.923 ks=0.782 gap=+0.025 tau@0.99=0.404 fpr~0.000 | reduce=mean topk=16
+[425] pool=last_k|mod=qv|k=4 | layer=28 d=+1.917 auc=0.923 ks=0.698 gap=+0.011 tau@0.99=0.908 fpr~0.000 
+[426] pool=last_k|mod=v|k=16 | layer= 1 d=+1.952 auc=0.922 ks=0.820 gap=+0.019 tau@0.99=0.784 fpr~0.000 
+[427] pool=last|mod=q|k=16 | layer=27 d=+1.974 auc=0.922 ks=0.748 gap=+0.013 tau@0.99=0.835 fpr~0.000 
+[428] pool=last|mod=q|k=16 | layer=25 d=+1.948 auc=0.920 ks=0.786 gap=+0.016 tau@0.99=0.834 fpr~0.000 
+[429] pool=last_k|mod=q|k=8 | layer=15 d=+1.581 auc=0.919 ks=0.757 gap=+0.008 tau@0.99=0.932 fpr~0.005 
+[430] pool=last|mod=v|k=16 | layer=23 d=+2.028 auc=0.919 ks=0.655 gap=+0.051 tau@0.99=0.555 fpr~0.000 
+[431] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 7 d=+1.791 auc=0.918 ks=0.878 gap=+0.010 tau@0.99=0.680 fpr~0.025 | reduce=mean topk=4
+[432] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 7 d=+1.791 auc=0.918 ks=0.878 gap=+0.010 tau@0.99=0.680 fpr~0.025 | reduce=mean topk=8
+[433] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 7 d=+1.791 auc=0.918 ks=0.878 gap=+0.010 tau@0.99=0.680 fpr~0.025 | reduce=mean topk=16
+[434] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 7 d=+1.777 auc=0.917 ks=0.878 gap=+0.010 tau@0.99=0.688 fpr~0.025 | reduce=mean topk=4
+[435] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 7 d=+1.777 auc=0.917 ks=0.878 gap=+0.010 tau@0.99=0.688 fpr~0.025 | reduce=mean topk=8
+[436] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 7 d=+1.777 auc=0.917 ks=0.878 gap=+0.010 tau@0.99=0.688 fpr~0.025 | reduce=mean topk=16
+[437] pool=whole|mod=v|k=16|reduce=topk_mean|topk=8 | layer= 6 d=+1.674 auc=0.917 ks=0.860 gap=+0.006 tau@0.99=0.161 fpr~0.035 | reduce=topk_mean topk=8
+[438] pool=last|mod=v|k=16 | layer=13 d=+1.801 auc=0.917 ks=0.725 gap=+0.037 tau@0.99=0.300 fpr~0.000 
+[439] pool=last_k|mod=v|k=4 | layer=10 d=+1.881 auc=0.917 ks=0.807 gap=+0.033 tau@0.99=0.320 fpr~0.025 
+[440] pool=last_k|mod=qv|k=16 | layer= 8 d=+1.599 auc=0.916 ks=0.787 gap=+0.011 tau@0.99=0.971 fpr~0.000 
+[441] pool=last_k|mod=qv|k=4 | layer=29 d=+1.854 auc=0.916 ks=0.689 gap=+0.009 tau@0.99=0.903 fpr~0.000 
+[442] pool=last_k|mod=q|k=16 | layer= 8 d=+1.581 auc=0.914 ks=0.777 gap=+0.011 tau@0.99=0.972 fpr~0.000 
+[443] pool=last|mod=qv|k=16 | layer=28 d=+1.848 auc=0.914 ks=0.696 gap=+0.014 tau@0.99=0.842 fpr~0.005 
+[444] pool=last_k|mod=qv|k=16 | layer=10 d=+1.844 auc=0.913 ks=0.765 gap=+0.014 tau@0.99=0.967 fpr~0.000 
+[445] pool=whole|mod=v|k=16|reduce=topk_mean|topk=16 | layer=26 d=+1.945 auc=0.913 ks=0.873 gap=+0.011 tau@0.99=0.500 fpr~0.015 | reduce=topk_mean topk=16
+[446] pool=last_k|mod=q|k=4 | layer=28 d=+1.842 auc=0.912 ks=0.669 gap=+0.009 tau@0.99=0.915 fpr~0.000 
+[447] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer= 3 d=+1.546 auc=0.912 ks=0.870 gap=+0.014 tau@0.99=0.287 fpr~0.055 | reduce=mean topk=4
+[448] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer= 3 d=+1.546 auc=0.912 ks=0.870 gap=+0.014 tau@0.99=0.287 fpr~0.055 | reduce=mean topk=8
+[449] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer= 3 d=+1.546 auc=0.912 ks=0.870 gap=+0.014 tau@0.99=0.287 fpr~0.055 | reduce=mean topk=16
+[450] pool=last_k|mod=q|k=16 | layer=10 d=+1.825 auc=0.912 ks=0.765 gap=+0.013 tau@0.99=0.968 fpr~0.000 
+[451] pool=whole|mod=qv|k=16|reduce=topk_mean|topk=8 | layer= 3 d=+1.780 auc=0.912 ks=0.794 gap=+0.005 tau@0.99=0.380 fpr~0.010 | reduce=topk_mean topk=8
+[452] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer= 3 d=+1.542 auc=0.911 ks=0.870 gap=+0.014 tau@0.99=0.288 fpr~0.055 | reduce=mean topk=4
+[453] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer= 3 d=+1.542 auc=0.911 ks=0.870 gap=+0.014 tau@0.99=0.288 fpr~0.055 | reduce=mean topk=8
+[454] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer= 3 d=+1.542 auc=0.911 ks=0.870 gap=+0.014 tau@0.99=0.288 fpr~0.055 | reduce=mean topk=16
+[455] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=17 d=+1.459 auc=0.911 ks=0.733 gap=+0.006 tau@0.99=0.749 fpr~0.000 | reduce=mean topk=4
+[456] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=17 d=+1.459 auc=0.911 ks=0.733 gap=+0.006 tau@0.99=0.749 fpr~0.000 | reduce=mean topk=8
+[457] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=17 d=+1.459 auc=0.911 ks=0.733 gap=+0.006 tau@0.99=0.749 fpr~0.000 | reduce=mean topk=16
+[458] pool=last|mod=v|k=16 | layer=14 d=+1.745 auc=0.910 ks=0.709 gap=+0.037 tau@0.99=0.345 fpr~0.000 
+[459] pool=whole|mod=q|k=16|reduce=topk_mean|topk=8 | layer= 3 d=+1.771 auc=0.910 ks=0.794 gap=+0.005 tau@0.99=0.380 fpr~0.010 | reduce=topk_mean topk=8
+[460] pool=last|mod=v|k=16 | layer=29 d=+1.940 auc=0.909 ks=0.753 gap=+0.054 tau@0.99=0.462 fpr~0.010 
+[461] pool=last_k|mod=qv|k=16 | layer= 9 d=+1.821 auc=0.908 ks=0.673 gap=+0.011 tau@0.99=0.970 fpr~0.000 
+[462] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=17 d=+1.429 auc=0.906 ks=0.715 gap=+0.006 tau@0.99=0.755 fpr~0.000 | reduce=mean topk=4
+[463] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=17 d=+1.429 auc=0.906 ks=0.715 gap=+0.006 tau@0.99=0.755 fpr~0.000 | reduce=mean topk=8
+[464] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=17 d=+1.429 auc=0.906 ks=0.715 gap=+0.006 tau@0.99=0.755 fpr~0.000 | reduce=mean topk=16
+[465] pool=whole|mod=qv|k=16|reduce=mean|topk=4 | layer=21 d=+1.296 auc=0.904 ks=0.777 gap=+0.005 tau@0.99=0.772 fpr~0.015 | reduce=mean topk=4
+[466] pool=whole|mod=qv|k=16|reduce=mean|topk=8 | layer=21 d=+1.296 auc=0.904 ks=0.777 gap=+0.005 tau@0.99=0.772 fpr~0.015 | reduce=mean topk=8
+[467] pool=whole|mod=qv|k=16|reduce=mean|topk=16 | layer=21 d=+1.296 auc=0.904 ks=0.777 gap=+0.005 tau@0.99=0.772 fpr~0.015 | reduce=mean topk=16
+[468] pool=last_k|mod=qv|k=16 | layer= 5 d=+1.312 auc=0.904 ks=0.782 gap=+0.005 tau@0.99=0.984 fpr~0.000 
+[469] pool=last|mod=qv|k=16 | layer=21 d=+1.796 auc=0.903 ks=0.690 gap=+0.013 tau@0.99=0.861 fpr~0.000 
+[470] pool=last_k|mod=q|k=16 | layer= 5 d=+1.310 auc=0.902 ks=0.782 gap=+0.005 tau@0.99=0.984 fpr~0.000 
+[471] pool=last_k|mod=qv|k=16 | layer= 7 d=+1.420 auc=0.902 ks=0.735 gap=+0.005 tau@0.99=0.982 fpr~0.000 
+[472] pool=last_k|mod=q|k=4 | layer=29 d=+1.747 auc=0.900 ks=0.657 gap=+0.008 tau@0.99=0.911 fpr~0.005 
+[473] pool=whole|mod=q|k=16|reduce=mean|topk=4 | layer=19 d=+1.411 auc=0.900 ks=0.729 gap=+0.006 tau@0.99=0.745 fpr~0.005 | reduce=mean topk=4
+[474] pool=whole|mod=q|k=16|reduce=mean|topk=8 | layer=19 d=+1.411 auc=0.900 ks=0.729 gap=+0.006 tau@0.99=0.745 fpr~0.005 | reduce=mean topk=8
+[475] pool=whole|mod=q|k=16|reduce=mean|topk=16 | layer=19 d=+1.411 auc=0.900 ks=0.729 gap=+0.006 tau@0.99=0.745 fpr~0.005 | reduce=mean topk=16
+
+==================== DOMAIN: chemistry ====================
+[RUN] /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/chemistry/forget_analyze_20260131_210003
+[SKIP] missing /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/modify_code/forget_analyze_runs/llama3.1-8b-instruct/seed0/chemistry/forget_analyze_20260131_210003/single/results_sorted.json
+
+[TOTAL] kept=1340/7560
