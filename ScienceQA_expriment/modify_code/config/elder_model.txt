@@ -1,3 +1,21 @@
+
+Question: {question}
+Choices:
+A) ...
+B) ...
+C) ...
+D) ...
+E) ...
+Answer with a single letter: A, B, C, D, or E.
+
+Question: A supermarket is uncommon in what type of collection of shops?\nOptions: 
+(A) strip mall 
+(B) city or town 
+(C) shoppingcentre 
+(D) boutique 
+(E) vermont\n\n\
+Answer with a single letter: A, B, C, D, or E.
+
 (29): LlamaDecoderLayer(
 	(self_attn): LlamaAttention(
               (q_proj): Linear(in_features=4096, out_features=4096, bias=False)

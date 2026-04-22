@@ -77,7 +77,6 @@ class LORA(torch.nn.Module):
         lora_params = list(filter(lambda p: p.requires_grad, self.model.parameters()))
         return lora_params
 
-    #TODO
     def load_from_checkpoint(self, save_path):
         print(save_path)
 

@@ -13,18 +13,6 @@ def add_hooks(
     module_forward_hooks: List[Tuple[torch.nn.Module, Callable]],
     **kwargs,
 ):
-    """
-    Context manager for temporarily adding forward hooks to a model.
-
-    Parameters
-    ----------
-    module_forward_pre_hooks
-        A list of pairs: (module, fnc) The function will be registered as a
-            forward pre hook on the module
-    module_forward_hooks
-        A list of pairs: (module, fnc) The function will be registered as a
-            forward hook on the module
-    """
     try:
         handles = []
         for module, hook in module_forward_pre_hooks:
@@ -66,6 +54,7 @@ def get_post_block_activation( # attn 후 두 번째 residual까지 끝난 “�
 ):
     torch.cuda.empty_cache()
     instructions = input_data
+    # print("input_data[0]", input_data[0])
 
     activations = []
     fwd_hooks = [
@@ -200,6 +189,47 @@ def get_activations( # @ 실행시 x 6번
     )
 
 
+def get_activations_tofu( # @ 실행시 x 3번
+    model_base,
+    layer_idx,
+    forget_dataset,
+    batch_size_forget=1,
+):
+
+    post_block_activation_forget = get_post_block_activation(
+        model=model_base.model,
+        input_data=forget_dataset,
+        tokenize_instructions_fn=model_base.tokenize_instructions_fn,
+        layer_idx=layer_idx,
+        batch_size=batch_size_forget,
+    )
+
+    # get pre post attention layernorm activations
+    pre_post_attention_layernorm_activation_forget = (
+        get_pre_post_attention_layernorm_activation(
+            model=model_base.model,
+            input_data=forget_dataset,
+            tokenize_instructions_fn=model_base.tokenize_instructions_fn,
+            layer_idx=layer_idx,
+            batch_size=batch_size_forget,
+        )
+    )
+
+    pre_down_proj_activation_forget = get_pre_down_proj_activation(
+        model=model_base.model,
+        input_data=forget_dataset,
+        tokenize_instructions_fn=model_base.tokenize_instructions_fn,
+        layer_idx=layer_idx,
+        batch_size=batch_size_forget,
+    )
+
+    return (
+        post_block_activation_forget,
+        pre_post_attention_layernorm_activation_forget,
+        pre_down_proj_activation_forget,
+    )
+
+
 def get_pertubred_activations_fwd_hook(vector, coeff):
     """Hook function to capture output activations of the layer.
     It stores activations for each token in the sequence."""
@@ -258,5 +288,4 @@ def perturb_post_block_activations_forget(
     ### post_block_activation_forget: list of n_sample tensors [1, seq_length, d_model]
     for i in range(len(post_block_activation_forget)):
         post_block_activation_forget[i] += coeff * direction
-
     return post_block_activation_forget

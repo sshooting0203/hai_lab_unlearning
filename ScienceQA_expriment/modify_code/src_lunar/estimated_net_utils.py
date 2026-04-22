@@ -9,7 +9,12 @@ from peft import get_peft_model, LoraConfig, TaskType
 
 class EstimatedNet(torch.nn.Module):
     def __init__(
-        self, in_features, out_features, bias, original_down_proj_weight, if_mask=False
+        self, 
+        in_features, 
+        out_features, 
+        bias, 
+        original_down_proj_weight, 
+        if_mask=False
     ):
         super(EstimatedNet, self).__init__()
 
@@ -37,7 +42,15 @@ class EstimatedNet(torch.nn.Module):
 
 
 class LUNAR_LoRA_net(torch.nn.Module):
-    def __init__(self, input_dim, output_dim, lora_rank=8, lora_alpha=16, lora_dropout=0.05, pretrained_weight=None):
+    def __init__(
+        self, 
+        input_dim, 
+        output_dim, 
+        lora_rank=8, 
+        lora_alpha=16, 
+        lora_dropout=0.05, 
+        pretrained_weight=None
+    ):
         super(LUNAR_LoRA_net, self).__init__()
 
         dtype = pretrained_weight.dtype if pretrained_weight is not None else torch.float32 # @ 수정 : fp16, bf16 conflict
@@ -149,6 +162,11 @@ def save_lora_only(
     print(f"[SAVE] LUNAR LoRA-only -> {save_path}")
 
 
+# updated_model = load_lora_only( # 이미 t이전에 저장된 lora model을 load 
+#     updated_model,
+#     load_path=cfg.load_unlearned_model_path, # load할 lora의 경로 
+#     layer_idxs=layer_idx_list, # unlearn할 target layer
+# )
 # @ 수정 : LoRA_net 로드
 def load_lora_only(
     model, 
@@ -188,18 +206,34 @@ def load_lora_only(
 
 
 class ActivationDataset_multiple_layers(Dataset):
-    def __init__(self, inputs_list, targets_list):
+    def __init__(self, inputs_list, targets_list, domain_label_list=None): # @@ : 수정 
         self.inputs_list = inputs_list
         self.targets_list = targets_list
+        self.domain_label_list = domain_label_list
 
     def __len__(self):
         return self.inputs_list[0].size(0)
 
     def __getitem__(self, idx):
         # return self.inputs_list[idx], self.targets_list[idx]
+        # return [inputs[idx] for inputs in self.inputs_list], [targets[idx] for targets in self.targets_list], self.domain_label_list[idx] # @@ : 수정
         return [inputs[idx] for inputs in self.inputs_list], [
             targets[idx] for targets in self.targets_list
         ]
+
+
+
+class ActivationDataset_moe_multiple_layers(Dataset):
+    def __init__(self, inputs_list, targets_list, domain_label_list=None): # @@ : 수정 
+        self.inputs_list = inputs_list
+        self.targets_list = targets_list
+        self.domain_label_list = domain_label_list
+
+    def __len__(self):
+        return self.inputs_list[0].size(0)
+
+    def __getitem__(self, idx):
+        return [inputs[idx] for inputs in self.inputs_list], [targets[idx] for targets in self.targets_list], self.domain_label_list[idx] # @@ : 수정
 
 
 # Train a single layer fully connected network(하나의 모델)
@@ -248,7 +282,12 @@ def train(
 
 # Train a single layer fully connected network(여러 개의 모델)
 def train_multiple_layers(
-    model_list, train_loader, optimizer, scheduler, device, num_epochs=100
+    model_list, 
+    train_loader, 
+    optimizer, 
+    scheduler, 
+    device, 
+    num_epochs=100
 ):
     for model in model_list:
         model.train()
@@ -270,6 +309,7 @@ def train_multiple_layers(
                 outputs_list = [
                     model(inputs) for model, inputs in zip(model_list, inputs_list)
                 ]
+                # loss 계산 
                 loss = sum(
                     [
                         criterion(outputs, target)

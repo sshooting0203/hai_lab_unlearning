@@ -1,6 +1,7 @@
 # coding=utf-8
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Dict
+from src_lunar.model_utils.mola_peft_model_hacked import (
 from src.mola_peft_model_hacked import (
     PeftModel,
     PeftModelForCausalLM,

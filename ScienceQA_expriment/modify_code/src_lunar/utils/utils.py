@@ -2,6 +2,7 @@ import torch, einops
 from torch import Tensor
 from jaxtyping import Float
 
+
 def get_orthogonalized_matrix(
     matrix: Float[Tensor, "... d_model"], vec: Float[Tensor, "d_model"]
 ) -> Float[Tensor, "... d_model"]:

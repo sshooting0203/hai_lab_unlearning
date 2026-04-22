@@ -1,0 +1,68 @@
+### Model
+model_family: llama3.1-8b-instruct
+base_model_path: ./train31Llama/trained_model/O3_LLAMA31_TOFU
+model_path: ${base_model_path}
+
+### Data (forget, retain)
+seed: 0
+data_name: tofu
+task_id: tofu_t1_AG01
+data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_SD_only_20/tofu_AG01_SD.json
+r_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_RD_only_20/tofu_not_AG01_RD.json
+
+use_harmful: true
+use_unverified: false
+
+### Unlearn Loss
+layer_modified: [19]
+coeff_list: [+2.0]
+alpha_ref: 1.0
+alpha_for: 1.0
+
+### MoE parm
+out_dir: ./moe_init
+moe:
+  num_experts: [1]
+  top_k: [1]
+  router_weight: 0.5
+  expert_weight: 1.0
+  aux_weight: 0
+  experts_per_task: 1
+
+### LoRA parm
+lora_r: 8
+lora_alpha: 8
+lora_dropout: 0.0
+lora_target_modules: ["down_proj"]
+
+### Training
+num_epochs: 20
+lr: 0.01
+positions: -1
+max_new_tokens: 256
+batch_size: 128
+micro_batch_size: 8
+
+### Evaluation
+eval_batch_size: 16
+eval_generation_max_length: 512
+eval_generation_max_new_tokens: 512
+compute_es_score: false
+eval_dataset_max_length: 512
+
+sampled_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_SD_only_20/tofu_AG01_SD.json
+retain_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_RD_only_20/tofu_not_AG01_RD.json
+
+utiliy_data_path1: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_real_authors/real_authors_test.json
+utiliy_data_path2: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_world_facts/world_facts_test.json
+
+## Load
+load_unlearned_model: false
+load_unlearned_model_path: ./models_lunar/${model_family}/${task_id}.pt
+
+## Save
+save_unlearned_model: true
+save_unlearned_model_path: ./models_lunar/${model_family}/${task_id}.pt
+
+save_folder: scienceqa_lunar_base_t/lunar_${model_family}_eval_base_${task_id}
+save_path: ./run_results/eval_basemoe_error/${model_family}/${save_folder}

@@ -1,0 +1,67 @@
+### Model
+model_family: llama3.1-8b-instruct  # llama3.1-8b-instruct
+base_model_path: meta-llama/Meta-Llama-3.1-8B-Instruct # sshl505/O3_LLAMA2_ClincQA gcyzsl/O3_LLAMA2_ScienceQA
+model_path: ${base_model_path}
+
+### Data(forget, retain)
+seed: 0
+data_name: scienceqa # clincqa
+task_id: scienceqa_t1_biology # forget은 각 도메인 데이터, retain은 최소의 도메인 ID 데이터
+# data_name: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/scienceqa_SD_10/scienceqa_biology_writing-strategies_figurative-language_units-and-measurement_physics_reference-skills_chemistry_punctuation_economics_grammar_earth-science_train_SD.json
+# r_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/scienceqa_RD_10/scienceqa_not_biology_writing-strategies_figurative-language_units-and-measurement_physics_reference-skills_chemistry_punctuation_economics_grammar_earth-science_train_RD.json
+data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/scienceqa_SD_only_200/scienceqa_biology_train_SD.json # test_SD 
+r_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/scienceqa_RD_only_200/scienceqa_not_biology_train_RD.json # test_RD
+use_harmful: true 
+use_unverified: false 
+
+### Unlearn Loss
+layer_modified: [19] # [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30] 
+coeff_list: [+2.0] # layer별 coeff
+alpha_ref: 1.0 
+alpha_for: 1.0
+
+### MoE parm
+out_dir: ./moe_init
+moe:
+  num_experts: [1]
+  top_k: [1]
+  router_weight: 0.5
+  expert_weight: 1.0
+  aux_weight: 0
+  experts_per_task : 1
+
+### LoRA parm
+lora_r: 8
+lora_alpha: 8
+lora_dropout: 0.0
+lora_target_modules: ["down_proj"] # ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "down_proj", "up_proj"]
+
+### Training
+num_epochs: 20
+lr: 0.01
+positions: -1 # direction 생성하는데 사용, 마지막 몇 개의 token을 변형시켜서 사용할지 결정 
+max_new_tokens: 256 # cut_off_len
+batch_size: 128
+micro_batch_size: 8
+
+### Evaluation
+eval_batch_size: 16
+eval_generation_max_length: 512 # @@  10 
+eval_generation_max_new_tokens: 512 # @@  10
+compute_es_score: false # forward 폭탄임, 개느려짐
+eval_dataset_max_length: 512
+
+sampled_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/scienceqa_SD_10/scienceqa_biology_test_SD.json # test_SD 
+retain_data_path: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/scienceqa_RD_10/scienceqa_not_biology_test_RD.json # test_RD
+utiliy_data_path1: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/commonqa/commonqa_test.json
+utiliy_data_path2: /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/openbookqa/openbookqa_test.json
+
+## Load 
+load_unlearned_model: false
+load_unlearned_model_path: ./models_lunar/${model_family}/${task_id}.pt
+## Save 
+save_unlearned_model: true
+save_unlearned_model_path: ./models_lunar/${model_family}/${task_id}.pt
+
+save_folder: lunar_${model_family}_eval_sim_2 # 다른 unlearning method 
+save_path: ./run_results/eval_RR/${model_family}/${save_folder}

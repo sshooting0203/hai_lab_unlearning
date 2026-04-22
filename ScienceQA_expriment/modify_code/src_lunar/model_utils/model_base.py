@@ -17,8 +17,10 @@ class ModelBase(ABC):
         self.tokenizer: AutoTokenizer = self._load_tokenizer(model_name_or_path)
 
         self.tokenize_instructions_fn = self._get_tokenize_instructions_fn() # tokenizer로 배치 텐서(input_ids, attention_mask)로 바꿔주는 함수
-        self.eoi_toks = self._get_eoi_toks() # @ 수정 : 프롬프트에서 instruction이 끝나는 지점에 붙는 토큰의 ID 리스트 반환
-        self.refusal_toks = self._get_refusal_toks() # 거절(refusal)을 나타내는 대표 토큰의 ID 리스트 반환
+        self.eoi_toks = self._get_eoi_toks() 
+        # @ 수정 : 프롬프트에서 instruction이 끝나는 지점에 붙는 토큰의 ID 리스트 반환
+        self.refusal_toks = self._get_refusal_toks() 
+        # 사용 x, 거절(refusal)을 나타내는 대표 토큰의 ID 리스트 반환
 
         self.model_block_modules = self._get_model_block_modules() # decoder layer 가져오기
         self.model_attn_modules = self._get_attn_modules()
@@ -165,20 +167,5 @@ class ModelBase(ABC):
                 raise ValueError(f"Unsupported distance type: {distance_type}")
             
             return dis_weights.unsqueeze(-1)  # [B, num_distributions, 1]
-
-    # @ 수정 : inference -> 들어오는 샘플과 이미 저장된 distibution들끼리의 거리 계산
-    def make_distance_pre_hook(self, layer_idx, positions=[-1], pool="last"):
-        def hook_fn(module, inputs):
-            # inputs[0] typically hidden_states: [B, T, D]
-            h = inputs[0]
-            if pool == "last":
-                feat = h[:, positions[0], :]   # positions=-1이면 last token
-            elif pool == "mean":
-                feat = h.mean(dim=1)
-            else:
-                raise ValueError
-            w = self.calculate_distances(feat, self.saved_distributions, ...)
-            self.last_dist[layer_idx] = w.detach().cpu()
-        return hook_fn
 
     

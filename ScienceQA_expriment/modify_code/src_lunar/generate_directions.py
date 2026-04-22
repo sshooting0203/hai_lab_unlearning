@@ -8,17 +8,37 @@ from src_lunar.utils.hook_utils import add_hooks
 from src_lunar.model_utils.model_base import ModelBase
 
 
-def get_mean_activations_pre_hook(
-    layer, 
-    cache: Float[Tensor, "pos layer d_model"], 
-    n_samples, 
-    positions: List[int]
-):
+# def get_mean_activations_pre_hook(
+#     layer, 
+#     cache: Float[Tensor, "pos layer d_model"], 
+#     n_samples, 
+#     positions: List[int]
+# ):
+#     def hook_fn(module, input):
+#         activation: Float[Tensor, "batch_size seq_len d_model"] = (
+#             input[0].clone().to(cache)
+#         ) # torch.Size([5, 32, 4096])
+#         cache[:, layer] += (1.0 / n_samples) * activation[:, positions, :].sum(dim=0) # token 5개, layer축으로 sum
+#     return hook_fn
+
+def get_mean_activations_pre_hook(layer, cache, n_samples, positions):
     def hook_fn(module, input):
-        activation: Float[Tensor, "batch_size seq_len d_model"] = (
-            input[0].clone().to(cache)
-        ) # torch.Size([5, 32, 4096])
-        cache[:, layer] += (1.0 / n_samples) * activation[:, positions, :].sum(dim=0) # token 5개, layer축으로 sum
+        activation = input[0].detach()
+
+        if torch.isnan(activation).any():
+            print(f"[NaN detected BEFORE cache add] layer={layer}, shape={activation.shape}")
+            print("activation dtype:", activation.dtype)
+            print("activation min/max:", activation.nan_to_num().min().item(), activation.nan_to_num().max().item())
+            raise RuntimeError(f"NaN in activation at layer {layer}")
+
+        activation = activation.to(cache)
+        selected = activation[:, positions, :]
+
+        if torch.isnan(selected).any():
+            print(f"[NaN detected in selected positions] layer={layer}, positions={positions}")
+            raise RuntimeError(f"NaN in selected activation at layer {layer}")
+
+        cache[:, layer] += (1.0 / n_samples) * selected.sum(dim=0)
     return hook_fn
 
 
@@ -84,7 +104,7 @@ def get_mean_diff(
         harmful_instructions,
         tokenize_instructions_fn,
         block_modules,
-        batch_size=batch_size,
+        batch_size=1,
         positions=positions,
     ) # torch.Size([5, 32, 4096]) : position, layer, hidden_dim
     mean_activations_harmless = get_mean_activations(
@@ -93,7 +113,7 @@ def get_mean_diff(
         harmless_instructions,
         tokenize_instructions_fn,
         block_modules,
-        batch_size=batch_size,
+        batch_size=1,
         positions=positions,
     ) # torch.Size([5, 32, 4096]) : position, layer, hidden_dim
 
@@ -113,6 +133,7 @@ def generate_directions(
     harmful_instructions, # ref
     harmless_instructions, # forget
 ):
+    print("len model_base.eoi : ", model_base.eoi_toks)
     mean_diffs = get_mean_diff(
         cfg,
         model_base.model,

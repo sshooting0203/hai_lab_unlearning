@@ -7,6 +7,7 @@ from src_lunar.hook_for_unlearn import (
     perturb_post_block_activations_forget,
 )
 from src_lunar.estimated_net_utils import EstimatedNet, LUNAR_LoRA_net
+from src_lunar.estimated_net_moe_utils import LUNAR_LoRA_MoE_net, LUNAR_NN_MoE_net
 
 
 def load_dataset_to_get_direction(
@@ -16,7 +17,7 @@ def load_dataset_to_get_direction(
     use_unverified=False
 ):
     # Load the forget dataset 
-    data_path = cfg.data_name
+    data_path = cfg.data_path
     with open(data_path, "r") as f:
         forget_dataset = json.load(f)
 
@@ -63,7 +64,7 @@ def split_raw_dataset_for_forget(
     with open(cfg.r_data_path, "r") as f:
         retain_dataset = json.load(f)
     
-    with open(cfg.data_name, "r") as f:
+    with open(cfg.data_path, "r") as f:
         forget_dataset = json.load(f)
 
     if instructions_only:
@@ -95,7 +96,6 @@ def prepare_trainset(
     direction,
     coeff_list,
 ):
-    estimated_net_list = []
     forget_input_list = []
     forget_target_list = []
     remain_input_list = []
@@ -139,7 +139,6 @@ def prepare_trainset(
         forget_target_list,
         remain_input_list,
         remain_target_list,
-        estimated_net_list, # 별 의미 x 
     )
 
 # 입력 x -> (LayerNorm1)
@@ -191,6 +190,7 @@ def prepare_trainset_raw(
     concat_forget_target = torch.cat(
         [activation.squeeze(0) for activation in targets_forget], dim=0
     )
+    
 
     return (
         concat_forget_input, 
@@ -199,6 +199,73 @@ def prepare_trainset_raw(
         targets_remain,
     )
 # remain : input == target # forget : intput != target
+
+
+def prepare_trainset_raw_tofu(
+    pre_down_proj_activation_forget,
+    post_block_activation_forget,
+    pre_post_attention_layernorm_activation_forget,
+):
+    # prepare the forget data
+    inputs_forget = [item.detach() for item in pre_down_proj_activation_forget]
+    post_mlp_activation_forget = [
+        x - y
+        for x, y in zip(
+            post_block_activation_forget, pre_post_attention_layernorm_activation_forget
+        )
+    ] 
+    targets_forget = [item.detach() for item in post_mlp_activation_forget]
+
+    concat_forget_input = torch.cat(
+        [activation.squeeze(0) for activation in inputs_forget], dim=0
+    )
+    concat_forget_target = torch.cat(
+        [activation.squeeze(0) for activation in targets_forget], dim=0
+    )
+    
+    return concat_forget_input, concat_forget_target
+
+
+def prepare_trainset_tofu(
+    layer_idx_list,
+    model_base,
+    forget_dataset,
+    direction,
+    coeff_list,
+):
+    from src_lunar.hook_for_unlearn import get_activations_tofu
+    forget_input_list = []
+    forget_target_list = []
+
+    for i, layer_idx in enumerate(layer_idx_list): 
+        (
+            post_block_activation_forget,
+            pre_post_attention_layernorm_activation_forget,
+            pre_down_proj_activation_forget,
+        ) = get_activations_tofu(model_base, layer_idx, forget_dataset)
+
+        # perturb the post block activations for forget data
+        post_block_activation_forget = perturb_post_block_activations_forget( 
+            post_block_activation_forget,
+            direction[i],
+            coeff=coeff_list[i],
+        )
+
+        # prepare the data for training estimated net
+        concat_forget_input, concat_forget_target = (
+            prepare_trainset_raw_tofu(
+                pre_down_proj_activation_forget,
+                post_block_activation_forget,
+                pre_post_attention_layernorm_activation_forget,
+            )
+        )
+        forget_input_list.append(concat_forget_input)
+        forget_target_list.append(concat_forget_target)
+
+    return (
+        forget_input_list,
+        forget_target_list,
+    )
 
 
 #==============prepare Linear layer=============
@@ -271,6 +338,82 @@ def prepare_estimated_net_lora_list(
         estimated_net_list.append(estimated_down_proj)
     return estimated_net_list
 
+
+#==============prepare MoE LoRA layer=============
+def prepare_estimated_net_moe_lora_list(
+    cfg, device, layer_idx_list, model_base, init_model_list=None
+):
+    estimated_net_list = []
+    init_weight_list = []
+
+    if init_model_list is None:
+        print("initialize the estimated net list with the model base MLP weight")
+        for layer_idx in layer_idx_list:
+            init_weight_list.append(model_base.model_block_modules[layer_idx].mlp.down_proj.weight.clone())
+    else:
+        print("initialize the estimated net list with the previous unlearning MLP weight")
+        for estimated_model in init_model_list:
+            init_weight_list.append(estimated_model.down_proj.weight.clone())
+
+    n_experts = int(cfg.moe.num_experts[0]) + 1 # @ 수정 : 초기 생성 expert는 retain expert 포함 2개
+    top_k = int(cfg.moe.top_k[0])
+    gate_hidden_dim = getattr(getattr(cfg, "moe", {}), "gate_hidden", 0)
+    
+    for weight_parameter in init_weight_list:
+        down_proj_in_features = weight_parameter.shape[1]
+        down_proj_out_features = weight_parameter.shape[0]
+        
+        estimated_down_proj = LUNAR_LoRA_MoE_net(
+            input_dim=down_proj_in_features,
+            output_dim=down_proj_out_features,
+            n_experts=n_experts,
+            top_k=top_k,
+            gate_hidden=gate_hidden_dim,
+            lora_rank=cfg.lora_r, # 
+            lora_alpha=cfg.lora_alpha, #
+            lora_dropout=cfg.lora_dropout, #
+            pretrained_weight=weight_parameter,
+        ).to(device, dtype=torch.bfloat16)
+
+        estimated_net_list.append(estimated_down_proj)
+
+    return estimated_net_list
+
+
+#==============prepare MoE NN layer=============
+def prepare_estimated_net_moe_nn_list(
+    cfg, device, layer_idx_list, model_base, init_model_list=None
+):
+    estimated_net_list = []
+    init_weight_list = []
+
+    if init_model_list is None:
+        print("initialize the estimated net list with the model base MLP weight")
+        for layer_idx in layer_idx_list:
+            init_weight_list.append(model_base.model_block_modules[layer_idx].mlp.down_proj.weight.clone())
+    else:
+        print("initialize the estimated net list with the previous unlearning MLP weight")
+        for estimated_model in init_model_list:
+            init_weight_list.append(estimated_model.down_proj.weight.clone())
+
+    n_experts = int(cfg.moe.num_experts[0]) + 1 # @ 수정 : 초기 생성 expert는 retain expert 포함 2개
+    top_k = int(cfg.moe.top_k[0])
+    
+    for weight_parameter in init_weight_list:
+        down_proj_in_features = weight_parameter.shape[1]
+        down_proj_out_features = weight_parameter.shape[0]
+        
+        estimated_down_proj = LUNAR_NN_MoE_net(
+            input_dim=down_proj_in_features,
+            output_dim=down_proj_out_features,
+            n_experts=n_experts,
+            top_k=top_k,
+            pretrained_weight=weight_parameter,
+        ).to(device, dtype=torch.bfloat16)
+
+        estimated_net_list.append(estimated_down_proj)
+
+    return estimated_net_list
 
 def load_dataset_json(dataset_name):
     data_path = os.path.join("dataset/unlearning", f"{dataset_name}.json")

@@ -3,13 +3,9 @@ import torch, functools
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from typing import List
 from torch import Tensor
-from jaxtyping import Int, Float
+from jaxtyping import Float
 from src_lunar.utils.utils import get_orthogonalized_matrix
 from src_lunar.model_utils.model_base import ModelBase
-
-# Llama 3 chat templates are based on
-# - https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-3/
-# <|begin_of_text|> is automatically added by the tokenizer
 
 LLAMA3_CHAT_TEMPLATE = """<|start_header_id|>user<|end_header_id|>
 
@@ -24,6 +20,62 @@ LLAMA3_CHAT_TEMPLATE_WITH_SYSTEM = """<|start_header_id|>system<|end_header_id|>
 
 """
 
+# def format_instruction_llama31_chat(
+#     instruction: str,
+#     output: str = None,
+#     system: str = None,
+#     include_trailing_whitespace: bool = True,
+# ):
+#     if system is not None:
+#         formatted_instruction = LLAMA3_CHAT_TEMPLATE_WITH_SYSTEM.format(
+#             instruction=instruction, system_prompt=system
+#         )
+#     else:
+#         formatted_instruction = LLAMA3_CHAT_TEMPLATE.format(instruction=instruction) # 여기서 INST 붙어서 계산
+
+#     if not include_trailing_whitespace:
+#         formatted_instruction = formatted_instruction.rstrip()
+
+#     if output is not None:
+#         formatted_instruction += output
+
+#     return formatted_instruction
+
+# def tokenize_instructions_llama31_chat(
+#     tokenizer: AutoTokenizer,
+#     instructions: List[str],
+#     outputs: List[str] = None,
+#     system: str = None,
+#     include_trailing_whitespace=True,
+# ):
+#     if outputs is not None:
+#         prompts = [
+#             format_instruction_llama31_chat(
+#                 instruction=instruction,
+#                 output=output,
+#                 system=system,
+#                 include_trailing_whitespace=include_trailing_whitespace,
+#             )
+#             for instruction, output in zip(instructions, outputs)
+#         ]
+#     else:
+#         prompts = [
+#             format_instruction_llama31_chat( # 여기서 </INST> 토큰이 붙음 
+#                 instruction=instruction,
+#                 system=system,
+#                 include_trailing_whitespace=include_trailing_whitespace,
+#             )
+#             for instruction in instructions
+#         ]
+
+#     result = tokenizer(
+#         prompts,
+#         padding=True,
+#         truncation=False,
+#         return_tensors="pt",
+#     )
+#     return result
+
 LLAMA3_REFUSAL_TOKS = [40]  # 'I'
 
 def build_llama31_refusal_token_ids(tokenizer: AutoTokenizer) -> List[int]:    
@@ -31,68 +83,38 @@ def build_llama31_refusal_token_ids(tokenizer: AutoTokenizer) -> List[int]:
     tok_ids = set()
     for s in starters:
         ids = tokenizer.encode(s, add_special_tokens=False)
-    if len(ids) > 0:           
-        tok_ids.add(ids[0])  # multi-token이어도 첫 토큰만 사용  
+        if len(ids) > 0:           
+            tok_ids.add(ids[0])  # multi-token이어도 첫 토큰만 사용  
     return sorted(tok_ids)
 
-def format_instruction_llama3_chat(
-    instruction: str,
-    output: str = None,
-    system: str = None,
-    include_trailing_whitespace: bool = True,
-):
+def build_prompt_from_instruction(tokenizer, instruction, system=None):
+    messages = []
     if system is not None:
-        formatted_instruction = LLAMA3_CHAT_TEMPLATE_WITH_SYSTEM.format(
-            instruction=instruction, system_prompt=system
-        )
-    else:
-        formatted_instruction = LLAMA3_CHAT_TEMPLATE.format(instruction=instruction) # 여기서 INST 붙어서 계산
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": instruction})
 
-    if not include_trailing_whitespace:
-        formatted_instruction = formatted_instruction.rstrip()
+    return tokenizer.apply_chat_template(
+        messages,
+        tokenize=False,
+        add_generation_prompt=True,
+    )
 
-    if output is not None:
-        formatted_instruction += output
-
-    return formatted_instruction
-
-
-def tokenize_instructions_llama3_chat(
-    tokenizer: AutoTokenizer,
-    instructions: List[str],
-    outputs: List[str] = None,
-    system: str = None,
-    include_trailing_whitespace=True,
+def tokenize_instructions_llama31_chat(
+    tokenizer, 
+    instructions, 
+    system=None
 ):
-    if outputs is not None:
-        prompts = [
-            format_instruction_llama3_chat(
-                instruction=instruction,
-                output=output,
-                system=system,
-                include_trailing_whitespace=include_trailing_whitespace,
-            )
-            for instruction, output in zip(instructions, outputs)
-        ]
-    else:
-        prompts = [
-            format_instruction_llama3_chat( # 여기서 </INST> 토큰이 붙음 
-                instruction=instruction,
-                system=system,
-                include_trailing_whitespace=include_trailing_whitespace,
-            )
-            for instruction in instructions
-        ]
-
-    result = tokenizer(
+    prompts = [
+        build_prompt_from_instruction(tokenizer, inst, system=system)
+        for inst in instructions
+    ]
+    return tokenizer(
         prompts,
         padding=True,
         truncation=False,
         return_tensors="pt",
+        add_special_tokens=False,
     )
-
-    return result
-
 
 def orthogonalize_llama3_weights(model, direction: Float[Tensor, "d_model"]):
     model.model.embed_tokens.weight.data = get_orthogonalized_matrix(
@@ -117,27 +139,30 @@ def act_add_llama3_weights(model, direction: Float[Tensor, "d_model"], coeff, la
 
 class Llama31Model(ModelBase):
     def _load_model(self, model_path, dtype=torch.bfloat16):
+        # model = AutoModelForCausalLM.from_pretrained(
+        #     model_path,
+        #     torch_dtype=dtype,
+        #     trust_remote_code=True,
+        #     device_map="auto",
+        # ).eval()
+        device="cuda" if torch.cuda.is_available() else "cpu"
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
             torch_dtype=dtype,
             trust_remote_code=True,
-            device_map="auto",
-        ).eval()
-
+        )
+        model = model.to(device).eval()   
         model.requires_grad_(False)
         return model
 
     def _load_tokenizer(self, model_path):
         # tokenizer = AutoTokenizer.from_pretrained(model_path)
-
         # tokenizer.padding_side = "left"
         # tokenizer.pad_token = tokenizer.eos_token
-
         pretrained_model_path = "meta-llama/Meta-Llama-3.1-8B-Instruct"
         tokenizer = AutoTokenizer.from_pretrained(pretrained_model_path)
-
         tokenizer.padding_side = "left"
-        tokenizer.padding_size = "longest"  # NEW
+        tokenizer.padding_size = "longest" 
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.pad_token_id = tokenizer.eos_token_id
@@ -147,16 +172,26 @@ class Llama31Model(ModelBase):
 
     def _get_tokenize_instructions_fn(self):
         return functools.partial(
-            tokenize_instructions_llama3_chat,
+            tokenize_instructions_llama31_chat,
             tokenizer=self.tokenizer,
             system=None,
-            include_trailing_whitespace=True,
         )
 
+    # def _get_eoi_toks(self):
+    #     return self.tokenizer.encode(
+    #         LLAMA3_CHAT_TEMPLATE.split("{instruction}")[-1], add_special_tokens=False
+    #     )
+
     def _get_eoi_toks(self):
-        return self.tokenizer.encode(
-            LLAMA3_CHAT_TEMPLATE.split("{instruction}")[-1], add_special_tokens=False
+        messages = [{"role": "user", "content": "DUMMY_INSTRUCTION"}]
+        full_prompt = self.tokenizer.apply_chat_template(
+            messages,
+            tokenize=False,
+            add_generation_prompt=True,
         )
+        prefix, suffix = full_prompt.split("DUMMY_INSTRUCTION")
+        # 우리가 원하는 건 instruction 뒤 assistant 시작까지의 suffix
+        return self.tokenizer.encode(suffix, add_special_tokens=False)
 
     def _get_refusal_toks(self):
         return getattr(self, "_refusal_toks", build_llama31_refusal_token_ids(self.tokenizer)) # @ 수정 : I 뿐만 아니라 다른 refusal token 추가 
@@ -239,7 +274,7 @@ class Llama31Model(ModelBase):
         # Return the current device of the model's parameters as a string ('cuda', 'cpu', etc.)
         return next(self.model.parameters()).device.type
 
-    def _generate(
+    def _generate( # 원래 없는 메서드임, 오버라이드 아님 
         self,
         input_ids,
         attention_mask,
@@ -276,8 +311,8 @@ class Llama31Model(ModelBase):
         output = self.model.generate(
             input_ids=input_ids,
             attention_mask=attention_mask,
-            max_length=max_length,
-            max_new_tokens=max_new_tokens,
+            # max_length=max_length, # @ 수정 : 입력 + 생성 
+            max_new_tokens=max_new_tokens, # 생성
             do_sample=do_sample,
             num_beams=num_beams,
             num_return_sequences=num_return_sequences,
@@ -286,7 +321,6 @@ class Llama31Model(ModelBase):
             output_scores=output_scores,
             return_dict_in_generate=return_dict_in_generate,
         )
-
         return output
 
     def _save_pretrained(self, save_directory):
