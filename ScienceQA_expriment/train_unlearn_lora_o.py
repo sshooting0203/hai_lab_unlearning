@@ -3,20 +3,18 @@ from typing import List
 from datasets import load_dataset
 from datasets import load_from_disk
 from peft import LoraConfig
-from transformers import LlamaTokenizer, LlamaForCausalLM, AutoConfig
+from transformers import AutoTokenizer, LlamaForCausalLM, AutoConfig
 from transformers import Trainer
 from src.mapping_hacked_o import get_peft_model
 from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
 from src.peft_model_hacked_o import PeftModel
 from safetensors.torch import load_file as safe_load_file
 import numpy as np
-from utils.prompter import Prompter
+from utils.prompter import build_chat_prompt
 
 os.environ["WANDB_DISABLED"] = "true"
 
 def set_seed(seed: int):
-    """Fix PRNG seed for reproducable experiments.
-    """
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -28,7 +26,6 @@ def set_seed(seed: int):
     os.environ["PYTHONHASHSEED"] = str(seed)
 
 def train(
-        # model/data params
         base_model: str = "gcyzsl/O3_LLAMA2_ScienceQA", # "./llama2_base",  # the only required argument
         data_path: str =  "./data/scienceqa_random_force_5/scienceqa_biology_train_random_force.json", 
         output_dir: str = "./lora_bio_random_test_force_clinc",
@@ -69,10 +66,10 @@ def train(
         wandb_log_model: str = "",  # options: false | true
         resume_from_checkpoint: str = "", # None,  # either training checkpoint or final adapter
         prompt_template_name: str = "alpaca",  # The prompt template to use, will default to alpaca.
-        # @ 수정 
         lora_start_layer: int = 0, # 3개 건너뛰기 
 ):
     set_seed(seed)
+
     if isinstance(lora_weights, str):
         lora_weights = lora_weights.split(",")
         if lora_weights[0] == "":
@@ -96,9 +93,6 @@ def train(
     if isinstance(resume_from_checkpoint, bool):
         resume_from_checkpoint = False
 
-    # unlearn_lora_path = "./unlearn_lora_checkpoints"
-    # if not os.path.exists(unlearn_lora_path):
-    #     os.mkdir(unlearn_lora_path)
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
         print(
             f"Training Alpaca-LoRA model with params:\n"
@@ -134,7 +128,6 @@ def train(
     ), "Please specify a --base_model, e.g. --base_model='huggyllama/llama-7b'"
     gradient_accumulation_steps = batch_size // micro_batch_size
 
-    prompter = Prompter(prompt_template_name)
     device_map = "auto"
     world_size = int(os.environ.get("WORLD_SIZE", 1))
     ddp = world_size != 1
@@ -173,7 +166,6 @@ def train(
     model = LlamaForCausalLM_ood.from_pretrained(
         base_model,
         config=config,
-        load_in_8bit=load_in_8bit,
         torch_dtype=torch.bfloat16,
         device_map=device_map,
     )
@@ -182,50 +174,92 @@ def train(
     model.init_active_adapters_d(active_adapters_d=['default'])
     model.init_lora_start_layer(lora_start_layer=lora_start_layer)
 
-    tokenizer = LlamaTokenizer.from_pretrained(base_model)
-    tokenizer.pad_token_id = ( 0 ) # unk. we want this to be different from the eos token
-    tokenizer.padding_side = "left"  # Allow batched inference
+    tokenizer = AutoTokenizer.from_pretrained(
+        base_model,
+        use_fast=True,
+        padding_side="right",
+    )
 
-    def tokenize(prompt, add_eos_token=True):
-        # there's probably a way to do this with the tokenizer settings, but again, gotta move fast
-        result = tokenizer(
-            prompt,
+    if tokenizer.pad_token is None:
+        if tokenizer.eos_token is None:
+            raise ValueError("tokenizer.eos_token is None; cannot set pad_token safely.")
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    def tokenize(
+        instruction: str,
+        answer: str,
+        system: str = None,
+    ):
+        prompt_text = build_chat_prompt(
+            tokenizer,
+            instruction=instruction,
+            system=system,
+        )
+
+        answer = answer.strip()
+        if add_eos_token and tokenizer.eos_token is not None:
+            answer_text = answer + tokenizer.eos_token
+        else:
+            answer_text = answer
+
+        prompt_ids = tokenizer(
+            prompt_text,
+            add_special_tokens=False,
             truncation=True,
             max_length=cutoff_len,
-            padding=False,
-            return_tensors=None,
-        )
-        if (
-                result["input_ids"][-1] != tokenizer.eos_token_id
-                and len(result["input_ids"]) < cutoff_len
-                and add_eos_token
-        ):
-            result["input_ids"].append(tokenizer.eos_token_id)
-            result["attention_mask"].append(1)
-        result["labels"] = result["input_ids"].copy()
-        return result
+        )["input_ids"]
+
+        max_answer_len = max(0, cutoff_len - len(prompt_ids))
+        answer_ids = tokenizer(
+            answer_text,
+            add_special_tokens=False,
+            truncation=True,
+            max_length=max_answer_len,
+        )["input_ids"]
+
+        full_ids = prompt_ids + answer_ids
+        attention_mask = [1] * len(full_ids)
+        labels = full_ids.copy()
+
+        if not train_on_inputs:
+            prompt_len = len(prompt_ids)
+            labels[:prompt_len] = [-100] * prompt_len
+
+        return {
+            "input_ids": full_ids,
+            "attention_mask": attention_mask,
+            "labels": labels,
+        }
 
     def generate_and_tokenize_prompt(data_point):
-        full_prompt = prompter.generate_prompt(
-            data_point["instruction"],
-            data_point["input"],
-            data_point["output"],
-        )
-        tokenized_full_prompt = tokenize(full_prompt)
-        if not train_on_inputs:
-            user_prompt = prompter.generate_prompt(
-                data_point["instruction"], data_point["input"]
-            )
-            tokenized_user_prompt = tokenize(
-                user_prompt, add_eos_token=add_eos_token
-            )
-            user_prompt_len = len(tokenized_user_prompt["input_ids"])
-            if add_eos_token:
-                user_prompt_len -= 1
-            tokenized_full_prompt["labels"] = [-100] * user_prompt_len + tokenized_full_prompt["labels"][user_prompt_len:]  # could be sped up, probably
-        return tokenized_full_prompt
+        instruction = str(data_point.get("instruction", ""))
+        input_text = str(data_point.get("input", ""))
+        answer = data_point.get("answer", data_point.get("output", ""))
 
-    # model = prepare_model_for_int8_training(model)
+        if not isinstance(answer, str):
+            answer = str(answer)
+
+        answer = answer.strip()
+
+        if input_text:
+            instruction = f"{instruction}\n\n{input_text}"
+
+        if not instruction:
+            raise ValueError("Each example must have non-empty instruction.")
+        if not answer:
+            raise ValueError("Each example must have non-empty answer/output.")
+
+        return tokenize(
+            instruction=instruction,
+            answer=answer,
+            system=None,
+        )
+
+    # sample = tokenize("What is 2+2?", "4")
+    # print(tokenizer.decode(sample["input_ids"]))
+    # print(sample["labels"])
+
     config = LoraConfig(
         r=lora_r,
         lora_alpha=lora_alpha,
@@ -284,7 +318,8 @@ def train(
             bf16=True,
             logging_steps=10,
             optim="adamw_torch",
-            evaluation_strategy="steps" if val_set_size > 0 else "no",
+# evaluation_strategy="steps" if val_set_size > 0 else "no", # @ 수정 : llama3.1
+            eval_strategy="steps" if val_set_size > 0 else "no",
             save_strategy="steps",
             eval_steps=200 if val_set_size > 0 else None,
             save_steps=200,
@@ -301,8 +336,6 @@ def train(
         ),
     )
     model.config.use_cache = False
-    if torch.__version__ >= "2" and sys.platform != "win32":
-        model = torch.compile(model)
     trainer.train()
     model.save_pretrained(output_dir)
     print(

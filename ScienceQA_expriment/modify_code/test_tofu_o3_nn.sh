@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# CUDA_VISIBLE_DEVICES=3 nohup bash test_tofu_o3_nn.sh > run_logs/test_tofu_o3_nn.log 2>&1 &
+# CUDA_VISIBLE_DEVICES=2 nohup bash test_tofu_o3_nn.sh > run_logs/test_tofu_o3_nn.log 2>&1 &
 # Config
 PY="${PY:-python}"
 SCRIPT="${SCRIPT:-mmain_tofu_fixed_nn.py}"
 PLOT_SCRIPT="${PLOT_SCRIPT:-plot_results_tofu.py}"
-CFG_NAME="${CFG_NAME:-forget}"
+CFG_NAME="${CFG_NAME:-forget_improve}"
 
 # fixed model
 MODEL_FAMILY="llama3.1-8b-instruct"
@@ -18,10 +18,10 @@ RD_DIR="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/pto
 
 UTILITY1="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_real_authors/real_authors_test.json"
 UTILITY2="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_world_facts/world_facts_test.json"
-SAVE_FOLDER="tofu_moe_nn_fixed_layer16"
+SAVE_FOLDER="tofu_moe_nn_fixed_layer16_4_24"
 
 # MoE 저장 루트
-CKPT_ROOT="./outputs/tofu_moe_nn_ckpt"
+CKPT_ROOT="./outputs/tofu_moe_nn_ckpt_4_24"
 LAYER_MODIFIED="[16]"
 
 DOMAINS=(

@@ -286,6 +286,6 @@ def perturb_post_block_activations_forget(
 ):
     """perturb the output_activations of forget data. but only perturb the last token"""
     ### post_block_activation_forget: list of n_sample tensors [1, seq_length, d_model]
-    for i in range(len(post_block_activation_forget)):
-        post_block_activation_forget[i] += coeff * direction
+    for i in range(len(post_block_activation_forget)): # 200개의 sample에 대해 
+        post_block_activation_forget[i] += coeff * direction # direction: torch.Size([1, 178, 4096]), post_block_activation_forget[i] : torch.Size([1, 178, 4096])
     return post_block_activation_forget

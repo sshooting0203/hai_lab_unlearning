@@ -1,3 +1,4 @@
+export PYTHONNOUSERSITE=1
 # ## base
 # for SEED in 0 1 2
 # do
@@ -15,23 +16,23 @@
 #   done
 # done
 
-## proj + ocsvm 
-for SEED in 0 1 2
-do
-  TYPE=""
-  for UNLEAN_D in "biology" "physics" "chemistry"
-  do
-      TYPE+="_${UNLEAN_D}"
-      SDPATH_1="./data/scienceqa_SD_only_10/scienceqa_${UNLEAN_D}"
-      OODPATH_1="./data/scienceqa_RD_only_10/scienceqa_not_${UNLEAN_D}"
-      python detecting_lora_proj.py \
-           --unlearn_dataset "scienceqa_${UNLEAN_D}" \
-           --ood_dataset "ood_scienceqa" \
-           --base_unlearn_path ${SDPATH_1} \
-           --base_ood_path ${OODPATH_1} \
-           --seed ${SEED}
-  done
-done
+### 3개의 ocsvm 생성하기(separate)
+# for SEED in 0 1 2
+# do
+#   TYPE=""
+#   for UNLEAN_D in "biology" "physics" "chemistry"
+#   do
+#       TYPE+="_${UNLEAN_D}"
+#       SDPATH_1="./data/scienceqa_SD_only_10/scienceqa_${UNLEAN_D}"
+#       OODPATH_1="./data/scienceqa_RD_only_10/scienceqa_not_${UNLEAN_D}"
+#       python train_ood.py \
+#            --unlearn_dataset "scienceqa_${UNLEAN_D}" \
+#            --ood_dataset "ood_scienceqa" \
+#            --base_unlearn_path ${SDPATH_1} \
+#            --base_ood_path ${OODPATH_1} \
+#            --seed ${SEED}
+#   done
+# done
 
 ### 11개의 ocsvm 생성하기(separate)
 # for SEED in 0 1 2
@@ -69,6 +70,7 @@ done
 #        --seed ${SEED}
 # done
 
+#================sciencQA====================
 # biology                              1192
 # writing-strategies                    888
 # figurative-language                   739
@@ -80,20 +82,55 @@ done
 # grammar                               240
 # economics                             237
 # earth-science                         191
+#================sciencQA=====================
 
-### base(clinc)
+#================clincQA=====================
+DOMAINS=(
+  "work"
+  "travel"
+  "home"
+  "banking"
+  "credit_cards"
+  "kitchen_and_dining"
+  "auto_and_commute"
+  "utility"
+  "small_talk"
+)
+#================clincQA=====================
+
+
+## clinc ocsvm 생성하기(base, seperate)
 # for SEED in 0 1 2
 # do
 #   TYPE=""
-#   for UNLEAN_D in "work" "travel" "home"
+#   for domain in "${DOMAINS[@]}"
 #   do
-#       TYPE+="_${UNLEAN_D}"
-#       OODPATH_1="./data/clincqa_RD_5/clinc_qa_not${TYPE}"
+#       TYPE+="_${domain}"
+#       OODPATH_1="./data/clincqa_RD_only_10/clincqa_not_${domain}"
 #       python train_ood.py \
-#            --unlearn_dataset "clinc_qa_${UNLEAN_D}" \
-#            --ood_dataset "ood_clinc_qa" \
-#            --base_unlearn_path "./data/clincqa/" \
+#            --unlearn_dataset "clincqa_${domain}" \
+#            --ood_dataset "ood_clincqa" \
+#            --base_unlearn_path "./data/clincqa/PROCESSED/" \
 #            --base_ood_path ${OODPATH_1} \
 #            --seed ${SEED}
 #   done
 # done
+
+
+for SEED in 0 1 2
+do
+  TYPE=""
+  for domain in "${DOMAINS[@]}"
+  do
+      TYPE+="_${domain}"
+      OODPATH_1="./data_new/clincqa_RD_only_10/clincqa_not_${domain}"
+      python train_ood.py \
+           --unlearn_dataset "clincqa_${domain}" \
+           --ood_dataset "ood_clincqa" \
+           --base_unlearn_path "./data_new/clincqa_SD_only_10" \
+           --base_ood_path ${OODPATH_1} \
+           --seed ${SEED}
+  done
+done
+
+# /dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/clincqa_SD_only_10

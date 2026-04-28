@@ -3,6 +3,7 @@ from tqdm import tqdm
 import torch, math, os, json, evaluate, re, json
 from rouge_score import rouge_scorer
 from typing import List,  Dict, Optional, Any, Iterable
+from collections import Counter
 from torch.utils.data import DataLoader
 from src_lunar.data_loader import (
     get_batch_loss,
@@ -16,6 +17,7 @@ from src_lunar.utils.hook_utils import add_hooks
 from src_lunar.utils.model_utils import extract_instruction_from_model 
 from src_lunar.model_utils.llama31model import build_prompt_from_instruction, LLAMA3_CHAT_TEMPLATE
 from src_lunar.model_utils.qwen_model_old import QWEN_CHAT_TEMPLATE
+from src_lunar.estimated_net_moe_utils import LUNAR_LoRA_MoE_net, LUNAR_NN_MoE_net
 
 def normalize_text(s: str) -> str:
     s = s.strip()
@@ -65,23 +67,187 @@ def eval_rouge_recall(gen_outputs, ground_truths):
         rougeL_recall.append(rouge_scores["rougeL"].recall)
     return {"rouge1_recall": rouge1_recall, "rougeL_recall": rougeL_recall}
 
-    
+#########################################
+def build_prompt_only_batch(batch, tokenizer):
+    input_ids = batch["input_ids"]          # (B, S) : [16, 512]
+    labels = batch["labels"]                # (B, S) : [16, 512]
+    attention_mask = batch["attention_mask"]  # (B, S) : [16, 512]
+
+    pad_id = tokenizer.pad_token_id
+    if pad_id is None:
+        pad_id = tokenizer.eos_token_id
+
+    prompt_input_ids_list = []
+    prompt_attention_mask_list = []
+
+    B = input_ids.size(0)
+    for i in range(B):
+        ids_i = input_ids[i]
+        labels_i = labels[i]
+        attn_i = attention_mask[i]
+
+        valid_len = int(attn_i.sum().item())
+        ids_i = ids_i[:valid_len]
+        labels_i = labels_i[:valid_len]
+
+        prompt_mask = labels_i.eq(-100)
+        if not prompt_mask.any():
+            raise ValueError(f"[build_prompt_only_batch] sample {i}: no prompt tokens found")
+
+        prompt_ids = ids_i[prompt_mask]
+        prompt_input_ids_list.append(prompt_ids)
+        prompt_attention_mask_list.append(torch.ones_like(prompt_ids))
+
+    max_prompt_len = max(x.size(0) for x in prompt_input_ids_list)
+
+    padded_input_ids = []
+    padded_attention_mask = []
+
+    for ids_i, mask_i in zip(prompt_input_ids_list, prompt_attention_mask_list):
+        pad_len = max_prompt_len - ids_i.size(0)
+        padded_input_ids.append(
+            torch.cat([
+                torch.full((pad_len,), pad_id, dtype=torch.long, device=ids_i.device),
+                ids_i
+            ], dim=0)
+        )
+        padded_attention_mask.append(
+            torch.cat([
+                torch.zeros(pad_len, dtype=torch.long, device=mask_i.device),
+                mask_i
+            ], dim=0)
+        )
+    prompt_input_ids = torch.stack(padded_input_ids, dim=0).to(input_ids.device)
+    prompt_attention_mask = torch.stack(padded_attention_mask, dim=0).to(input_ids.device)
+    return {
+        "input_ids": prompt_input_ids, # 입력부분만 잘라내기 
+        "attention_mask": prompt_attention_mask,
+    }
+
+
+def _majority_vote_int(values):
+    if len(values) == 0:
+        return None
+    return Counter(values).most_common(1)[0][0]
+
+
+def get_layer_input_cache(cache_list):
+    def hook_fn(module, input):
+        # input[0]: [B, S, D]
+        cache_list.append(input[0].detach())
+    return hook_fn
+
+
+def extract_eval_activations_BD(
+    model,
+    prompt_batch,
+    moe_layers,
+):
+    cache_per_layer = [[] for _ in moe_layers]
+
+    hooks = []
+    for i, m in enumerate(moe_layers):
+        hooks.append((m, get_layer_input_cache(cache_per_layer[i])))
+
+    with torch.no_grad():
+        with add_hooks(module_forward_pre_hooks=hooks, module_forward_hooks=[]):
+            _ = model.model(
+                input_ids=prompt_batch["input_ids"],
+                attention_mask=prompt_batch["attention_mask"],
+                output_hidden_states=False,
+                return_dict=True,
+            )
+
+    activations_per_layer = []
+    attn = prompt_batch["attention_mask"]  # [B, S]
+
+    for i in range(len(moe_layers)):
+        x = cache_per_layer[i][0]  # [B, S, D] (where D is 14336 for down_proj)
+        B, S, D = x.shape
+        
+        # 각 sample의 마지막 유효 prompt token 인덱스
+        last_idx = attn.sum(dim=1) - 1  # attn : torch.Size([B, S])
+        
+        # 마지막 토큰 위치의 activation만 추출: [B, D]
+        x_last = x[torch.arange(B, device=x.device), last_idx]
+        activations_per_layer.append(x_last)
+    return activations_per_layer
+
+
+def compute_router_accuracy_BD(
+    name,
+    model,
+    tokenizer,
+    batch_gpu,
+    topics,
+    layer_idx_list,
+    forget_label_idx=1,
+):
+    prompt_batch = build_prompt_only_batch(batch_gpu, tokenizer) # labels 제외한 prompt만 
+    moe_layers = []
+    for layer_idx in layer_idx_list:
+        m = (model.model.layers[layer_idx].mlp.down_proj if hasattr(model.model, "layers") else model.model_block_modules[layer_idx].mlp.down_proj)
+        if isinstance(m, (LUNAR_LoRA_MoE_net, LUNAR_NN_MoE_net)):
+            moe_layers.append(m)
+        else:
+            raise TypeError(f"Layer {layer_idx} is not MoE down_proj")
+
+    activations_per_layer = extract_eval_activations_BD(
+        model=model,
+        prompt_batch=prompt_batch,
+        moe_layers=moe_layers,
+    )
+
+    B = prompt_batch["input_ids"].size(0)
+    per_sample_acc = []
+    per_sample_info = []
+    is_forget = "forget" in name.lower()
+
+    # layer별 logits/예측
+    all_layer_preds = []
+    for moe_layer, x_bd in zip(moe_layers, activations_per_layer):
+        with torch.no_grad():
+            _, logits = moe_layer(x_bd, return_router_logits=True)  # logits: [B, E]
+        preds = logits.argmax(dim=-1).tolist()
+        all_layer_preds.append(preds)
+
+    for b in range(B):
+        per_layer_preds = [layer_preds[b] for layer_preds in all_layer_preds]
+        seq_pred = _majority_vote_int(per_layer_preds)
+        if not is_forget:
+            target_expert = 0
+        else:
+            topic_str = str(topics[b])
+            target_expert = None
+            # print("topic str : ", topic_str)
+            clinc_domains = [
+                "work", "travel", "home", "banking", "credit_cards", 
+                "kitchen_and_dining", "auto_and_commute", "utility", "small_talk"
+            ]
+            if target_expert is None and topic_str in clinc_domains:
+                target_expert = clinc_domains.index(topic_str) + 1
+        is_correct = float(seq_pred == target_expert)
+        per_sample_acc.append(is_correct)
+        per_sample_info.append({
+            "router_pred_expert": seq_pred,
+            "router_target_expert": target_expert,
+            "router_layer_preds": per_layer_preds,
+        })
+
+    return per_sample_acc, per_sample_info
+
+
 def get_all_evals(
     cfg, 
     name,
     model, 
     tokenizer, 
     eval_dataloader, 
+    layer_idx_list,
+    forget_label_idx=1,
     fwd_pre_hooks=[], fwd_hooks=[], 
     output_es_score=False,
 ):
-    from src_lunar.estimated_net_moe_utils import LUNAR_LoRA_MoE_net, LUNAR_NN_MoE_net
-
-    # prompt = build_prompt_from_instruction(tokenizer, "What is 2+2?", system=None)
-    # print("build_prompt_from_inst : ",repr(prompt))
-    # old_prompt = LLAMA3_CHAT_TEMPLATE.format(instruction="What is 2+2?")
-    # print("old_prompt : ",repr(old_prompt))
-
     eval_logs = {} # 최종 평가 지표 
     gen_outputs, ground_truths, input_strings = [], [], []
     num_token_gt_list, mrr_list, hit_rate_list, perplexity_list, es_score_list = [], [], [], [], []
@@ -104,7 +270,6 @@ def get_all_evals(
         for batch in eval_dataloader:
             input_ids, labels, attention_mask, topics, gt = batch
             topics_list.extend(topics)
-
             batch_gpu = {
                 "input_ids": input_ids.to("cuda"),
                 "labels": labels.to("cuda"),
@@ -112,8 +277,23 @@ def get_all_evals(
             }
 
             with torch.no_grad():
-                current_batch_logits = []
+                # ================== Measure router accuracy ==================
+                router_acc_batch, router_info_batch = compute_router_accuracy_BD(
+                    name=name,
+                    model=model,
+                    tokenizer=tokenizer,
+                    batch_gpu=batch_gpu,
+                    topics=topics,
+                    layer_idx_list=layer_idx_list,
+                    forget_label_idx=forget_label_idx,
+                )
+                eval_logs["router_accuracy"] = eval_logs.get("router_accuracy", []) + router_acc_batch
+                if "router_info" not in eval_logs:
+                    eval_logs["router_info"] = []
+                eval_logs["router_info"].extend(router_info_batch)
+                # =============================================================
 
+                current_batch_logits.clear()
                 model._cur_attn_mask_2d = batch_gpu["attention_mask"]
                 outputs = model.model(
                     **batch_gpu,
@@ -169,7 +349,7 @@ def get_all_evals(
                 #             "answer_top_expert": answer_top,
                 #             # "token_top1_experts": token_top1[i].tolist(),
                 #         })
-
+                # ================== Measure expert probs ==================
                 moe_layers = []
                 for m in model.model.modules():
                     if isinstance(m, (LUNAR_LoRA_MoE_net, LUNAR_NN_MoE_net)):
@@ -197,23 +377,22 @@ def get_all_evals(
                     for b in range(B_curr):
                         sample_expert_seqs = []
                         for l in range(L_layers):
-                            layer_history = moe_layers[l].expert_history[1:]
+                            layer_history = moe_layers[l].expert_history[1:] # [0] : torch.Size([16, 175, 1]), [1:] : torch.Size([16, 1, 1])
                             chosen_experts = [int(h[b].item()) for h in layer_history if h.size(1) == 1]
                             sample_expert_seqs.append(chosen_experts)
                             
-                        expert_probs_list.append({
-                            "gen_expert_sequence": sample_expert_seqs
-                        })
-                else:
-                    for _ in range(B_curr):
-                        expert_probs_list.append({"gen_expert_sequence": []})
+                #         expert_probs_list.append({
+                #             "gen_expert_sequence": sample_expert_seqs
+                #         })
+                # else:
+                #     for _ in range(B_curr):
+                #         expert_probs_list.append({"gen_expert_sequence": []})
 
                 # 다음 배치를 위해 비활성화 및 초기화
                 for m in moe_layers:
                     m.record_expert = False
                     m.expert_history = []
                 #==================generation moe expert==========================
-                
                 perplexity = math.exp(outputs.loss.item())
                 mrr_per_batch, hit_rate_per_batch = compute_MRR(outputs.logits, batch_gpu["labels"]) # @ 수정 : model.generate() -> model.model()
                 mrr_list.extend(mrr_per_batch)
@@ -273,10 +452,12 @@ def get_all_evals(
     else:
         eval_logs["es_score"] = eval_logs.get("es_score", [])
 
-    if topics_list and expert_probs_list:
-        eval_logs["generated_text"] = list(zip(input_strings, gen_outputs, ground_truths, topics_list, expert_probs_list)) # 입력, 출력, 정답, 도메인, expert확률 
+    if topics_list:
+        # router_info도 함께 zip에 포함
+        router_info_list = eval_logs.get("router_info", [None] * len(input_strings))
+        eval_logs["generated_text"] = list(zip(input_strings, gen_outputs, ground_truths, topics_list, router_info_list))
     else:
-        eval_logs["generated_text"] = list(zip(input_strings, gen_outputs, ground_truths)) # 입력, 출력, 정답 
+        eval_logs["generated_text"] = list(zip(input_strings, gen_outputs, ground_truths))
 
     # failure case collect
     eval_results = hit_logs.get("eval_results", [])
@@ -289,6 +470,12 @@ def get_all_evals(
         eval_logs["failure_text"] = failure_samples
         eval_logs["num_failure"] = len(failure_samples)
         eval_logs["total_generated"] = len(eval_results)
+
+    # results 항목에서 개별 리스트인 router_info 등은 제거 (generated_text에 포함되어 있으므로)
+    for k in ["router_info", "expert_probs", "topic"]:
+        if k in eval_logs:
+            del eval_logs[k]
+
     return eval_logs
 
 
@@ -540,7 +727,8 @@ def custom_evaluate(
     tokenizer, 
     model, 
     eval_target, fwd_pre_hooks=[], fwd_hooks=[], 
-    output_es_score=False
+    output_es_score=False,
+    forget_label_idx=1
 ):
     eval_dataloader = get_dataloader( # @@@ : 평가 데이터 로드
         cfg=cfg, data_path=data_path, tokenizer=tokenizer, eval_target=eval_target
@@ -556,6 +744,8 @@ def custom_evaluate(
         eval_dataloader=eval_dataloader,
         fwd_pre_hooks=fwd_pre_hooks, fwd_hooks=fwd_hooks,
         output_es_score=output_es_score,
+        layer_idx_list=cfg.layer_modified,
+        forget_label_idx=forget_label_idx,
     )
     eval_logs = summarize_eval_logs(eval_logs) # @ 수정
     return eval_logs
@@ -571,11 +761,10 @@ def summarize_value(v):
     return v
 
 def summarize_eval_logs(eval_logs: dict):
-    skip_keys = {"generated_text", "topic", "expert_probs", "failure_text"} # 평균 요약에서 제외할 key들
+    skip_keys = {"generated_text", "topic", "expert_probs", "failure_text", "router_info"} # 평균 요약에서 제외할 key들
     for k, v in list(eval_logs.items()):
         # print("[Debug] Result key is : ", k)
         if k in skip_keys:
             continue
         eval_logs[k] = summarize_value(v)
     return eval_logs
-

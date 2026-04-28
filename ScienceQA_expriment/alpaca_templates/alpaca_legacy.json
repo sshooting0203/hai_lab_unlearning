@@ -1,0 +1,26 @@
+{
+    "description": "Legacy template, used by Original Alpaca repository.",
+    "prompt_input": "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Input:\n{input}\n\n### Response:",
+    "prompt_no_input": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:",
+    "response_split": "### Response:"    
+}
+
+"answer": "B", 
+"input": "", 
+"instruction": "Question: A person wants to start saving money so that they can afford a nice vacation at the end of the year. 
+After looking over their budget and expenses, they decide the best way to save money is to\n
+Options: (A) make more phone calls (B) quit eating lunch out (C) buy less with monopoly money (D) have lunch with friends\n", 
+"output": "Answer: The answer is B.",  
+
+"""
+### Instruction:\n{instruction}\n\n
+### Response:
+"""
+
+
+"""
+### Instruction:\n
+Question: A person wants to start saving money so that they can afford a nice vacation at the end of the year. After looking over their budget and expenses, they decide the best way to save money is to\n
+Options: (A) make more phone calls (B) quit eating lunch out (C) buy less with monopoly money (D) have lunch with friends\n\n\n
+### Response : A
+"""

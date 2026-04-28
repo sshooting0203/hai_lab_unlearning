@@ -251,13 +251,13 @@ class LoraModel(BaseTuner):
         # because the first match is always used. Therefore, the default layers should be checked last.
         dispatchers = []
         # avoid eager bnb import
-        if is_bnb_available():
-            from .bnb import dispatch_bnb_8bit
-            dispatchers.append(dispatch_bnb_8bit)
+        # if is_bnb_available():
+        #     from .bnb import dispatch_bnb_8bit
+        #     dispatchers.append(dispatch_bnb_8bit)
 
-        if is_bnb_4bit_available():
-            from .bnb import dispatch_bnb_4bit
-            dispatchers.append(dispatch_bnb_4bit)
+        # if is_bnb_4bit_available():
+        #     from .bnb import dispatch_bnb_4bit
+        #     dispatchers.append(dispatch_bnb_4bit)
 
         dispatchers.extend([dispatch_aqlm, dispatch_awq, dispatch_gptq, dispatch_megatron, dispatch_default])
         new_module = None
@@ -286,7 +286,7 @@ class LoraModel(BaseTuner):
             config = {k: v.value if isinstance(v, Enum) else v for k, v in asdict(value).items()}
             if inference:
                 config["inference_mode"] = True
-        config_dict[key] = config
+            config_dict[key] = config
         return config
 
     def _set_adapter_layers(self, enabled: bool = True) -> None:
@@ -310,7 +310,7 @@ class LoraModel(BaseTuner):
                 warnings.warn(msg)
         self._set_adapter_layers(enabled=False)
 
-    def set_adapter(self, adapter_name: str | list[str]) -> None:
+    def set_adapter(self, adapter_name: str | list[str], **kwargs) -> None:
         """Set the active adapter(s).
         Additionally, this function will set the specified adapters to trainable (i.e., requires_grad=True). If this is
         not desired, use the following code.
@@ -327,7 +327,7 @@ class LoraModel(BaseTuner):
                 if module.merged:
                     warnings.warn("Adapter cannot be set when the model is merged. Unmerging the model first.")
                     module.unmerge()
-                module.set_adapter(adapter_name)
+                module.set_adapter(adapter_name, **kwargs)
         self.active_adapter = adapter_name
 
     @contextmanager

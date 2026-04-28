@@ -6,17 +6,12 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 import torch.optim as optim
-import torchvision
-import torchvision.transforms as transforms
 import numpy as np
 import time
-from scipy import misc
-
 import matplotlib
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 
 def get_curve(dir_name, stypes=['Baseline', 'Gaussian_LDA']):
     tp, fp = dict(), dict()

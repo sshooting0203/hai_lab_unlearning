@@ -762,7 +762,7 @@ class PeftModel(PushToHubMixin, torch.nn.Module):
             self.eval()
         return load_result
 
-    def set_adapter(self, adapter_name: str) -> None:
+    def set_adapter(self, adapter_name: str, **kwargs) -> None:
         """
         Sets the active adapter.
 
@@ -785,7 +785,7 @@ class PeftModel(PushToHubMixin, torch.nn.Module):
             raise ValueError(f"Adapter {adapter_name} not found.")
         self.active_adapter = adapter_name
         if not self.peft_config[adapter_name].is_prompt_learning:
-            self.base_model.set_adapter(adapter_name)
+            self.base_model.set_adapter(adapter_name, **kwargs)
         _set_adapter(self, adapter_name)
 
     @property

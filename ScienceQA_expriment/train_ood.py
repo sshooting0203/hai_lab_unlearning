@@ -1,11 +1,11 @@
-import argparse, torch, os, json, wandb, warnings, pickle, math 
+import argparse, torch, os, json, warnings, pickle, math 
 from tqdm import tqdm
 import numpy as np
 from torch.utils.data import DataLoader
 from transformers import RobertaConfig, RobertaTokenizer, BertConfig, BertTokenizer
-from transformers.optimization import AdamW, get_linear_schedule_with_warmup
+from torch.optim import AdamW
+from transformers import get_linear_schedule_with_warmup
 from src.ood_utils import set_seed, collate_fn_mlm, collate_fn, detection_performance
-from datasets import load_metric
 from sklearn import svm
 from sklearn.mixture import GaussianMixture as GMM
 from sklearn.cluster import DBSCAN, KMeans
@@ -111,9 +111,9 @@ def train(args, model, train_dataset, test_dataset, benchmarks, save_name):
                     "seed": int(seed),
                     "unlearn_dataset": args.unlearn_dataset,
                     "auroc": float(best_ours_AUROC),
-                    "w_mean_train": w_res_in_train,
-                    "w_mean_test": w_res_in_test,
-                    "w_mean_ood": w_res_ood,
+                    "w_mean_train": float(np.mean(w_res_in_train)),
+                    "w_mean_test": float(np.mean(w_res_in_test)),
+                    "w_mean_ood": float(np.mean(w_res_ood)),
                     "threshold": float(threshold),
                     "x0": float(x0),
                     "acc": float(acc),
@@ -225,9 +225,9 @@ def main():
     parser.add_argument("--ood", type=str, default="ocsvm") # gmm ocsvm
     parser.add_argument("--unlearn_dataset", default="biology", type=str)
     parser.add_argument("--ood_dataset", type=str, default="ood_scienceqa")
-    parser.add_argument("--base_unlearn_path", type=str, default="./data/scienceqa/")
-    parser.add_argument("--base_ood_path", type=str, default="./data/scienceqa_RD_5/")
-    parser.add_argument("--save_name", type=str, default="scienceqa")
+    parser.add_argument("--base_unlearn_path", type=str)
+    parser.add_argument("--base_ood_path", type=str)
+    parser.add_argument("--save_name", type=str, default="clincqa")
     args = parser.parse_args()
 
     print('unlearn_dataset', args.unlearn_dataset)

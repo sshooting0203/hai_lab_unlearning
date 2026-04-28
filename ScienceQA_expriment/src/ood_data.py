@@ -9,9 +9,9 @@ def load(task_name, tokenizer, max_seq_length=512, is_id=False, base_unlearn_pat
         datasets = load_scienceqa_topic(task_name.split("_")[-1],  base_unlearn_path)
     elif "ood_scienceqa" in task_name:
         datasets = load_scienceqa_notopic(base_ood_path)
-    elif "clinc_qa" in task_name and "ood" not in task_name:
-        datasets = load_clinc_qa_topic(task_name.split("_")[-1],  base_unlearn_path)
-    elif "ood_clinc_qa" in task_name:
+    elif "clincqa" in task_name and "ood" not in task_name:
+        datasets = load_clinc_qa_topic(task_name.split("_", 1)[-1],  base_unlearn_path)
+    elif "ood_clincqa" in task_name:
         datasets = load_clinc_qa_notopic(base_ood_path)
     elif "wmdp" in task_name and "ood" not in task_name:
         datasets = load_wmdp_topic(task_name.split("_")[-1], base_unlearn_path)
@@ -99,7 +99,7 @@ def load_wmdp_notopic(path):
     return datasets
 
 def load_clinc_qa_topic(topic, path):
-    fp = os.path.join(path, f"clincqa_{topic}_train.json")
+    fp = os.path.join(path, f"clincqa_{topic}_train_SD.json")
     with open(fp, "r", encoding="utf-8") as f:
         train_data = json.load(f)
 

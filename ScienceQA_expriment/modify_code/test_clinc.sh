@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# CUDA_VISIBLE_DEVICES=0 nohup bash test_clinc.sh > run_logs/test_clinc_4_22.log 2>&1 &
+# CUDA_VISIBLE_DEVICES=2 nohup bash test_clinc.sh > run_logs/test_clinc_4_23.log 2>&1 &
 
 # Config
 PY="${PY:-python}"
@@ -18,16 +18,16 @@ SD_DIR="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/cli
 RD_DIR="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/clincqa_RD_10"
 UTILITY1="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/mrpcqa/mrpc_test.json"
 UTILITY2="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/rteqa/rte_validation.json"
-SAVE_FOLDER="clincqa_moe_fixed_layer16_4_22"
+SAVE_FOLDER="clincqa_moe_fixed_layer16_4_23"
 
 # MoE 저장 루트
-CKPT_ROOT="./outputs/clincqa_moe_ckpt_4_22"
+CKPT_ROOT="./outputs/clincqa_moe_ckpt_4_23"
 LAYER_MODIFIED="[16]"
 
 DOMAINS=(
-  "work"
-  "travel"
-  "home"
+  "work" # 1번 expert
+  "travel" # 2번 expert
+  "home"   # 3번 expert
   "banking"
   "credit_cards"
   "kitchen_and_dining"

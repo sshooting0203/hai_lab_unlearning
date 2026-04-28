@@ -18,10 +18,10 @@ RD_DIR="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/pto
 
 UTILITY1="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_real_authors/real_authors_test.json"
 UTILITY2="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data_new/tofu_world_facts/world_facts_test.json"
-SAVE_FOLDER="tofu_moe_fixed_4_22"
+SAVE_FOLDER="tofu_moe_fixed_4_23"
 
 # MoE 저장 루트
-CKPT_ROOT="./outputs/tofu_moe_ckpt_4_22"
+CKPT_ROOT="./outputs/tofu_moe_ckpt_4_23"
 LAYER_MODIFIED="[16]"
 
 DOMAINS=(

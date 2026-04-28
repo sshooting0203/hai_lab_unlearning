@@ -446,9 +446,8 @@ class LlamaAttention(nn.Module):
 class LlamaDecoderLayer(nn.Module):
     def __init__(self, config: LlamaConfig):
         super().__init__()
-
-        self.lora_target_modules = config.lora_target_modules  ##modified
-
+        # self.lora_target_modules = config.lora_target_modules 
+        self.lora_target_modules = getattr(config, "lora_target_modules", [])
         self.hidden_size = config.hidden_size
         self.self_attn = LlamaAttention(config=config)
         self.mlp = LlamaMLP(config)
@@ -655,7 +654,8 @@ class LlamaModel(LlamaPreTrainedModel):
         self.norm = LlamaRMSNorm(config.hidden_size, eps=config.rms_norm_eps)
 
         self.gradient_checkpointing = False
-        self.orthogonal_loss = config.orthogonal_loss
+        # self.orthogonal_loss = config.orthogonal_loss
+        self.orthogonal_loss =  getattr(config, "orthogonal_loss", False)
         # Initialize weights and apply final processing
         self.post_init()
 
@@ -781,7 +781,6 @@ class LlamaModel(LlamaPreTrainedModel):
                         return module(*inputs, output_attentions, None)
 
                     return custom_forward
-
                 ##modified
                 if self.orthogonal_loss:
                     olora_input = olora[idx]
@@ -810,7 +809,6 @@ class LlamaModel(LlamaPreTrainedModel):
                     olora_input = olora[idx]
                 else:
                     olora_input = olora
-
                 layer_outputs = decoder_layer(
                     hidden_states,
                     attention_mask=attention_mask,
@@ -829,11 +827,8 @@ class LlamaModel(LlamaPreTrainedModel):
                     o_loss_all_layers.append(o_loss.cuda(0))
                 else:
                     o_loss_all_layers.append(torch.tensor(o_loss).cuda(0))
-
                 layer_number += 1
-
             hidden_states = layer_outputs[0]
-
             if use_cache:
                 next_decoder_cache += (layer_outputs[2 if output_attentions else 1],)
 
@@ -1157,13 +1152,14 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
         self.vocab_size = config.vocab_size
         self.lm_head = nn.Linear(config.hidden_size, config.vocab_size, bias=False)
 
-        self.scale = config.orthogonal_loss_weight # 10
-        ###modified
+        # self.scale = config.orthogonal_loss_weight 
+        self.scale = getattr(config, "orthogonal_loss_weight", 0.0)
 
-        self.lora_target_modules = config.lora_target_modules
-        self.orthogonal_loss = config.orthogonal_loss
-        # self.orthogonal_loss_weight = config.orthogonal_loss_weight
-        # Initialize weights and apply final processing
+        ###modified
+        # self.lora_target_modules = config.lora_target_modules
+        # self.orthogonal_loss = config.orthogonal_loss
+        self.lora_target_modules = getattr(config, "lora_target_modules", [])
+        self.orthogonal_loss = getattr(config, "orthogonal_loss", False)
         print("NEW PARAMETERS", self.lora_target_modules)
         self.post_init()
 

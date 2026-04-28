@@ -262,7 +262,10 @@ class LlamaAttention(nn.Module):
         if self.config.rope_scaling is None:
             self.rotary_emb = LlamaRotaryEmbedding(self.head_dim, max_position_embeddings=self.max_position_embeddings)
         else:
-            scaling_type = self.config.rope_scaling["type"]
+            # scaling_type = self.config.rope_scaling["type"]
+            rope_scaling = self.config.rope_scaling # @ 수정 : llama3.1-instruct
+            scaling_type = rope_scaling.get("type", rope_scaling.get("rope_type"))
+
             scaling_factor = self.config.rope_scaling["factor"]
             if scaling_type == "linear":
                 self.rotary_emb = LlamaLinearScalingRotaryEmbedding(
@@ -849,6 +852,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
+        **kwargs,
     ) -> Union[Tuple, CausalLMOutputWithPast]:
         r"""
         Args:
@@ -1006,6 +1010,7 @@ class LlamaForSequenceClassification(LlamaPreTrainedModel):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
+        **kwargs,
     ) -> Union[Tuple, SequenceClassifierOutputWithPast]:
         r"""
         labels (`torch.LongTensor` of shape `(batch_size,)`, *optional*):
@@ -1026,6 +1031,7 @@ class LlamaForSequenceClassification(LlamaPreTrainedModel):
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
+            **kwargs, # @ 수정 : llama3.1-instruct
         )
         hidden_states = transformer_outputs[0]
         logits = self.score(hidden_states)
@@ -1167,6 +1173,7 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
         output_attentions: Optional[bool] = None,
         output_hidden_states: Optional[bool] = None,
         return_dict: Optional[bool] = None,
+        **kwargs,
     ) -> Union[Tuple, CausalLMOutputWithPast]:
         r"""
         Args:
@@ -1272,18 +1279,8 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
         attention_mask=None, 
         inputs_embeds=None, **kwargs
     ):
-        if past_key_values:
-            input_ids = input_ids[:, -1:]
+        past_key_values = None
 
-        position_ids = kwargs.get("position_ids", None)
-        if attention_mask is not None and position_ids is None:
-            # create position_ids on the fly for batch generation
-            position_ids = attention_mask.long().cumsum(-1) - 1
-            position_ids.masked_fill_(attention_mask == 0, 1)
-            if past_key_values:
-                position_ids = position_ids[:, -1].unsqueeze(-1)
-
-        # if `inputs_embeds` are passed, we only want to use them in the 1st generation step
         if inputs_embeds is not None and past_key_values is None: # inputs_embeds는 첫 스텝에만 쓰고, 그 이후는 input_ids로 전환
             model_inputs = {"inputs_embeds": inputs_embeds}
         else:
@@ -1291,9 +1288,8 @@ class LlamaForCausalLM_ood(LlamaPreTrainedModel):
 
         model_inputs.update( # forward에 필요한 나머지 인자들 묶어서 반환
             {
-                "position_ids": position_ids,
                 "past_key_values": past_key_values,
-                "use_cache": kwargs.get("use_cache"),
+                "use_cache": False,
                 "attention_mask": attention_mask,
             }
         )

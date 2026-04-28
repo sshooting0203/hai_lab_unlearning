@@ -29,7 +29,7 @@ class LUNAR_LoRA_MoE_net(nn.Module):
         dtype = pretrained_weight.dtype if pretrained_weight is not None else torch.float32
         device = pretrained_weight.device if pretrained_weight is not None else "cuda"
 
-        # frozen base linear
+        # frozen base linear(14336 -> 4096)
         self.linear = nn.Linear(input_dim, output_dim, bias=False, device=device, dtype=dtype)
 
         if pretrained_weight is not None:
@@ -157,29 +157,9 @@ class LUNAR_LoRA_MoE_net(nn.Module):
         return_all_experts: bool = False,
         forced_expert_idx: int | None = None,
     ):
-        x = self._ensure_dtype(x)
-        base = self.linear(x)
-        logits = self.gate(x)  # router logits 계산
-
-        if forced_expert_idx is not None: # LUNAR loss : train시에 특정 expert로 강제 force forward
-            if forced_expert_idx < 0 or forced_expert_idx >= self.n_experts:
-                raise ValueError(
-                    f"forced_expert_idx={forced_expert_idx} out of range "
-                    f"[0, {self.n_experts})"
-                )
-            x_d = self.lora_dropout(x)
-            Ax_e = torch.einsum(
-                "...h,rh->...r", x_d, self.lora_A[forced_expert_idx]
-            )
-            BAx_e = torch.einsum(
-                "...r,or->...o", Ax_e, self.lora_B[forced_expert_idx]
-            )
-            out = base + self.scaling * BAx_e
-            if return_router_logits:
-                return out, logits
-            if return_gate:
-                return out, F.softmax(logits, dim=-1)
-            return out
+        x = self._ensure_dtype(x) # [B, 14336]
+        base = self.linear(x) # down proj : [B, 14336] -> [B, 4096]
+        logits = self.gate(x)  # router logits 계산 : [B, 14336] -> [B, E]
 
         probs = F.softmax(logits, dim=-1)  # router logit으로 softmax 확률 계산 
         top1 = probs.argmax(dim=-1)
@@ -204,9 +184,8 @@ class LUNAR_LoRA_MoE_net(nn.Module):
         update = torch.einsum("...e,...eo->...o", probs, BAx)   
 
         out = base + self.scaling * update
-        
-        # Return block
         res = [out]
+        
         if return_router_logits:
             res.append(logits)
         if return_gate:
@@ -214,11 +193,9 @@ class LUNAR_LoRA_MoE_net(nn.Module):
         if return_all_experts:
             res.append(BAx)
             res.append(base)
-        
         if len(res) == 1:
             return res[0]
         return tuple(res)
-    
 
 def save_lora_moe_only(
     model,
@@ -424,11 +401,6 @@ class LUNAR_NN_MoE_net(nn.Module):
         if num_new_experts <= 0:
             return []
 
-        if self.gate_hidden > 0:
-            raise NotImplementedError("add_experts currently supports only linear gate")
-        if not isinstance(self.gate, nn.Linear):
-            raise TypeError("self.gate must be nn.Linear when using add_experts().")
-
         device = self.expert_W.device
         dtype = self.expert_W.dtype
 
@@ -447,21 +419,37 @@ class LUNAR_NN_MoE_net(nn.Module):
         self.expert_W = nn.Parameter(cat_W)
 
         # 2) gate 확장
-        old_gate = self.gate
-        new_gate = nn.Linear(
-            old_gate.in_features, new_n, bias=(old_gate.bias is not None),
-            device=device, dtype=dtype,
-        )
+        if self.gate_hidden > 0:
+            if not isinstance(self.gate, nn.Sequential):
+                raise TypeError("self.gate must be nn.Sequential when gate_hidden > 0.")
+            old_gate_out = self.gate[-1]
+            new_gate_out = nn.Linear(
+                old_gate_out.in_features, new_n, bias=(old_gate_out.bias is not None),
+                device=device, dtype=dtype
+            )
+            with torch.no_grad():
+                new_gate_out.weight[:old_n].copy_(old_gate_out.weight.data)
+                new_gate_out.weight[old_n:].normal_(mean=0.0, std=init_std)
+                if old_gate_out.bias is not None:
+                    new_gate_out.bias[:old_n].copy_(old_gate_out.bias.data)
+                    new_gate_out.bias[old_n:].zero_()
+            self.gate[-1] = new_gate_out
+        else:
+            if not isinstance(self.gate, nn.Linear):
+                raise TypeError("self.gate must be nn.Linear when gate_hidden == 0.")
+            old_gate = self.gate
+            new_gate = nn.Linear(
+                old_gate.in_features, new_n, bias=(old_gate.bias is not None),
+                device=device, dtype=dtype,
+            )
+            with torch.no_grad():
+                new_gate.weight[:old_n].copy_(old_gate.weight.data)
+                new_gate.weight[old_n:].normal_(mean=0.0, std=init_std)
+                if old_gate.bias is not None:
+                    new_gate.bias[:old_n].copy_(old_gate.bias.data)
+                    new_gate.bias[old_n:].zero_()
+            self.gate = new_gate
 
-        with torch.no_grad():
-            new_gate.weight[:old_n].copy_(old_gate.weight.data)
-            new_gate.weight[old_n:].normal_(mean=0.0, std=init_std)
-
-            if old_gate.bias is not None:
-                new_gate.bias[:old_n].copy_(old_gate.bias.data)
-                new_gate.bias[old_n:].zero_()
-
-        self.gate = new_gate
         self.n_experts = new_n
 
         if update_top_k:
@@ -548,7 +536,7 @@ def save_nn_moe_only(
         if not isinstance(module, LUNAR_NN_MoE_net):
             raise TypeError(f"Layer {l} is not LUNAR_NN_MoE_net.")
 
-        payload[l] = {
+        payload_l = {
             "type": "LUNAR_NN_MoE_net",
             "input_dim": int(module.linear.weight.shape[1]),
             "output_dim": int(module.linear.weight.shape[0]),
@@ -557,9 +545,17 @@ def save_nn_moe_only(
             "gate_hidden": int(module.gate_hidden),
             "pretrained_weight": module.linear.weight.detach().cpu(),
             "expert_W": module.expert_W.detach().cpu(),
-            "gate_weight": module.gate.weight.detach().cpu(),
-            "gate_bias": None if module.gate.bias is None else module.gate.bias.detach().cpu(),
         }
+        if module.gate_hidden > 0:
+            payload_l["gate_weight_0"] = module.gate[0].weight.detach().cpu()
+            payload_l["gate_bias_0"] = module.gate[0].bias.detach().cpu() if module.gate[0].bias is not None else None
+            payload_l["gate_weight_2"] = module.gate[2].weight.detach().cpu()
+            payload_l["gate_bias_2"] = module.gate[2].bias.detach().cpu() if module.gate[2].bias is not None else None
+        else:
+            payload_l["gate_weight"] = module.gate.weight.detach().cpu()
+            payload_l["gate_bias"] = module.gate.bias.detach().cpu() if module.gate.bias is not None else None
+        
+        payload[l] = payload_l
 
     torch.save(payload, save_path)
     print(f"[SAVE] LUNAR MoE NN-only saved to {save_path}")
@@ -595,9 +591,17 @@ def load_nn_moe_only(
 
         with torch.no_grad():
             lunar_moe.expert_W.copy_(obj["expert_W"].to(device=device, dtype=dtype))
-            lunar_moe.gate.weight.copy_(obj["gate_weight"].to(device=device, dtype=dtype))
-            if obj["gate_bias"] is not None:
-                lunar_moe.gate.bias.copy_(obj["gate_bias"].to(device=device, dtype=dtype))
+            if lunar_moe.gate_hidden > 0:
+                lunar_moe.gate[0].weight.copy_(obj["gate_weight_0"].to(device=device, dtype=dtype))
+                if obj.get("gate_bias_0") is not None:
+                    lunar_moe.gate[0].bias.copy_(obj["gate_bias_0"].to(device=device, dtype=dtype))
+                lunar_moe.gate[2].weight.copy_(obj["gate_weight_2"].to(device=device, dtype=dtype))
+                if obj.get("gate_bias_2") is not None:
+                    lunar_moe.gate[2].bias.copy_(obj["gate_bias_2"].to(device=device, dtype=dtype))
+            else:
+                lunar_moe.gate.weight.copy_(obj["gate_weight"].to(device=device, dtype=dtype))
+                if obj.get("gate_bias") is not None:
+                    lunar_moe.gate.bias.copy_(obj["gate_bias"].to(device=device, dtype=dtype))
 
         _set_down_proj(model, l, lunar_moe)
 
@@ -631,4 +635,3 @@ def expand_nn_moe_experts(
         estimated_net_list.append(module)  
         print(f"[EXPAND] layer={l}, re-initialized retain expert 0, added forget expert={new_ids}, total_experts={module.n_experts}")
     return estimated_net_list, new_expert_map
-
