@@ -18,6 +18,7 @@ from src_lunar.estimated_net_moe_utils import (
     save_lora_moe_only,
     expand_lora_moe_experts,
 )
+from src_lunar.train_moe import expand_per_layer
 from src_lunar.model_utils.model_loader import load_model
 from src_lunar.eval_util import custom_evaluate
 from src_lunar.train_moe import train_moe_multiple_layers
@@ -75,7 +76,9 @@ def train(cfg):
         cfg, model_base, ref_train, forget_train
     )  # ['n_pos n_layer d_model']
 
-    direction = []
+    direction = [] 
+    # 처음 수집된건 eoi token에 따라 5개가 맞지만 -> forget.yaml의 1개로 필터링됨
+    # torch.Size([5, 32, 4096]) -> torch.Size([4096])
     for layer_index in layer_idx_list: # 1) cadidnate_direction는 모든 layer를 수집, 그 중 config layer만 선택, 2) position에 해당하는 위치만 수집 
         direction.append(candidate_directions[positions, layer_index+1, :] # +1 because direction is calcuated using pre-hook
     )  # ['n_pos selected_layer d_model']
@@ -150,20 +153,16 @@ def train(cfg):
 
     ################## train MoE layer ####################
     print("[TRAIN] start train")
-    updated_estimated_net_list = train_moe_multiple_layers( # selection된 layer로 moe 훈련 시작하여 mlp down proj 리턴 
-        estimated_net_list, 
-        train_loader, 
-        optimizer,
-        scheduler,
+    updated_estimated_net_list = train_moe_multiple_layers(
+        model_list=estimated_net_list,
+        train_loader=train_loader,
+        optimizer=optimizer,
+        scheduler=scheduler,
         device=device,
         current_forget_idx=forget_label_idx,
         num_epochs=cfg.num_epochs,
-        expert_weight=cfg.moe.expert_weight, #
-        router_weight=cfg.moe.router_weight, #
-        aux_weight=cfg.moe.aux_weight, #
-        num_experts=cfg.moe.num_experts, #
-        top_k=cfg.moe.top_k, #
-        # new_expert_map=new_expert_map,
+        expert_weight=cfg.moe.expert_weight,
+        router_weight=cfg.moe.router_weight,
     )
 
     ################## save MoE layer ####################
@@ -241,6 +240,7 @@ def train(cfg):
             model=updated_model,
             eval_target=job["eval_target"],
             output_es_score=cfg.compute_es_score,
+            forget_label_idx=forget_label_idx
         )
         all_eval_logs[job["name"]] = {
             "eval_target": job["eval_target"],

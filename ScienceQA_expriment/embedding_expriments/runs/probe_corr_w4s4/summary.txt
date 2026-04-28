@@ -1,6 +1,0 @@
-windows=[(0, 3), (4, 7), (8, 11), (12, 15), (16, 19), (20, 23), (24, 27), (28, 31)]
-probe_steps_list=[50, 100, 150, 200]
-full_steps=2000
-target_modules=['q_proj', 'k_proj', 'v_proj', 'o_proj', 'gate_proj', 'up_proj', 'down_proj']
-lam_repel=0.0 steer_layer=17
-topk=3

@@ -3,15 +3,15 @@ from tqdm import tqdm
 from collections import defaultdict
 from src.ood_model_selector import RobertaForSelector, RobertaForSelector_inference
 from transformers import RobertaConfig, RobertaTokenizer, BertConfig, BertTokenizer
-from transformers import GenerationConfig, LlamaTokenizer, AutoConfig, AutoTokenizer
+from transformers import GenerationConfig, AutoTokenizer, AutoConfig
 from scipy.stats import norm
 from scipy.optimize import minimize
 import numpy as np
 from typing import Union
 from sklearn.mixture import GaussianMixture as GMM
-
 from src.peft_model_hacked_o import PeftModel
-from src.modeling_llama_hacked_o import LlamaForCausalLM_ood
+from src.modeling_llama_hacked_31 import LlamaForCausalLM_ood
+from utils.prompter import build_chat_prompt
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -21,12 +21,10 @@ else:
 try:
     if torch.backends.mps.is_available():
         device = "mps"
-except:  # noqa: E722
+except:  
     pass
 
 def set_seed(seed: int):
-    """Fix PRNG seed for reproducable experiments.
-    """
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -36,16 +34,6 @@ def set_seed(seed: int):
         torch.backends.cudnn.deterministic = True
         torch.backends.cudnn.benchmark = False
     os.environ["PYTHONHASHSEED"] = str(seed)
-
-def knowledge_weights(gmm_scores, threshold_train):
-    weight_res = []
-    r = 3  ## this value can be changed to adjust the range of id data
-    gmm_scores -= r * threshold_train
-
-    for i in range(gmm_scores.shape[0]):
-        weight_t = math.exp(gmm_scores[i]) / (1 + math.exp(gmm_scores[i]))
-        weight_res.append(weight_t)
-    return weight_res
 
 def weighting_func_gmm(train_in_score, test_in_score):
     # 1. fit two gaussians
@@ -77,13 +65,14 @@ def gmm_cdf(x, gmm):
 def cumulative_probability(x, gmm):
     return gmm_cdf(x, gmm)
 
-# 6. the cumulative prob for the symmtric point
+# the cumulative prob for the symmtric point
 def symmetric_cumulative_probability(x, x0, gmm):
     symmetric_x = 2 * x0 - x
     return gmm_cdf(symmetric_x, gmm)
 
 all_w_res = []
 all_w_res_dic = {}
+
 def obtain_weights(input_x, gmm, x0):
     cp_x = cumulative_probability(input_x, gmm)
     cp_symmetric_x = symmetric_cumulative_probability(input_x, x0, gmm)
@@ -108,48 +97,16 @@ def obtain_weights(input_x, gmm, x0):
         w_res=0
     return w_res
 
-# print(np.mean(all_w_res), min(all_w_res), max(all_w_res))
-class Prompter(object):
-    __slots__ = ("template", "_verbose")
-    def __init__(self, template_name: str = "", verbose: bool = False):
-        self._verbose = verbose
-        self.template = {
-            "description": "Template used by Alpaca-LoRA.",
-            "prompt_input": "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Input:\n{input}\n\n### Response:\n",
-            "prompt_no_input": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n",
-            "response_split": "### Response:"
-        }
-        if self._verbose:
-            print(f"Using prompt template {template_name}: {self.template['description']}")
-
-    def generate_prompt(self, instruction: str, input: Union[None, str] = None, label: Union[None, str] = None) -> str:
-        if input:
-            res = self.template["prompt_input"].format(
-                instruction=instruction, input=input
-            )
-        else:
-            res = self.template["prompt_no_input"].format(
-                instruction=instruction
-            )
-        if label:
-            res = f"{res}{label}"
-        if self._verbose:
-            print(res)
-        return res
-
-    def get_response(self, output: str) -> str:
-        return output.split(self.template["response_split"])[1].strip()
-
 def main():
     parser = argparse.ArgumentParser(description='Evaluation')
-    parser.add_argument('--test_dataset', type=str, default="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/clinc_test_sample.json", help='test_dataset')
-    parser.add_argument('--base_model', type=str, default="sshl505/O3_LLAMA2_ClincQA", help='base_model')
+    parser.add_argument('--test_dataset', type=str, help='test_dataset')
+    parser.add_argument('--base_model', type=str, help='base_model')
     parser.add_argument('--ood_base_model', type=str, default="roberta-large", help='base_model')
-    parser.add_argument('--lora_weights', type=str, default= "./SCALE_0.1_seed_1_o_unlearn_lora_force_checkpoints_5/lora_force_random_biology_force", help='lora_model')
-    parser.add_argument('--ood_weights', type=str, default= "/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/ood_checkpoints_scienceqa_ONLY_ONE_OCSVM/ood_checkpoints_scienceqa_0_only_one", help='ood_model')
-    parser.add_argument('--ood_type', type=str, default="work", help='ood type')
-    parser.add_argument('--ood_setting', type=str, default="c", help='ood setting')
-    parser.add_argument('--ood_setting_name', type=str, default="scienceqa", help='ood setting name')
+    parser.add_argument('--lora_weights', type=str, help='lora_model')
+    parser.add_argument('--ood_weights', type=str, help='ood_model')
+    parser.add_argument('--ood_type', type=str, help='ood type')
+    parser.add_argument('--ood_setting', type=str, help='ood setting')
+    parser.add_argument('--ood_setting_name', type=str, help='ood setting name')
     parser.add_argument('--seed', type=int, default=1, help='base_model')
     parser.add_argument('--unlearn_topic', type=str, help='file_name') # @ 수정 
 
@@ -161,38 +118,36 @@ def main():
     lora_weight = args.lora_weights
     max_batch_size = 1
     
-    types = args.ood_type.split("_")
-    ood_types = []
-    for i in types:
-        if len(i) > 0:
-            ood_types.append(i)
+    # types = args.ood_type.split("_")
+    # ood_types = []
+    # for i in types:
+    #     if len(i) > 0:
+    #         ood_types.append(i)
+    ood_types = [args.ood_type]
     ood_setting = args.ood_setting
     ood_setting_names = args.ood_setting_name
-
-    print(args.test_dataset)
-    print(args.base_model)
-    print(args.lora_weights)
     load_8bit = False
-
-    print(args.ood_weights)
-    print(ood_types)
-    print(ood_setting)
-    print(args.ood_setting_name)
-
     ood_weights = []
+    ood_type = "ocsvm"
+
     for i in ood_types:  # "biology", "physics", "chemistry"
         o_p = args.ood_weights + f"{ood_setting_names}_{i}_ood_{ood_setting_names}"
         ood_weights.append(o_p)
-    ood_type = "ocsvm"
 
     path = "/".join(lora_weight.split("/")[:-1])
     if not os.path.exists(path):
         os.mkdir(path)
     result_file = os.path.join(path, f"test_seed{args.seed}_{args.unlearn_topic}.json")
-    # result_file = path + "/test_noretain_{}_seed{}_oodlora_{}_{}".format(ood_setting,str(args.seed), lora_weight.split("/")[-1], args.test_dataset.split("/")[-1])
     print(result_file)
 
     tokenizer = AutoTokenizer.from_pretrained(base_model, padding_side='left')
+
+    if tokenizer.pad_token is None:
+        if tokenizer.eos_token is None:
+            raise ValueError("tokenizer.eos_token is None; cannot set pad_token safely.")
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+    
     lora_target_modules = [
         "q_proj",
         "v_proj",
@@ -213,7 +168,6 @@ def main():
     model = LlamaForCausalLM_ood.from_pretrained(
         base_model,
         config=config,
-        load_in_8bit=load_8bit,
         torch_dtype=torch.bfloat16,
         device_map="auto",
     )
@@ -226,21 +180,16 @@ def main():
     model.init_olora(orthogonal_loss=orthogonal_loss, olora_weights=olora_weights)
     model.init_active_adapters_d(active_adapters_d=['default'])
 
-    # print(model.config.pad_token_id, tokenizer.pad_token_id)
-    # print(model.config.bos_token_id, tokenizer.bos_token_id)
-    # print(model.config.eos_token_id, tokenizer.eos_token_id)
-    # unwind broken decapoda-research config
-    model.config.pad_token_id = tokenizer.pad_token_id = 0  # unk
-    model.config.bos_token_id = 1
-    model.config.eos_token_id = 2
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
 
-    if not load_8bit:
-        model.half()  # seems to fix bugs for some users.
+    model.config.pad_token_id = tokenizer.pad_token_id
+    model.config.eos_token_id = tokenizer.eos_token_id
+
+    # if not load_8bit:
+    #     model.half()  # seems to fix bugs for some users.
 
     model.eval()
-    if torch.__version__ >= "2" and sys.platform != "win32":
-        model = torch.compile(model)
-
     ##############################################
     ood_base_model = args.ood_base_model
     ood_tokenizer = RobertaTokenizer.from_pretrained(ood_base_model)
@@ -278,28 +227,55 @@ def main():
         ood_precision_lists.append(torch.load(precision_list_path, map_location=torch.device(device)))
         ood_fea_lists.append(torch.load(fea_list_path, map_location=torch.device(device)))
     ##############################################
-    prompter = Prompter(template_name="alpaca")
     max_new_tokens = 128
     save_every = 200
-    correct = 0
-    results, outputs, gt = [], [], []
-    domain_total = defaultdict(int) # @ 수정
-    domain_correct = defaultdict(int) # @ 수정
-    domain_list = [] # @ 수정
+
+    contains_correct = 0
+    exact_correct = 0
+
+    results = []
+
+    domain_total = defaultdict(int)
+    domain_contains_correct = defaultdict(int)
+    domain_exact_correct = defaultdict(int)
 
     for start_idx in tqdm(range(0, len(data_a), max_batch_size)):
         end_idx = min(start_idx + max_batch_size, len(data_a))
         batch = data_a[start_idx:end_idx]
 
         intents = [str(example["intent"]) for example in batch]
-        # print('intent is : ', intents)
-        domains  = [str(ex.get("domain", "unknown")) for ex in batch] # @ 수정 
-        
-        prompts = [prompter.generate_prompt(example['instruction'], example['input']) for example in batch]
-        # print('prompt is : ', prompts)
+        # debug('intent is : ', intents)
+        domains = [str(example.get("domain", "unknown")) for example in batch]
+
+        llm_prompts = []
+        ood_texts = []
+
+        for example in batch:
+            instruction = str(example.get("instruction", ""))
+            input_text = str(example.get("input", ""))
+            # OOD는 학습 때 text_input plain text를 봤으므로 raw text 유지
+            if input_text:
+                raw_text = f"{instruction}\n\n{input_text}"
+            else:
+                raw_text = instruction
+            ood_texts.append(raw_text)
+            # LLM은 chat template 사용
+            llm_prompts.append(
+                build_chat_prompt(
+                    tokenizer,
+                    instruction=raw_text,
+                    system=None,
+                )
+            )
 
         ##############################################
-        ood_input = ood_tokenizer(prompts, padding='max_length', truncation=True, max_length=512, return_tensors="pt") # 256
+        ood_input = ood_tokenizer(
+            ood_texts, 
+            padding='max_length', 
+            truncation=True, 
+            max_length=512, 
+            return_tensors="pt"
+        ) # 256
         max_ood = 0
 
         for i in range((len(ood_weights))):
@@ -320,74 +296,118 @@ def main():
         print("ood_weight: ", [1, max_ood])
         model.init_oodweight(ood_weight=[1, max_ood])
         ##############################################
-        inputs = tokenizer(prompts, padding=True, return_tensors="pt")
+        inputs = tokenizer(
+            llm_prompts,
+            padding=True,
+            return_tensors="pt",
+            add_special_tokens=False,
+        )
         input_ids = inputs["input_ids"].to(device)
+        attention_mask = inputs["attention_mask"].to(device) # @ 수정 : llama3.1-instruct
 
         with torch.no_grad():
             generation_output = model.generate(
-                input_ids=input_ids,
-                return_dict_in_generate=True,
-                output_scores=True,
-                max_new_tokens=max_new_tokens,
-            )
-        s = generation_output.sequences
-        output = tokenizer.batch_decode(s)
-        output = [prompter.get_response(otp) for otp in output]
+            input_ids=input_ids,
+            attention_mask=attention_mask,
+            return_dict_in_generate=True,
+            output_scores=False,
+            max_new_tokens=max_new_tokens,
+            pad_token_id=tokenizer.pad_token_id,
+            eos_token_id=tokenizer.eos_token_id,
+        )
 
-        # print("output is : ", output)
-        # pattern = re.compile(r"Intent:\s*([A-Za-z0-9_\-]+)")
-        pattern = re.compile(r"(?:Intent|Label):\s*([A-Za-z0-9_\-]+)")
-        res = [pattern.findall(otp) for otp in output]
-        # print('res is', res)
-        pred = []
+        sequences = generation_output.sequences
+        gen_only_ids = sequences[:, input_ids.shape[1]:]
+        output = tokenizer.batch_decode(gen_only_ids, skip_special_tokens=True)
+        debug("GEN ONLY OUTPUT :", output)
 
-        for r_i in range(len(res)):
+        for r_i, raw_text in enumerate(output):
             d = domains[r_i]
             domain_total[d] += 1
 
-            if len(res[r_i]) == 1:
-                intent = res[r_i][0]  
-            else:
+            resp = raw_text.strip()
+            intent = resp.splitlines()[0].strip() if resp else "FAILED"
+            intent = intent.replace("</s>", "").replace("<|eot_id|>", "").strip()
+            if not intent:
                 intent = "FAILED"
 
-            pred.append(intent)
-            results.append(res[r_i])
-            outputs.append(output[r_i])
-            gt.append(intents[r_i])
-            domain_list.append(d)
+            pred_text = str(intent).strip().lower()
+            gt_text = str(intents[r_i]).strip().lower()
 
-            if str(intent) == str(intents[r_i]):
-                correct += 1
-                domain_correct[d] += 1
-            #     print("correct:", str(intent), str(intents[r_i]))
-            # else:
-            #     print("gt-ans:", str(intent), str(intents[r_i]))
+            is_contains_correct = gt_text in pred_text
+            is_exact_correct = gt_text == pred_text
 
-        acc = correct / len(results) * 100
+            if is_contains_correct:
+                contains_correct += 1
+                domain_contains_correct[d] += 1
+
+            if is_exact_correct:
+                exact_correct += 1
+                domain_exact_correct[d] += 1
+
+            debug("intent : ", intent)
+            debug("gt : ", intents[r_i])
+
+            if is_exact_correct:
+                print("exact correct:", pred_text, gt_text, flush=True)
+            elif is_contains_correct:
+                print("contains correct:", pred_text, gt_text, flush=True)
+            else:
+                print("pred/gt:", pred_text, gt_text, flush=True)
+
+            results.append({
+                "domain": d,
+                "prompt": llm_prompts[r_i],
+                "gt": intents[r_i],
+                "pred": intent,
+                "raw_output": resp,
+                "contains_correct": is_contains_correct,
+                "exact_correct": is_exact_correct,
+                "ood_text": ood_texts[r_i],
+                "ood_weight": float(max_ood),
+            })
+
+        #########################################
+        contains_acc = contains_correct / len(results) * 100
+        exact_acc = exact_correct / len(results) * 100
+
         if end_idx % save_every == 0 or end_idx == len(data_a):
             per_topic = {}
             for t in domain_total:
                 tot = int(domain_total[t])
-                cor = int(domain_correct[t])
+                contains_cor = int(domain_contains_correct[t])
+                exact_cor = int(domain_exact_correct[t])
+
                 per_topic[t] = {
                     "total": tot,
-                    "correct": cor,
-                    "acc": (cor / tot * 100) if tot > 0 else 0.0
-                } # @ 수정 
-            per_domain_sorted = dict(sorted(per_topic.items(), key=lambda kv: kv[1]["total"], reverse=True))
+                    "contains_correct": contains_cor,
+                    "exact_correct": exact_cor,
+                    "contains_acc": (contains_cor / tot * 100) if tot > 0 else 0.0,
+                    "exact_acc": (exact_cor / tot * 100) if tot > 0 else 0.0,
+                }
 
-            print(f"{len(results)}/{len(data_a)}, correct: {correct}, acc: {round(acc, 2)}%, saving to {result_file}")
+            per_domain_sorted = dict(
+                sorted(per_topic.items(), key=lambda kv: kv[1]["total"], reverse=True)
+            )
+
+            print(f"{len(results)}/{len(data_a)}, contains_correct: {contains_correct}, contains_acc: {round(contains_acc, 2)}%, exact_correct: {exact_correct}, exact_acc: {round(exact_acc, 2)}%, saving to {result_file}")
+            
             data = {}
-            data['acc'] = acc
-            data['correct'] = correct
-            data['len'] = len(results)
-            data['results'] = results
-            data['outputs'] = outputs
+            data["contains_acc"] = contains_acc
+            data["exact_acc"] = exact_acc
+            data["contains_correct"] = contains_correct
+            data["exact_correct"] = exact_correct
+            data["len"] = len(results)
+            data["results"] = results
+            data["per_domain"] = per_domain_sorted
 
-            data['per_domain'] = per_domain_sorted
             with open(result_file, 'w') as f:
                 json.dump(data, f, indent=2, separators=(',', ': '))
+
     print(np.mean(all_w_res), min(all_w_res), max(all_w_res))
+
+def debug(*args):
+    print(*args, file=sys.stderr, flush=True)
 
 if __name__ == "__main__":
     main()

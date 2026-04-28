@@ -1,12 +1,13 @@
-import os, re, json, argparse, random, torch, sys 
+import os, re, json, argparse, random, torch, sys
 from tqdm import tqdm
 from typing import Union
 from collections import defaultdict
 import numpy as np
-from src.mapping_hacked_o import  debug_forward_effect, debug_lora_layers, debug_peft_basic
-from transformers import GenerationConfig, LlamaTokenizer, AutoConfig
+from src.mapping_hacked_o import debug_forward_effect, debug_lora_layers, debug_peft_basic
+from transformers import GenerationConfig, AutoTokenizer, AutoConfig
 from transformers import LlamaForCausalLM
-from peft import PeftModel 
+from peft import PeftModel
+from utils.prompter import build_chat_prompt
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -16,12 +17,10 @@ else:
 try:
     if torch.backends.mps.is_available():
         device = "mps"
-except:  # noqa: E722
+except:
     pass
 
 def set_seed(seed: int):
-    """Fix PRNG seed for reproducable experiments.
-    """
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -32,43 +31,17 @@ def set_seed(seed: int):
         torch.backends.cudnn.benchmark = False
     os.environ["PYTHONHASHSEED"] = str(seed)
 
-class Prompter(object):
-    __slots__ = ("template", "_verbose")
-    def __init__(self, template_name: str = "", verbose: bool = False):
-        self._verbose = verbose
-        self.template = {
-            "description": "Template used by Alpaca-LoRA.",
-            "prompt_input": "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Input:\n{input}\n\n### Response:\n",
-            "prompt_no_input": "Below is an instruction that describes a task. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n",
-            "response_split": "### Response:"
-        }
-        if self._verbose:
-            print(f"Using prompt template {template_name}: {self.template['description']}")
-
-    def generate_prompt(self, instruction: str, input: Union[None, str] = None, label: Union[None, str] = None) -> str:
-        if input:
-            res = self.template["prompt_input"].format(instruction=instruction, input=input)
-        else:
-            res = self.template["prompt_no_input"].format(instruction=instruction)
-        if label:
-            res = f"{res}{label}"
-        if self._verbose:
-            print(res)
-        return res
-
-    def get_response(self, output: str) -> str:
-        return output.split(self.template["response_split"])[1].strip()
-    
 def main():
     parser = argparse.ArgumentParser(description='Evaluation')
-    parser.add_argument('--test_dataset', type=str, default="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/data/clinc_test_sample.json", help='test_dataset')
-    parser.add_argument('--base_model', type=str, default="sshl505/O3_LLAMA2_ClincQA", help='base_model')
-    parser.add_argument('--lora_weights', type=str, default="/dataset/hai_ssh/code/O3-LLM-UNLEARNING/ScienceQA_expriment/SCALE_0.1_seed_0_o_unlearn_lora_force_checkpoints_10/lora_force_random_biology_force", help='lora_model')
-    parser.add_argument('--max_batch_size', type=int, default=8, help='base_model')
-    parser.add_argument('--seed', type=int, default=8, help='base_model')
-    parser.add_argument('--unlearn_topic', type=str, help='file_name') # @ 수정 
+    parser.add_argument('--test_dataset', type=str)
+    parser.add_argument('--base_model', type=str)
+    parser.add_argument('--lora_weights', type=str)
+    parser.add_argument('--max_batch_size', type=int, default=8)
+    parser.add_argument('--seed', type=int, default=8)
+    parser.add_argument('--unlearn_topic', type=str)
     parser.add_argument('--lora_start_layer', type=int, default=0)
-    
+    parser.add_argument('--task_type', type=str, default="clinc", choices=["clinc", "mrpc", "rte"])
+
     # Parsing arguments
     args = parser.parse_args()
     set_seed(args.seed)
@@ -77,23 +50,25 @@ def main():
     lora_weights = args.lora_weights
     max_batch_size = args.max_batch_size
 
-    print(args.test_dataset)
-    print(args.base_model)
-    print(args.lora_weights)
     load_8bit = False
 
     path = "/".join(lora_weights.split("/")[:-1])
     if not os.path.exists(path):
         os.mkdir(path)
     result_file = os.path.join(path, f"seed{args.seed}_{args.unlearn_topic}.json")
-    # result_file = path + "/seed{}_{}_{}".format(str(args.seed), lora_weights.split("/")[-1], args.test_dataset.split("/")[-1])
     print(result_file)
 
-    tokenizer = LlamaTokenizer.from_pretrained(base_model, padding_side='left')
+    tokenizer = AutoTokenizer.from_pretrained(base_model, padding_side='left')
+
+    if tokenizer.pad_token is None:
+        if tokenizer.eos_token is None:
+            raise ValueError("tokenizer.eos_token is None; cannot set pad_token safely.")
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+    
     if device == "cuda":
         model = LlamaForCausalLM.from_pretrained(
             base_model,
-            load_in_8bit=load_8bit,
             torch_dtype=torch.bfloat16,
             device_map="auto",
         )
@@ -124,106 +99,148 @@ def main():
             device_map={"": device},
         )
 
-    # print(model.config.pad_token_id, tokenizer.pad_token_id)
-    # print(model.config.bos_token_id, tokenizer.bos_token_id)
-    # print(model.config.eos_token_id, tokenizer.eos_token_id)
-    model.config.pad_token_id = tokenizer.pad_token_id = 0  # unk
-    model.config.bos_token_id = 1
-    model.config.eos_token_id = 2
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
 
-    if not load_8bit:
-        model.half()  # seems to fix bugs for some users.
+    model.config.pad_token_id = tokenizer.pad_token_id
+    model.config.eos_token_id = tokenizer.eos_token_id
+    
+    # if not load_8bit:
+    #     model.half()
 
     model.eval()
-    if torch.__version__ >= "2" and sys.platform != "win32":
-        model = torch.compile(model)
-    ##############################################
-    prompter = Prompter(template_name="alpaca")
+    ################################################
     max_new_tokens = 128
     save_every = 200
-    correct = 0
-    results, outputs, gt = [], [], []
-    domain_total = defaultdict(int) # @ 수정
-    domain_correct = defaultdict(int) # @ 수정
-    domain_list = [] # @ 수정
+
+    contains_correct = 0
+    exact_correct = 0
+
+    results = []
+
+    domain_total = defaultdict(int)
+    domain_contains_correct = defaultdict(int)
+    domain_exact_correct = defaultdict(int)
 
     for start_idx in tqdm(range(0, len(data_a), max_batch_size)):
         end_idx = min(start_idx + max_batch_size, len(data_a))
         batch = data_a[start_idx:end_idx]
 
         intents = [str(example["intent"]) for example in batch]
-        # print('intent is : ', intents)
-        domains  = [str(ex.get("domain", "unknown")) for ex in batch] # @ 수정 
-        
-        prompts = [prompter.generate_prompt(example['instruction'], example['input']) for example in batch]
-        # print('prompt is : ', prompts)
+        # debug('intent is : ', intents)
+        domains = [str(example.get("domain", "unknown")) for example in batch]
 
-        inputs = tokenizer(prompts, padding=True, return_tensors="pt")
+        prompts = [build_chat_prompt(tokenizer, instruction=example['instruction'], system=None) for example in batch]
+        ###########################################
+        inputs = tokenizer(
+            prompts,
+            padding=True,
+            return_tensors="pt",
+            add_special_tokens=False,
+        )
         input_ids = inputs["input_ids"].to(device)
+        attention_mask = inputs["attention_mask"].to(device)
 
         with torch.no_grad():
             generation_output = model.generate(
                 input_ids=input_ids,
+                attention_mask=attention_mask,
                 return_dict_in_generate=True,
-                output_scores=True,
+                output_scores=False,
                 max_new_tokens=max_new_tokens,
+                pad_token_id=tokenizer.pad_token_id,
+                eos_token_id=tokenizer.eos_token_id,
             )
-        s = generation_output.sequences
-        output = tokenizer.batch_decode(s)
-        output = [prompter.get_response(otp) for otp in output]
 
-        # print("output is : ", output)
-        # pattern = re.compile(r"Intent:\s*([A-Za-z0-9_\-]+)")
-        pattern = re.compile(r"(?:Intent|Label):\s*([A-Za-z0-9_\-]+)")
-        res = [pattern.findall(otp) for otp in output]
-        # print('res is', res)
-        pred = []
+        sequences = generation_output.sequences
+        gen_only_ids = sequences[:, input_ids.shape[1]:]
+        output = tokenizer.batch_decode(gen_only_ids, skip_special_tokens=True)
+        debug("GEN ONLY OUTPUT :", output)
 
-        for r_i in range(len(res)):
+        for r_i, raw_text in enumerate(output):
             d = domains[r_i]
             domain_total[d] += 1
 
-            if len(res[r_i]) == 1:
-                intent = res[r_i][0]
-            else: 
+            resp = raw_text.strip()
+            intent = resp.splitlines()[0].strip() if resp else "FAILED"
+            intent = intent.replace("</s>", "").replace("<|eot_id|>", "").strip()
+            if not intent:
                 intent = "FAILED"
 
-            pred.append(intent)
-            results.append(res[r_i])
-            outputs.append(output[r_i])
-            gt.append(intents[r_i])
-            domain_list.append(d)
+            pred_text = str(intent).strip().lower()
+            gt_text = str(intents[r_i]).strip().lower()
 
-            if str(intent) == str(intents[r_i]):
-                correct += 1
-                domain_correct[d] += 1
-                # print("correct:", str(intent), str(intents[r_i]))
-            # else:
-                # print("gt-ans:", str(intent), str(intents[r_i]))
+            is_contains_correct = gt_text in pred_text
+            is_exact_correct = gt_text == pred_text
 
-        acc = correct / len(results) * 100
+            if is_contains_correct:
+                contains_correct += 1
+                domain_contains_correct[d] += 1
+
+            if is_exact_correct:
+                exact_correct += 1
+                domain_exact_correct[d] += 1
+
+            debug("intent : ", intent)
+            debug("gt : ", intents[r_i])
+
+            if is_exact_correct:
+                print("exact correct:", pred_text, gt_text, flush=True)
+            elif is_contains_correct:
+                print("contains correct:", pred_text, gt_text, flush=True)
+            else:
+                print("pred/gt:", pred_text, gt_text, flush=True)
+
+            results.append({
+                "domain": d,
+                "prompt": prompts[r_i],
+                "gt": intents[r_i],
+                "pred": intent,
+                "raw_output": resp,
+                "contains_correct": is_contains_correct,
+                "exact_correct": is_exact_correct,
+            })
+
+        #########################################
+        contains_acc = contains_correct / len(results) * 100
+        exact_acc = exact_correct / len(results) * 100
+
         if end_idx % save_every == 0 or end_idx == len(data_a):
             per_topic = {}
             for t in domain_total:
                 tot = int(domain_total[t])
-                cor = int(domain_correct[t])
+                contains_cor = int(domain_contains_correct[t])
+                exact_cor = int(domain_exact_correct[t])
+
                 per_topic[t] = {
                     "total": tot,
-                    "correct": cor,
-                    "acc": (cor / tot * 100) if tot > 0 else 0.0
-                } # @ 수정 
-            per_domain_sorted = dict(sorted(per_topic.items(), key=lambda kv: kv[1]["total"], reverse=True))
+                    "contains_correct": contains_cor,
+                    "exact_correct": exact_cor,
+                    "contains_acc": (contains_cor / tot * 100) if tot > 0 else 0.0,
+                    "exact_acc": (exact_cor / tot * 100) if tot > 0 else 0.0,
+                }
 
-            print(f"{len(results)}/{len(data_a)}, correct: {correct}, acc: {round(acc, 2)}%, saving to {result_file}")
+            per_domain_sorted = dict(
+                sorted(per_topic.items(), key=lambda kv: kv[1]["total"], reverse=True)
+            )
+
+            print(f"{len(results)}/{len(data_a)}, contains_correct: {contains_correct}, contains_acc: {round(contains_acc, 2)}%, exact_correct: {exact_correct}, exact_acc: {round(exact_acc, 2)}%, saving to {result_file}")
+            
             data = {}
-            data['acc'] = acc
-            data['correct'] = correct
-            data['len'] = len(results)
-            data['results'] = results
-            data['outputs'] = outputs
-            data['per_domain'] = per_domain_sorted
+            data["contains_acc"] = contains_acc
+            data["exact_acc"] = exact_acc
+            data["contains_correct"] = contains_correct
+            data["exact_correct"] = exact_correct
+            data["len"] = len(results)
+            data["results"] = results
+            data["per_domain"] = per_domain_sorted
+
             with open(result_file, 'w') as f:
                 json.dump(data, f, indent=2, separators=(',', ': '))
+
+
+def debug(*args):
+    print(*args, file=sys.stderr, flush=True)
 
 if __name__ == "__main__":
     main()

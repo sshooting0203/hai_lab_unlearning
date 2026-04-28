@@ -38,7 +38,7 @@ lora_dropout: 0.0
 lora_target_modules: ["down_proj"] # ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "down_proj", "up_proj"]
 
 ### Training
-num_epochs: 10 # 20
+num_epochs: 5 # 20
 lr: 0.001  # 0.01
 positions: -1 # direction 생성하는데 사용, 마지막 몇 개의 token을 변형시켜서 사용할지 결정 
 max_new_tokens: 256 # cut_off_len
